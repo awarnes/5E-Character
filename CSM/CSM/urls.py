@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+
+# Imported Views
+from pages.views import landing
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-]
+    url(r'^$', landing, name='landing')
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

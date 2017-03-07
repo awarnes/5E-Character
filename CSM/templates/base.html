@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta author="Alexander B Warnes">
+
+        {% block css %}
+            <link>
+        {% endblock %}
+
+        {% block js %}
+            <script>Default</script>
+        {% endblock %}
+
+        {% block title %}
+            <title>Default</title>
+        {% endblock %}
+
+    </head>
+
+    <body>
+
+        {% block header %}
+            {% include 'includes/header.html' %}
+        {% endblock %}
+
+        {% block main %}
+            <div>Default information</div>
+        {% endblock %}
+
+        {% block footer %}
+            {% include 'includes/footer.html' %}
+        {% endblock %}
+
+    </body>
+</html>
