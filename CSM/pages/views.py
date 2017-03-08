@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q
+from django.http import HttpResponse
 
 from spells.models import Spell
 from .forms import SearchSpells
@@ -30,3 +31,7 @@ def spell_book(request):
     context = {'spells': spells, 'form': form}
 
     return render(request, 'spellbook.html', context)
+
+# def display_spell(request):
+#
+#     spell

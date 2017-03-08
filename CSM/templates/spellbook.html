@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="{% static 'pages/css/spellbook.css' %}">
+{% endblock %}
 
 {% block js %}
 
@@ -18,23 +24,36 @@
 
 {% block main %}
 
-    <form action="" method="POST">
-        {% csrf_token %}
+    <section id="form">
+        <form action="" method="POST">
+            {% csrf_token %}
 
-        {{ form.errors }}
-        {{ form.as_p }}
+            {{ form.errors }}
 
-        <button>Search!</button>
+            {{ form.as_p }}
 
-    </form>
-    <ul>
+            <button>Search!</button>
 
-    {% for spell in spells %}
-        <li>{{ spell }}</li>
-    {% endfor %}
+        </form>
+    </section>
 
-    </ul>
+    <section id="list">
+        <ul>
+
+        {% for spell in spells %}
+            <li>{{ spell }}</li>
+        {% endfor %}
+
+        </ul>
+    </section>
+
+    <section id="output">
+
+    </section>
 
 {% endblock %}
+{% block extra_scripts %}
 
-<script src="/pages/static/pages/js/spellbook.js"></script>
+<script type="text/javascript" src="{% static 'pages/js/spellbook.js' %}"></script>
+
+{% endblock %}
