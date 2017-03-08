@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block css %}
-    <link type="text/css" rel="stylesheet" href="{% static 'pages/css/spellbook.css' %}">
-{% endblock %}
+{#{% block css %}#}
+{#    <link type="text/css" rel="stylesheet" href="{% static 'pages/css/spellbook.css' %}">#}
+{#{% endblock %}#}
 
 {% block js %}
 
@@ -22,63 +22,91 @@
 {% endblock %}
 
 {% block header %}
+    <header class="row">
+        <div class="col-md-4">
+            <img src="{% static 'pages/img/logo_small.jpg' %}">
+        </div>
 
-    <div class="page-header">
-        <img src="{% static 'pages/img/logo_small.jpg' %}">
-        <h1>Spell Book</h1>
-    </div>
-
-
+        <div class="col-md-6">
+            <h1>Spell Book</h1>
+        </div>
+    </header>
 {% endblock %}
 
 
 {% block main %}
-    <main class="col-md-12">
+    <main class="row">
 
         <section class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <form action="" method="POST">
+                    {% csrf_token %}
 
-            <form action="" method="POST">
-                {% csrf_token %}
+                    {{ form.errors }}
 
-                {{ form.errors }}
+                    {{ form.as_p }}
 
-                {{ form.as_p }}
-
-                <button>Search!</button>
-
-            </form>
-
+                    <button>Search!</button>
+                </form>
+            </div>
         </section>
 
-        <section id="list">
+        <section class="row space-between" id="list">
 
+            <div class="col-md-3">
+                <ul class="list-group">
+                    {% for spell in spells1 %}
+                        <li class="list-group-item text-center">{{ spell }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-3">
 
-            {% for spell in spells %}
-                <p class="list_item">{{ spell }}</p>
-            {% endfor %}
+                    <ul class="list-group">
+                        {% for spell in spells2 %}
+                            <li class="list-group-item text-center">{{ spell }}</li>
+                        {% endfor %}
+                    </ul>
+            </div>
+            <div class="col-md-3">
 
-
+                    <ul class="list-group">
+                        {% for spell in spells3 %}
+                            <li class="list-group-item text-center">{{ spell }}</li>
+                        {% endfor %}
+                    </ul>
+            </div>
         </section>
 
-        <section id="output">
-
-            <h1 id="name"></h1>
-            <p>Level: <span id="level"></span></p>
-            <p>School: <span id="school"></span></p>
-            <hr>
-            <p>Casting Time: <span id="cast_time"></span></p>
-            <p>Range: <span id="distance"></span></p>
-            <p>Components: <span id="components"></span></p>
-            <p>Duration: <span id="duration"></span></p>
-            <p>Requires Concentration? <span id="concentration"></span></p>
-            <p>Can cast as a ritual? <span id="ritual"></span></p>
-            <hr>
-            <p>Description:</p>
-            <p id="description"></p>
-            <hr>
-            <p>Classes: <span id="available_to"></span></p>
-
-        </section>
+        <div class="modal fade" id="output">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="name"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Level: <span id="level"></span></p>
+                        <p>School: <span id="school"></span></p>
+                        <hr>
+                        <p>Casting Time: <span id="cast_time"></span></p>
+                        <p>Range: <span id="distance"></span></p>
+                        <p>Components: <span id="components"></span></p>
+                        <p>Duration: <span id="duration"></span></p>
+                        <p>Requires Concentration? <span id="concentration"></span></p>
+                        <p>Can cast as a ritual? <span id="ritual"></span></p>
+                        <hr>
+                        <p>Description:</p>
+                        <p id="description"></p>
+                    </div>
+                    <div class="modal-footer">
+                    <p>Classes: <span id="available_to"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 

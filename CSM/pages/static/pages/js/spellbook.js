@@ -4,8 +4,10 @@
 
 $(document).ready(function(evt){
 
-    $('.list_item').on('click', function(evt){
+    $('.list-group-item').on('click', function(evt){
         var $query = $(this).text();
+
+        $('#output').modal('toggle');
 
         $.get('/spells/spell_info/', {spell: $query}, function(data){
 

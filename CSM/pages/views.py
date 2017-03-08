@@ -21,6 +21,9 @@ def spell_book(request):
     if request.method == 'GET':
         form = SearchSpells()
         spells = Spell.objects.all()
+        spells_1 = spells[:len(spells) // 3]
+        spells_2 = spells[len(spells) // 3:(len(spells) // 3) * 2]
+        spells_3 = spells[(len(spells) // 3) * 2:]
 
     elif request.method == 'POST':
         query = request.POST.get('query')
@@ -28,8 +31,11 @@ def spell_book(request):
             query = ''
         form = SearchSpells(data=request.POST)
         spells = Spell.objects.filter(Q(name__icontains=query) | Q(available_to__icontains=query))
+        spells_1 = spells[:len(spells) // 3]
+        spells_2 = spells[len(spells) // 3:(len(spells) // 3) * 2]
+        spells_3 = spells[(len(spells) // 3) * 2:]
 
-    context = {'spells': spells, 'form': form}
+    context = {'spells1': spells_1, 'spells2': spells_2, 'spells3': spells_3, 'form': form}
 
     return render(request, 'spellbook.html', context)
 
