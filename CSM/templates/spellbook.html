@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block js %}
+
+    <script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous">
+    </script>
+
+{% endblock %}
+
+{% block title %}
+
+    <title>Spell Book</title>
+
+{% endblock %}
+
+{% block main %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {{ form.errors }}
+        {{ form.as_p }}
+
+        <button>Search!</button>
+
+    </form>
+    <ul>
+
+    {% for spell in spells %}
+        <li>{{ spell }}</li>
+    {% endfor %}
+
+    </ul>
+
+{% endblock %}
+
+<script src="/pages/static/pages/js/spellbook.js"></script>

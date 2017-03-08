@@ -20,9 +20,10 @@ from django.conf.urls.static import static
 
 # Imported Views
 from pages.views import landing
+from pages.views import spell_book
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', landing, name='landing')
-
+    url(r'^$', landing, name='landing'),
+    url(r'^spells/$', spell_book, name='spells'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
