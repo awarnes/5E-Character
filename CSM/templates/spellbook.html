@@ -22,6 +22,11 @@
 
 {% endblock %}
 
+{% block header %}
+    <h1 id="header">Spell Book</h1>
+{% endblock %}
+
+
 {% block main %}
 
     <section id="form">
@@ -41,14 +46,27 @@
         <ul>
 
         {% for spell in spells %}
-            <li>{{ spell }}</li>
+            <li class="list_item">{{ spell }}</li>
         {% endfor %}
 
         </ul>
     </section>
 
     <section id="output">
-
+        <h1 id="name"></h1>
+        <p>Level: <span id="level"></span></p>
+        <p>School: <span id="school"></span></p>
+        <hr>
+        <p>Casting Time: <span id="cast_time"></span></p>
+        <p>Range: <span id="distance"></span></p>
+        <p>Components: <span id="components"></span></p>
+        <p>Duration: <span id="duration"></span></p>
+        <p>Requires Concentration? <span id="concentration"></span></p>
+        <p>Can cast as a ritual? <span id="ritual"></span></p>
+        <hr>
+        <p>Description: <span id="description"></span></p>
+        <hr>
+        <p>Classes: <span id="available_to"></span></p>
     </section>
 
 {% endblock %}
@@ -56,4 +74,7 @@
 
 <script type="text/javascript" src="{% static 'pages/js/spellbook.js' %}"></script>
 
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

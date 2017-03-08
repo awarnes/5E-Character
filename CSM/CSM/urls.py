@@ -21,9 +21,12 @@ from django.conf.urls.static import static
 # Imported Views
 from pages.views import landing
 from pages.views import spell_book
+from pages.views import get_spell_information
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', landing, name='landing'),
     url(r'^spells/$', spell_book, name='spells'),
+    url(r'^spells/spell_info/$', get_spell_information, name='spell_info'),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

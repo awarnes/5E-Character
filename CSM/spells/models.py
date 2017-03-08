@@ -107,6 +107,7 @@ class Spell(models.Model):
 
         if self.material:
             raw_string += 'M '
+            raw_string += self.specific_materials
 
         return raw_string
 

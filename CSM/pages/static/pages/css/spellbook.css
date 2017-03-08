@@ -4,15 +4,34 @@ body {
     flex-wrap: wrap;
 }
 
+#header {
+    order: 0;
+    width: 100%;
+    text-align: center;
+}
+
 #form {
     order: 1;
+    width: 100%;
+    text-align: center;
 }
 
 #list {
     order: 2;
+    width: 50%;
+    text-align: center;
+}
 
+ul {
+    list-style: none;
+}
+
+.list_item {
+    text-decoration: underline;
+    text-color: blue;
 }
 
 #output {
     order: 3;
+    width: 50%;
 }
