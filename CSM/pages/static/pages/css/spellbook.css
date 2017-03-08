@@ -19,19 +19,21 @@ body {
 #list {
     order: 2;
     width: 50%;
+    height: 10000px;
     text-align: center;
-}
-
-ul {
-    list-style: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .list_item {
-    text-decoration: underline;
-    text-color: blue;
+    border-style: outset;
+    background-color: cornflowerblue;
+    width: 30%;
 }
 
 #output {
-    order: 3;
+    position: fixed;
+
     width: 50%;
 }

@@ -7,6 +7,7 @@ from .forms import SearchSpells
 
 # Create your views here.
 
+
 def landing(request):
 
     context = dict()

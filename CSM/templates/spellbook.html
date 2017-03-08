@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block css %}
     <link type="text/css" rel="stylesheet" href="{% static 'pages/css/spellbook.css' %}">
 {% endblock %}
@@ -23,54 +22,68 @@
 {% endblock %}
 
 {% block header %}
-    <h1 id="header">Spell Book</h1>
+
+    <div class="page-header">
+        <img src="{% static 'pages/img/logo_small.jpg' %}">
+        <h1>Spell Book</h1>
+    </div>
+
+
 {% endblock %}
 
 
 {% block main %}
+    <main class="col-md-12">
 
-    <section id="form">
-        <form action="" method="POST">
-            {% csrf_token %}
+        <section class="row">
 
-            {{ form.errors }}
+            <form action="" method="POST">
+                {% csrf_token %}
 
-            {{ form.as_p }}
+                {{ form.errors }}
 
-            <button>Search!</button>
+                {{ form.as_p }}
 
-        </form>
-    </section>
+                <button>Search!</button>
 
-    <section id="list">
-        <ul>
+            </form>
 
-        {% for spell in spells %}
-            <li class="list_item">{{ spell }}</li>
-        {% endfor %}
+        </section>
 
-        </ul>
-    </section>
+        <section id="list">
 
-    <section id="output">
-        <h1 id="name"></h1>
-        <p>Level: <span id="level"></span></p>
-        <p>School: <span id="school"></span></p>
-        <hr>
-        <p>Casting Time: <span id="cast_time"></span></p>
-        <p>Range: <span id="distance"></span></p>
-        <p>Components: <span id="components"></span></p>
-        <p>Duration: <span id="duration"></span></p>
-        <p>Requires Concentration? <span id="concentration"></span></p>
-        <p>Can cast as a ritual? <span id="ritual"></span></p>
-        <hr>
-        <p>Description: <span id="description"></span></p>
-        <hr>
-        <p>Classes: <span id="available_to"></span></p>
-    </section>
 
-{% endblock %}
-{% block extra_scripts %}
+            {% for spell in spells %}
+                <p class="list_item">{{ spell }}</p>
+            {% endfor %}
+
+
+        </section>
+
+        <section id="output">
+
+            <h1 id="name"></h1>
+            <p>Level: <span id="level"></span></p>
+            <p>School: <span id="school"></span></p>
+            <hr>
+            <p>Casting Time: <span id="cast_time"></span></p>
+            <p>Range: <span id="distance"></span></p>
+            <p>Components: <span id="components"></span></p>
+            <p>Duration: <span id="duration"></span></p>
+            <p>Requires Concentration? <span id="concentration"></span></p>
+            <p>Can cast as a ritual? <span id="ritual"></span></p>
+            <hr>
+            <p>Description:</p>
+            <p id="description"></p>
+            <hr>
+            <p>Classes: <span id="available_to"></span></p>
+
+        </section>
+
+    </main>
+
+    {% endblock %}
+    {% block extra_scripts %}
 
 <script type="text/javascript" src="{% static 'pages/js/spellbook.js' %}"></script>
 
