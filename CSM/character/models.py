@@ -1,75 +1,55 @@
 from django.db import models
+from accounts.models import Member
+from rules.models import (Class, Race, Feature, Skill, Language, Condition, DamageType)
+
 
 # Create your models here.
 
 class Character(models.Model):
     """This is the infromation for a character."""
 
-    # player
-    #
-    # char_name
-    #
-    # char_classes
-    # char_race
-    # ability_scores
-    # saving_throws
-    # skills
-    # char_level
-    # char_prof
+    username = models.ForeignKey(Member, related_name='characters')
+
+    char_name = models.CharField(max_length=1024)
+
+    char_age = models.SmallIntegerField()
+    char_height = models.SmallIntegerField()
+    char_weight = models.SmallIntegerField()
+    char_skin_color = models.CharField(max_length=128)
+    char_hair_color = models.CharField(max_length=128)
+
+    char_classes = models.ManyToManyField(Class, related_name='characters', through=)
+
+    char_race = models.ForeignKey(Race, related_name='characters')
+
+    STR_score = models.SmallIntegerField()
+    DEX_score = models.SmallIntegerField()
+    CON_score = models.SmallIntegerField()
+    INT_score = models.SmallIntegerField()
+    WIS_score = models.SmallIntegerField()
+    CHA_score = models.SmallIntegerField()
+
+    STR_saving_throw = models.BooleanField(default=False)
+    DEX_saving_throw = models.BooleanField(default=False)
+    CON_saving_throw = models.BooleanField(default=False)
+    INT_saving_throw = models.BooleanField(default=False)
+    WIS_saving_throw = models.BooleanField(default=False)
+    CHA_saving_throw = models.BooleanField(default=False)
 
 
-class Race(models.Model):
-    """Information about races in D&D"""
+    skills = models.ManyToManyField(Skill, related_name='characters')
+    features = models.ManyToManyField(Feature, related_name='characters')
 
-    # name
-    # description
-    # suggested_first_names
-    # suggested_last_names
-    #
-    # ability_score_increase
-    # age_range
-    # typical_alignment
-    # size
-    # typical_height
-    # typical_weight
-    # speed
-    # speed_special
-    # special_abilities
-    # proficiencies
-    # languages
-    # subraces
+    condition = models.ManyToManyField(Condition, related_name='characters')
+
+    def get_char_level(self):
+        """
+        Adds all class levels to get the character level.
+
+        :returns an int()
+        """
+
+    def __str__(self):
+        return self.char_name
 
 
-class Class(models.Model):
-    """Information about classes."""
-
-    # name
-    # description
-    # spell_caster
-    # ritual_caster
-    # spell_casting_ability
-    # proficiencies
-    # hit_die
-
-class Feat(models.Model):
-    """Information about feats."""
-
-    # name
-    # description
-    # prerequisite
-
-
-class Feature(models.Model):
-    """Information about race, class, subrace, subclass, and background features."""
-
-    # name
-    # description
-    # options
-    # uses
-
-class Proficiency(models.Model):
-    """Skill, equipment, and savings throw proficiencies."""
-
-    # name
-    # prof_type
-    # ability

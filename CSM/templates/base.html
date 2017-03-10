@@ -10,16 +10,21 @@
         <link rel="icon" type="image/jpg" href="{% static '/pages/img/logo_favicon.jpg' %}">
 
         {% block css %}
-            <link>
         {% endblock %}
 
         {% block js %}
-            <script>Default</script>
+            <script
+                src="http://code.jquery.com/jquery-3.1.1.min.js"
+                integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+                crossorigin="anonymous">
+            </script>
         {% endblock %}
 
+        <title>
         {% block title %}
-            <title>Default</title>
+            Default
         {% endblock %}
+        </title>
 
         {% block bootstrap %}
 

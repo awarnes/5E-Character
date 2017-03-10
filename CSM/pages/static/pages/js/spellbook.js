@@ -9,30 +9,30 @@ $(document).ready(function(evt){
 
         $('#output').modal('toggle');
 
-        $.get('/spells/spell_info/', {spell: $query}, function(data){
+        $.get('/spells/spell/', {query_spell: $query}, function(data){
 
-            $('#name').text(data.name);
-            $('#level').text(data.level);
-            $('#school').text(data.school);
-            $('#cast_time').text(data.cast_time);
-            $('#distance').text(data.distance);
-            $('#components').text(data.raw_materials);
-            $('#duration').text(data.duration);
+            $('#name').text(data[0].name);
+            $('#level').text(data[0].level);
+            $('#school').text(data[0].school);
+            $('#cast_time').text(data[0].cast_time);
+            $('#distance').text(data[0].distance);
+            $('#components').text(data[0].raw_materials);
+            $('#duration').text(data[0].duration);
 
-            if (data.concentration === true) {
+            if (data[0].concentration === true) {
                 $('#concentration').text('Yes');
             } else {
                 $('#concentration').text('No');
             }
 
-            if (data.ritual === true) {
+            if (data[0].ritual === true) {
                 $('#ritual').text('Yes');
             } else {
                 $('#ritual').text('No');
             }
 
-            $('#description').text(data.description);
-            $('#available_to').text(data.available_to);
+            $('#description').text(data[0].description);
+            $('#available_to').text(data[0].available_to);
         });
     })
 

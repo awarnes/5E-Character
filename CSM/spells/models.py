@@ -32,48 +32,48 @@ class Spell(models.Model):
     )
 
     SPELL_SCHOOL = (
-        ('AB', 'Abjuration'),
-        ('CO', 'Conjuration'),
-        ('DI', 'Divination'),
-        ('EN', 'Enchantment'),
-        ('EV', 'Evocation'),
-        ('IL', 'Illusion'),
-        ('NE', 'Necromancy'),
-        ('TR', 'Transmutation'),
+        ('Abjuration', 'Abjuration'),
+        ('Conjuration', 'Conjuration'),
+        ('Divination', 'Divination'),
+        ('Enchantment', 'Enchantment'),
+        ('Evocation', 'Evocation'),
+        ('Illusion', 'Illusion'),
+        ('Necromancy', 'Necromancy'),
+        ('Transmutation', 'Transmutation'),
     )
 
     CAST_TIME = (
-        ('AC', '1 Action'),
-        ('BA', '1 Bonus Action'),
-        ('RE', '1 Reaction'),
-        ('1M', '1 Minute'),
-        ('10', '10 Minutes'),
-        ('1H', '1 Hour'),
-        ('8H', '8 Hours'),
-        ('12', '12 Hours'),
-        ('24', '24 Hours'),
-        ('A8', '1 action or 8 hours')
+        ('1 Action', '1 Action'),
+        ('1 Bonus Action', '1 Bonus Action'),
+        ('1 Reaction', '1 Reaction'),
+        ('1 Minute', '1 Minute'),
+        ('10 Minutes', '10 Minutes'),
+        ('1 Hour', '1 Hour'),
+        ('8 Hours', '8 Hours'),
+        ('12 Hours', '12 Hours'),
+        ('24 Hours', '24 Hours'),
+        ('1 Action or 8 Hours', '1 Action or 8 Hours')
     )
 
     SPELL_LEVELS = (
-        (0, 'Cantrip'),
-        (1, '1st-level'),
-        (2, '2nd-level'),
-        (3, '3rd-level'),
-        (4, '4th-level'),
-        (5, '5th-level'),
-        (6, '6th-level'),
-        (7, '7th-level'),
-        (8, '8th-level'),
-        (9, '9th-level')
+        ('Cantrip', 'Cantrip'),
+        ('1st-level', '1st-level'),
+        ('2nd-level', '2nd-level'),
+        ('3rd-level', '3rd-level'),
+        ('4th-level', '4th-level'),
+        ('5th-level', '5th-level'),
+        ('6th-level', '6th-level'),
+        ('7th-level', '7th-level'),
+        ('8th-level', '8th-level'),
+        ('9th-level', '9th-level')
     )
 
     name = models.CharField(max_length=128, help_text='Name of the spell.')
-    school = models.CharField(max_length=2, choices=SPELL_SCHOOL, help_text='Magical school for the spell.')
-    level = models.CharField(max_length=1, choices=SPELL_LEVELS, help_text='Level of the spell.')
+    school = models.CharField(max_length=24, choices=SPELL_SCHOOL, help_text='Magical school for the spell.')
+    level = models.CharField(max_length=12, choices=SPELL_LEVELS, help_text='Level of the spell.')
     available_to = models.CharField(max_length=256, help_text='Classes that are allowed to cast the spell.')
 
-    cast_time = models.CharField(max_length=2, choices=CAST_TIME, help_text='Cast time for a spell.')
+    cast_time = models.CharField(max_length=24, choices=CAST_TIME, help_text='Cast time for a spell.')
     distance = models.CharField(max_length=128, help_text='Maximum distance the spell can be cast up to.')
     duration = models.CharField(max_length=128, help_text='Duration of the spell.')
     concentration = models.BooleanField(default=False, help_text='Whether a spell requires concentration.')
@@ -113,3 +113,10 @@ class Spell(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class SpellBook(models.Model):
+    """
+    Model that stores all spells available to a character.
+    """
+

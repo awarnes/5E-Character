@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta author="Alexander B Warnes">
+
+        <link rel="icon" type="image/jpg" href="{% static '/pages/img/logo_favicon.jpg' %}">
+        {% block title %}Profile for {{ user.username }}{% endblock %}
+    </head>
+
+    <body>
+
+        {% block header %}
+            {% include 'includes/header.html' %}
+        {% endblock %}
+
+        {% block main %}
+            {% include 'includes/navbar.html' %}
+            {% include 'includes/recent_news.html' %}
+
+            <p>Recent Characters</p>
+            <section>
+                <!--RECENT CHARACTER INFORMATION FOR USER-->
+            </section>
+
+            <button><a href="{% url 'logout' %}">Logout!</a></button>
+
+        {% endblock %}
+
+        {% block footer %}
+            {% include 'includes/footer.html' %}
+        {% endblock %}
+
+    </body>
+
+    {% block final_js %}
+    {% endblock %}
+
+</html>
+

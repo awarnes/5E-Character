@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Register a new account!{% endblock %}
+
+{% block main %}
+
+
+    <form action="" method="POST">
+
+        {% csrf_token %}
+
+
+        {{ form.errors }}
+
+        {{ form.as_p }}
+
+        <button>Submit!</button>
+
+    </form>
+
+{% endblock %}

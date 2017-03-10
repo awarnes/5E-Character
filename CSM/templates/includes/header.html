@@ -1,3 +1,17 @@
 {% load static %}
 
-<img src="{% static 'pages/img/logo_medium_large.jpg' %}">
+<header class="row">
+    <div class="col-md-4">
+        <img src="{% static 'pages/img/logo_medium_small.jpg' %}">
+    </div>
+
+    <div class="col-md-6">
+        <h1 id="title"></h1>
+    </div>
+</header>
+
+<script type="text/javascript">
+
+    $('#title').text($('title').text());
+
+</script>

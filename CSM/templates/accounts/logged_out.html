@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}Logged Out!{% endblock %}
+
+{% block main %}
+    <p>Thank you for seeing us, {{ user.username }}!</p>
+    <p>Come again soon!</p>
+
+    <p>Redirecting in <span id="timer"></span> seconds...</p>
+
+    <p>Go to the <a href="{% url 'landing' %}">home page</a> now.</p>
+{% endblock %}
+
+
+{% block extra_scripts %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var $timer = $('#timer');
+
+            $timer.text(Number(5));
+
+            var $time = setInterval(function(){
+                if (Number($timer.text()) === 0) {
+                    clearInterval($time);
+                    window.location.replace("{% url 'landing' %}")
+                } else {
+                    $timer.text($timer.text() - 1);
+                }
+            }, 1000)
+        })
+    </script>
+{% endblock %}

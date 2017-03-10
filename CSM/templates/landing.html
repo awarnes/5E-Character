@@ -1,35 +1,14 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    <title>5th Edition CSM</title>
-{% endblock %}
-
-
+{% block title %}5th Edition CSM{% endblock %}
 
 {% block main %}
+
     <main>
-        <section>
-            <h1>Character Sheet Manager</h1>
-        </section>
 
-        <section>
-            <form>
-                <formset>
-                    <formset>
-                        <input type="text" placeholder="Username/Email">
-                        <input type="password" placeholder="Password">
-                    </formset>
-                    <formset>
-                        <button>Submit</button>
-                        <p><a href="">Forgot Password</a><a href="">Forgot Username</a></p>
-                    </formset>
-                </formset>
-            </form>
-        </section>
-
+        <button><a href="{% url 'login' %}">Log In!</a></button>
+        <button><a href="{% url 'register' %}">Register!</a></button>
 
     </main>
-{% endblock %}
 
-{% block footer %}
 {% endblock %}

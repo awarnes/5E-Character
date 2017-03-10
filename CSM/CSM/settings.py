@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'pages',
     'spells',
     'equipment',
+    'api',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -55,6 +57,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'CSM.urls'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'PAGE_SIZE': 10
+}
 
 TEMPLATES = [
     {
@@ -72,6 +81,8 @@ TEMPLATES = [
         },
     },
 ]
+
+LOGIN_REDIRECT_URL = 'home'
 
 WSGI_APPLICATION = 'CSM.wsgi.application'
 
@@ -105,6 +116,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+AUTH_USER_MODEL = 'accounts.Member'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
