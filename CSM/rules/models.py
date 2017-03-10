@@ -2,26 +2,65 @@ from django.db import models
 
 # Create your models here.
 
+
+class Subrace(models.Model):
+    """Subraces for races."""
+
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=1028)
+    ability_score_1 = models.CharField(max_length=16)
+    ability_score_1_bonus = models.SmallIntegerField(blank=True, null=True,)
+
+    ability_score_2 = models.CharField(max_length=16, blank=True, null=True)
+    ability_score_2_bonus = models.SmallIntegerField(blank=True, null=True,)
+
+    features = models.ManyToManyField(Feature, related_name='races')
+
+    skills = models.ManyToManyField(Skill, related_name='races')
+    tools = models.ManyToManyField('equipment.Tool', related_name='races')
+    weapons = models.ManyToManyField('equipment.Weapon', related_name='races')
+    armor = models.ManyToManyField('equipment.Armor', related_name='races')
+    languages = models.ManyToManyField(Language, related_name='races')
+
+
+
 class Race(models.Model):
     """Information about races in D&D"""
 
-    # name
-    # description
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=10000)
+
     # suggested_first_names
     # suggested_last_names
-    #
-    # ability_score_increase
-    # age_range
-    # typical_alignment
-    # size
-    # typical_height
-    # typical_weight
-    # speed
-    # speed_special
-    # special_abilities = models.ManyToManyField()
-    # proficiencies
-    # languages
-    # subraces
+
+    ability_score_1 = models.CharField(max_length=16)
+    ability_score_1_bonus = models.SmallIntegerField(blank=True, null=True,)
+
+    ability_score_2 = models.CharField(max_length=16, blank=True, null=True)
+    ability_score_2_bonus = models.SmallIntegerField(blank=True, null=True,)
+
+    age_adult = models.SmallIntegerField()
+    age_mortality = models.SmallIntegerField()
+
+    typical_alignment = models.ForeignKey(Alignment, related_name='races')
+
+    size = models.CharField(max_length=16, choices=SIZES)
+    typical_height_min = models.SmallIntegerField()
+    typical_height_max = models.SmallIntegerField()
+    typical_weight_min = models.SmallIntegerField()
+    typical_weight_max = models.SmallIntegerField()
+    speed = models.SmallIntegerField()
+    speed_special = models.CharField(max_length=128)
+
+    features = models.ManyToManyField(Feature, related_name='races')
+
+    skills = models.ManyToManyField(Skill, related_name='races')
+    tools = models.ManyToManyField('equipment.Tool', related_name='races')
+    weapons = models.ManyToManyField('equipment.Weapon', related_name='races')
+    armor = models.ManyToManyField('equipment.Armor', related_name='races')
+    languages = models.ManyToManyField(Language, related_name='races')
+
+    subraces = models.ManyToManyField(Subrace, related_name='races')
 
 
 class Class(models.Model):
