@@ -91,6 +91,13 @@ class Item(models.Model):
     def __str__(self):
         return self.name
 
+class Tool(Item):
+    """Subclass of items that are tools."""
+
+    requires_proficiency = models.BooleanField(default=False)
+    tool_type = models.CharField(max_length=128)
+
+
 
 class EquipmentBonus(models.Model):
     """All possible bonuses a magic item can have."""

@@ -42,12 +42,12 @@ class Feature(models.Model):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=10000)
 
-    action
-    action_constraint_start
-    action_constraint_end
-    action_duration
-    action_uses_per_day
-    action_distance
+    # action
+    # action_constraint_start
+    # action_constraint_end
+    # action_duration
+    # action_uses_per_day
+    # action_distance
 
     stat_to_change = models.CharField(max_length=64, blank=True, null=True)
     stat_change_amount = models.SmallIntegerField(blank=True, null=True)
@@ -69,11 +69,11 @@ class Feature(models.Model):
     damage_dice_bonus = models.SmallIntegerField(blank=True, null=True)
 
     damage_resistance_type = models.ManyToManyField(DamageType, related_query_name='feature', blank=True, null=True)
-    spell_resistance
+    # spell_resistance
     condition_resistance = models.ManyToManyField(Condition, related_query_name='feature', blank=True, null=True)
 
     long_rest_duration = models.SmallIntegerField(blank=True, null=True)
-    change_at_level
+    # change_at_level
 
     prereq_ability = models.CharField(max_length=64, blank=True, null=True)
     prereq_ability_score = models.SmallIntegerField(blank=True, null=True)
@@ -100,14 +100,23 @@ class Language(models.Model):
     typical_speakers = models.CharField(max_length=256)
     script = models.CharField(max_length=128, blank=True, null=True)
 
+
 class DamageType(models.Model):
     """Model for types of damage."""
 
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=512)
 
+
 class Condition(models.Model):
     """Model for different conditions."""
 
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=1024)
+
+
+class Alignment(models.Model):
+    """Model for different Alignments."""
+
+    name = models.CharField(max_length=64)
+    description = models.CharField(max_length=1028)
