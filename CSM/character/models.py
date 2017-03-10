@@ -198,6 +198,9 @@ class ClassLevel(models.Model):
 
     class_level = IntegerMinMaxField(min_value=1, max_value=20)
 
+    def __str__(self):
+        return self.character
+
 
 class SpellsReady(models.Model):
     """Through table to determine if a spell is just known, or known and ready."""
@@ -206,6 +209,13 @@ class SpellsReady(models.Model):
     spells = models.ForeignKey('spells.Spell', related_name='spellsready')
 
     spell_ready = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.character
+
+    class Meta:
+        verbose_name = "Spell Ready"
+        verbose_name_plural = "Spells Ready"
 
 
 # May not need to use this through table, as all skills a character has they will be proficient in.

@@ -59,8 +59,8 @@ class Subrace(models.Model):
     subrace_armor_starts = models.ManyToManyField('equipment.Armor', related_name='subrace_armor_starts', blank=True,)
     subrace_item_starts = models.ManyToManyField('equipment.Item', related_name='subrace_item_starts', blank=True,)
 
-
-
+    def __str__(self):
+        return self.name
 
 
 class Race(models.Model):
@@ -120,6 +120,9 @@ class Race(models.Model):
 
     subraces = models.ManyToManyField('Subrace', related_name='race_subraces', blank=True,)
 
+    def __str__(self):
+        return self.name
+
 
 class PrestigeClass(models.Model):
     """
@@ -140,6 +143,13 @@ class PrestigeClass(models.Model):
 
     # Features
     features = models.ManyToManyField('Feature', related_name='prestige_class_features')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Prestige Class"
+        verbose_name_plural = "Prestige Classes"
 
 
 class Class(models.Model):
@@ -174,6 +184,13 @@ class Class(models.Model):
     # Features
     features = models.ManyToManyField('Feature', related_name='class_features')
     prestige_classes = models.ManyToManyField('PrestigeClass', related_name='class_prestige_classes', blank=True,)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Class"
+        verbose_name_plural = "Classes"
 
 
 class Feature(models.Model):
@@ -232,6 +249,9 @@ class Feature(models.Model):
     prereq_prestige_class = models.ForeignKey('PrestigeClass', related_name='feature_prereq_prestige_class', blank=True, null=True,)
     prereq_prestige_class_level = models.SmallIntegerField(blank=True, null=True,)
 
+    def __str__(self):
+        return self.name
+
 
 class Background(models.Model):
     """
@@ -263,6 +283,9 @@ class Background(models.Model):
     suggested_bonds = models.ManyToManyField('Bond', related_name='background_bonds', blank=True,)
     suggested_flaws = models.ManyToManyField('Flaw', related_name='background_flaws', blank=True,)
 
+    def __str__(self):
+        return self.name
+
 
 class Skill(models.Model):
     """Model for describing skills."""
@@ -271,6 +294,9 @@ class Skill(models.Model):
     associated_ability = models.CharField(max_length=16, choices=ABILITIES,)
     description = models.CharField(max_length=10000,)
     example_tasks = models.CharField(max_length=512, blank=True, null=True,)
+
+    def __str__(self):
+        return self.name
 
 
 class Language(models.Model):
@@ -281,12 +307,18 @@ class Language(models.Model):
     typical_speakers = models.CharField(max_length=512,)
     script = models.CharField(max_length=512, blank=True, null=True,)
 
+    def __str__(self):
+        return self.name
+
 
 class DamageType(models.Model):
     """Model for types of damage."""
 
     name = models.CharField(max_length=128,)
     description = models.CharField(max_length=512,)
+
+    def __str__(self):
+        return self.name
 
 
 class Condition(models.Model):
@@ -295,12 +327,18 @@ class Condition(models.Model):
     name = models.CharField(max_length=128,)
     description = models.CharField(max_length=1024,)
 
+    def __str__(self):
+        return self.name
+
 
 class Alignment(models.Model):
     """Model for different Alignments."""
 
     name = models.CharField(max_length=64,)
     description = models.CharField(max_length=1024,)
+
+    def __str__(self):
+        return self.name
 
 
 class PersonalityTrait(models.Model):
@@ -309,12 +347,18 @@ class PersonalityTrait(models.Model):
     name = models.CharField(max_length=128, blank=True, null=True,)
     description = models.CharField(max_length=1024,)
 
+    def __str__(self):
+        return self.name
+
 
 class Ideal(models.Model):
     """Model for basic suggested ideals."""
 
     name = models.CharField(max_length=128, blank=True, null=True,)
     description = models.CharField(max_length=1024,)
+
+    def __str__(self):
+        return self.name
 
 
 class Bond(models.Model):
@@ -323,9 +367,15 @@ class Bond(models.Model):
     name = models.CharField(max_length=128, blank=True, null=True,)
     description = models.CharField(max_length=1024,)
 
+    def __str__(self):
+        return self.name
+
 
 class Flaw(models.Model):
     """Model for basic suggested flaws."""
 
     name = models.CharField(max_length=128, blank=True, null=True,)
     description = models.CharField(max_length=1024,)
+
+    def __str__(self):
+        return self.name
