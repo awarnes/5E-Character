@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'pages',
     'spells',
     'equipment',
+    'rules',
     'api',
     'rest_framework',
 ]

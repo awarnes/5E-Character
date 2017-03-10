@@ -14,73 +14,25 @@ from django.db import models
 
 class IntegerMinMaxField(models.IntegerField):
     """
-    Allows for a field that only allows values between the specified minimum and maximum values.
+    A field that only allows values between the specified minimum and maximum values.
     """
 
-    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
+    def __init__(self, min_value=None, max_value=None, *args, **kwargs):
         self.min_value, self.max_value = min_value, max_value
+        super().__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        if (self.min_value is not None) and (self.max_value is not None):
+            kwargs['min_value'] = self.min_value
+            kwargs['max_value'] = self.max_value
+
+        return name, path, args, kwargs
 
     def formfield(self, **kwargs):
         defaults = {'min_value': self.min_value, 'max_value': self.max_value}
         defaults.update(kwargs)
         return super().formfield(**defaults)
-
-
-class ClassLevel(models.Model):
-    """Through table for class levels for a character."""
-
-    character = models.ForeignKey(Character, related_name='classlevels')
-    char_class = models.ForeignKey('rules.Class', related_name='classlevels')
-
-    class_level = IntegerMinMaxField(min_value=1, max_value=20)
-
-
-# May not need to use this through table, as all skills a character has they will be proficient in.
-# if they don't have the skill, the calculation will just add normal results w/o prof bonus
-#
-# class SkillProficiency(models.Model):
-#     """Through table for if a character is proficient with a skill."""
-#
-#     character = models.ForeignKey(Character, related_name='skillproficiencies')
-#     skills = models.ForeignKey('rules.Skill', related_name='skillproficiencies')
-#
-#     proficient = models.BooleanField(default=False)
-
-
-class SpellsReady(models.Model):
-    """Through table to determine if a spell is just known, or known and ready."""
-
-    character = models.ForeignKey(Character, related_name='spellsready')
-    spells = models.ForeignKey('spells.Spell', related_name='spellsready')
-
-    spell_ready = models.BooleanField(default=False)
-
-
-class ToolProficiency(models.Model):
-    """Through table to check for proficiency of a tool."""
-
-    character = models.ForeignKey(Character, related_name='toolproficiencies')
-    tool = models.ForeignKey('equipment.Tool', related_name='toolproficiencies')
-
-    is_proficient = models.BooleanField(default=False)
-
-
-class ArmorProficiency(models.Model):
-    """Through table to check for proficiency of a tool."""
-
-    character = models.ForeignKey(Character, related_name='armorproficiencies')
-    armor = models.ForeignKey('equipment.Armor', related_name='armorproficiencies')
-
-    is_proficient = models.BooleanField(default=False)
-
-
-class WeaponProficiency(models.Model):
-    """Through table to check for proficiency of a tool."""
-
-    character = models.ForeignKey(Character, related_name='weaponproficiencies')
-    weapon = models.ForeignKey('equipment.Weapon', related_name='weaponproficiencies')
-
-    is_proficient = models.BooleanField(default=False)
 
 
 class Character(models.Model):
@@ -112,13 +64,13 @@ class Character(models.Model):
     allies = models.CharField(max_length=512, blank=True, null=True,)
     organizations = models.CharField(max_length=512, blank=True, null=True,)
 
-    languages = models.ManyToManyField('rules.Language', related_name='characters')
+    # languages = models.ManyToManyField('rules.Language', related_name='characters')
 
     # Basics
-    char_classes = models.ManyToManyField('rules.Class', related_name='characters', through=ClassLevel)
+    char_classes = models.ManyToManyField('rules.Class', related_name='characters', through='ClassLevel')
     char_race = models.ForeignKey('rules.Race', related_name='characters')
     char_background = models.ForeignKey('rules.Background', related_name='characters')
-    alignment = models.ForeignKey('rules.Alignment', related_name='characters')
+    alignment = models.ForeignKey('rules.Alignment', related_name='character_alignments')
     char_xp = models.IntegerField(default=0, blank=True, null=True,)
 
     # Ability Scores
@@ -137,12 +89,17 @@ class Character(models.Model):
     WIS_saving_throw = models.BooleanField(default=False)
     CHA_saving_throw = models.BooleanField(default=False)
 
-    # Actions
-    skills = models.ManyToManyField('rules.Skill', related_name='characters')  # may use through=SkillProficiency
-    features = models.ManyToManyField('rules.Feature', related_name='characters')
+    # Actions >> May not need to use if just pulling through races and etc.
+    features = models.ManyToManyField('rules.Feature', related_name='character_features')
+
+    # # Proficiencies >> Comes from features through classes, prestige classes, races, or subraces now.
+    # skills_prof = models.ManyToManyField('rules.Skill', related_name='character_skill_profs')  # may use through=SkillProficiency
+    # tools_prof = models.ManyToManyField('equipment.Tool', related_name='character_tool_profs', blank=True, null=True,)
+    # armor_prof = models.ManyToManyField('equipment.Armor', related_name='character_armor_profs', blank=True, null=True,)
+    # weapons_prof = models.ManyToManyField('equipment.Weapon', related_name='character_weapon_profs', blank=True, null=True,)
 
     # Combat
-    conditions = models.ManyToManyField('rules.Condition', related_name='characters', blank=True, null=True,)
+    conditions = models.ManyToManyField('rules.Condition', related_name='character_conditions', blank=True,)
     death_fails = models.SmallIntegerField(default=0)
     death_successes = models.SmallIntegerField(default=0)
     max_health = models.SmallIntegerField()
@@ -152,13 +109,13 @@ class Character(models.Model):
     inspiration = models.SmallIntegerField(blank=True, null=True,)
 
     # Spells
-    spell_book = models.ManyToManyField('spells.Spell', related_name='characters', through=SpellsReady, blank=True, null=True,)
+    spell_book = models.ManyToManyField('spells.Spell', related_name='character_spells', through='SpellsReady', blank=True,)
 
     # Inventory
-    tools = models.ManyToManyField('equipment.Tool', related_name='characters', through=ToolProficiency, blank=True, null=True,)
-    items = models.ManyToManyField('equipment.Item', related_name='characters', blank=True, null=True,)
-    armor = models.ManyToManyField('equipment.Armor', related_name='characters', through=ArmorProficiency, blank=True, null=True,)
-    weapons = models.ManyToManyField('equipment.Weapon', related_name='characters', through=WeaponProficiency, blank=True, null=True,)
+    tools_inv = models.ManyToManyField('equipment.Tool', related_name='character_tools_inv', blank=True,)
+    items_inv = models.ManyToManyField('equipment.Item', related_name='character_items_inv', blank=True,)
+    armor_inv = models.ManyToManyField('equipment.Armor', related_name='character_armor_inv', blank=True,)
+    weapons_inv = models.ManyToManyField('equipment.Weapon', related_name='character_weapons_inv', blank=True,)
 
     def get_prof_bonus(self):
         """
@@ -231,3 +188,60 @@ class Character(models.Model):
 
     def __str__(self):
         return self.char_name
+
+
+class ClassLevel(models.Model):
+    """Through table for class levels for a character."""
+
+    character = models.ForeignKey('Character', related_name='classlevels')
+    char_class = models.ForeignKey('rules.Class', related_name='classlevels')
+
+    class_level = IntegerMinMaxField(min_value=1, max_value=20)
+
+
+class SpellsReady(models.Model):
+    """Through table to determine if a spell is just known, or known and ready."""
+
+    character = models.ForeignKey('Character', related_name='spellsready')
+    spells = models.ForeignKey('spells.Spell', related_name='spellsready')
+
+    spell_ready = models.BooleanField(default=False)
+
+
+# May not need to use this through table, as all skills a character has they will be proficient in.
+# if they don't have the skill, the calculation will just add normal results w/o prof bonus
+#
+# class SkillProficiency(models.Model):
+#     """Through table for if a character is proficient with a skill."""
+#
+#     character = models.ForeignKey(Character, related_name='skillproficiencies')
+#     skills = models.ForeignKey('rules.Skill', related_name='skillproficiencies')
+#
+#     proficient = models.BooleanField(default=False)
+
+#
+# class ToolProficiency(models.Model):
+#     """Through table to check for proficiency of a tool."""
+#
+#     character = models.ForeignKey(Character, related_name='toolproficiencies')
+#     tool = models.ForeignKey('equipment.Tool', related_name='toolproficiencies')
+#
+#     is_proficient = models.BooleanField(default=False)
+#
+#
+# class ArmorProficiency(models.Model):
+#     """Through table to check for proficiency of a tool."""
+#
+#     character = models.ForeignKey(Character, related_name='armorproficiencies')
+#     armor = models.ForeignKey('equipment.Armor', related_name='armorproficiencies')
+#
+#     is_proficient = models.BooleanField(default=False)
+#
+#
+# class WeaponProficiency(models.Model):
+#     """Through table to check for proficiency of a tool."""
+#
+#     character = models.ForeignKey(Character, related_name='weaponproficiencies')
+#     weapon = models.ForeignKey('equipment.Weapon', related_name='weaponproficiencies')
+#
+#     is_proficient = models.BooleanField(default=False)

@@ -65,8 +65,8 @@ class Weapon(Item):
     damage_dice_size = models.SmallIntegerField(help_text='Ex: 1dX + 1.')
     damage_dice_bonus = models.SmallIntegerField(blank=True, null=True, help_text='Ex: 1d6 + X.')
 
-    damage_type = models.ManyToManyField('rules.DamageType', related_name='weapons', help_text='What kind of damage is done by the weapon.')
-    properties = models.ManyToManyField(WeaponProperty, related_name='weapons')
+    base_damage_type = models.ManyToManyField('rules.DamageType', related_name='weapon_base_damage_types', help_text='What kind of damage is done by the weapon.')
+    properties = models.ManyToManyField('WeaponProperty', related_name='weapon_properties')
 
 
 class Armor(Item):
@@ -83,13 +83,13 @@ class Armor(Item):
 
     base_armor_class = models.SmallIntegerField(null=True, blank=True)
     bonus_armor_class = models.SmallIntegerField(null=True, blank=True)
-    dexterity_modifier = models.BooleanField(default=True, null=True, blank=True,)
+    dexterity_modifier = models.BooleanField(default=True,)
     dexterity_modifier_max = models.SmallIntegerField(null=True, blank=True,)
 
     don_time = models.SmallIntegerField()
     doff_time = models.SmallIntegerField()
     req_str = models.SmallIntegerField(null=True, blank=True,)
-    stealth_disadvantage = models.BooleanField(default=False, null=True, blank=True,)
+    stealth_disadvantage = models.BooleanField(default=False,)
 
     class Meta:
         verbose_name = 'Armor'
@@ -115,19 +115,21 @@ class EquipmentBonus(models.Model):
     ability_score = models.CharField(max_length=16, null=True, blank=True,)
     ability_bonus = models.SmallIntegerField(null=True, blank=True,)
 
-    damage_type = models.ForeignKey('rules.DamageType', related_name='equpmentbonuses', null=True, blank=True,)
+    damage_type = models.ForeignKey('rules.DamageType', related_name='equipment_bonus_damage_type', null=True, blank=True,)
     damage_bonus = models.SmallIntegerField(null=True, blank=True,)
     damage_dice_number = models.SmallIntegerField(null=True, blank=True,)
     damage_dice_size = models.SmallIntegerField(null=True, blank=True,)
 
-    advantage = models.BooleanField(default=False, null=True, blank=True,)
-    disadvantage = models.BooleanField(default=False, null=True, blank=True,)
+    damage_resistance_type = models.ForeignKey('rules.DamageType', related_name='equipment_bonus_damage_resistance_type', blank=True, null=True,)
+
+    advantage = models.BooleanField(default=False,)
+    disadvantage = models.BooleanField(default=False,)
     check = models.CharField(max_length=128, null=True, blank=True,)
 
-    skill = models.ForeignKey('rules.Skill', related_name='equipmentbonuses', null=True, blank=True,)
+    skill = models.ForeignKey('rules.Skill', related_name='equipment_bonus_skill', null=True, blank=True,)
     skill_bonus = models.SmallIntegerField(null=True, blank=True,)
 
-    spell = models.ForeignKey('spells.Spell', related_name='equipmentbonuses', null=True, blank=True,)
+    spell = models.ForeignKey('spells.Spell', related_name='equipment_bonus_spell', null=True, blank=True,)
     spell_bonus = models.CharField(max_length=128, null=True, blank=True,)
 
     def __str__(self):

@@ -1,7 +1,8 @@
+# Django Imports:
 from django.contrib import admin
 
+# Model Imports:
 from .models import Member
 
-# Register your models here.
 
 admin.site.register(Member)

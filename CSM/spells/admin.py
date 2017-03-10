@@ -1,7 +1,8 @@
+# Django Imports
 from django.contrib import admin
 
+# Model Imports:
 from .models import Spell
 
-# Register your models here.
 
 admin.site.register(Spell)
