@@ -52,13 +52,13 @@ class Feature(models.Model):
     stat_to_change = models.CharField(max_length=64, blank=True, null=True)
     stat_change_amount = models.SmallIntegerField(blank=True, null=True)
 
-    weapon_proficiency = models.ManyToManyField(Weapon, related_query_name='feature', blank=True, null=True)
-    armor_proficiency = models.ManyToManyField(Armor, related_query_name='feature', blank=True, null=True)
-    tool_proficiency = models.ManyToManyField(Tool, related_query_name='feature', blank=True, null=True)
+    weapon_proficiency = models.ManyToManyField('equipment.Weapon', related_query_name='feature', blank=True, null=True)
+    armor_proficiency = models.ManyToManyField('equipment.Armor', related_query_name='feature', blank=True, null=True)
+    tool_proficiency = models.ManyToManyField('equipment.Tool', related_query_name='feature', blank=True, null=True)
     skill_proficiency = models.ManyToManyField(Skill, related_query_name='feature', blank=True, null=True)
     languages_known = models.ManyToManyField(Language, related_query_name='feature', blank=True, null=True)
 
-    spell_choice = models.ManyToManyField(Spell, related_query_name='feature', blank=True, null=True)
+    spell_choice = models.ManyToManyField('spells.Spell', related_query_name='feature', blank=True, null=True)
     spell_choice_constraint_number = models.SmallIntegerField(blank=True, null=True)
     spell_choice_constraint_use = models.CharField(max_length=512, blank=True, null=True)
 
@@ -81,6 +81,28 @@ class Feature(models.Model):
     prereq_character_level = models.SmallIntegerField(blank=True, null=True)
     prereq_class = models.CharField(max_length=64, blank=True, null=True)
     prereq_class_level = models.SmallIntegerField(blank=True, null=True)
+
+
+class Background(models.Model):
+    """
+    The model for character backgrounds.
+    """
+
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=10000)
+
+    skills = models.ManyToManyField(Skill, related_name='backgrounds', blank=True, null=True)
+    languages = models.ManyToManyField(Language, related_name='backgrounds', blank=True, null=True)
+    tools = models.ManyToManyField('equipment.Tool', related_name='backgrounds', blank=True, null=True)
+    items = models.ManyToManyField('equipment.Item', related_name='backgrounds', blank=True, null=True)
+    weapons = models.ManyToManyField('equipment.Weapon', related_name='backgrounds', blank=True, null=True)
+    armor = models.ManyToManyField('equipment.Armor', related_name='backgrounds', blank=True, null=True)
+    feature = models.ForeignKey(Feature, related_name='backgrounds', blank=True, null=True)
+
+    suggested_personality_traits = models.ManyToManyField(PersonalityTrait, related_name='backgrounds', blank=True, null=True)
+    suggested_ideals = models.ManyToManyField(Ideal, related_name='backgrounds', blank=True, null=True)
+    suggested_bonds = models.ManyToManyField(Bond, related_name='backgrounds', blank=True, null=True)
+    suggested_flaws = models.ManyToManyField(Flaw, related_name='backgrounds', blank=True, null=True)
 
 
 class Skill(models.Model):
@@ -119,4 +141,32 @@ class Alignment(models.Model):
     """Model for different Alignments."""
 
     name = models.CharField(max_length=64)
+    description = models.CharField(max_length=1028)
+
+
+class PersonalityTrait(models.Model):
+    """Model for basic suggested personality traits."""
+
+    name = models.CharField(max_length=128, blank=True, null=True)
+    description = models.CharField(max_length=1028)
+
+
+class Ideal(models.Model):
+    """Model for basic suggested ideals."""
+
+    name = models.CharField(max_length=128, blank=True, null=True)
+    description = models.CharField(max_length=1028)
+
+
+class Bond(models.Model):
+    """Model for basic suggested bonds."""
+
+    name = models.CharField(max_length=128, blank=True, null=True)
+    description = models.CharField(max_length=1028)
+
+
+class Flaw(models.Model):
+    """Model for basic suggested flaws."""
+
+    name = models.CharField(max_length=128, blank=True, null=True)
     description = models.CharField(max_length=1028)

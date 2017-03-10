@@ -19,25 +19,19 @@ class WeaponProperty(models.Model):
 class Weapon(models.Model):
     """Contains information regarding all weapons in the world."""
 
-    DAMAGE_TYPE = (
-        ('AC', 'Acid'),
-        ('BL', 'Bludgeoning'),
-        ('CO', 'Cold'),
-        ('FI', 'Fire'),
-        ('FO', 'Force'),
-        ('LI', 'Lightning'),
-        ('NE', 'Necrotic'),
-        ('PI', 'Piercing'),
-        ('PO', 'Poison'),
-        ('PS', 'Psychic'),
-        ('RA', 'Radiant'),
-        ('SL', 'Slashing'),
-        ('TH', 'Thunder'),
-    )
+    WEAPON_TYPE = [
+        ('Simple', 'Simple'),
+        ('Martial', 'Martial'),
+    ]
+
+    MELEE_RANGED = [
+        ('Melee', 'Melee'),
+        ('Ranged', 'Ranged'),
+    ]
 
     name = models.CharField(max_length=100, unique=True, help_text='Name of the weapon.')
-    simple_or_martial = models.BooleanField(default=False, help_text='False = Simple Weapon, True = Martial Weapon.')
-    melee_or_ranged = models.BooleanField(default=False, help_text='False = Melee Weapon, True = Ranged Weapon.')
+    weapon_type = models.CharField(max_length=16, choices=WEAPON_TYPE, help_text='False = Simple Weapon, True = Martial Weapon.')
+    melee_or_ranged = models.CharField(max_length=16, choices=MELEE_RANGED, help_text='False = Melee Weapon, True = Ranged Weapon.')
     normal_range = models.SmallIntegerField(null=True, blank=True, help_text='If a ranged weapon, any attack over normal range is made at disadvantage.')
     max_range = models.SmallIntegerField(null=False, blank=True, help_text='Maximum range a weapon can attack.')
 
@@ -50,7 +44,7 @@ class Weapon(models.Model):
     damage_dice_size = models.SmallIntegerField(help_text='Ex: 1dX + 1.')
     damage_dice_bonus = models.SmallIntegerField(blank=True, null=True, help_text='Ex: 1d6 + X.')
 
-    damage_type = models.CharField(max_length=2, choices=DAMAGE_TYPE, help_text='What kind of damage is done by the weapon.')
+    damage_type = models.ManyToManyField('rules.DamageType', related_name='weapons', help_text='What kind of damage is done by the weapon.')
     weight = models.SmallIntegerField(help_text='Carrying weight of the weapon.')
     properties = models.ManyToManyField(WeaponProperty, related_name='weapons')
     description = models.TextField(help_text='Full description of the weapon.')
@@ -72,6 +66,8 @@ class Armor(models.Model):
     # weight
     # description
     # special
+    # don_time
+    # doff_time
 
     def __str__(self):
         return self.name
