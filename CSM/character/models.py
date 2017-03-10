@@ -84,24 +84,33 @@ class WeaponProficiency(models.Model):
 
 
 class Character(models.Model):
-    """This is the information for a character."""
+    """
+    This is the information for a character.
+
+    ***NOTE: This is the specific model a Member will be interacting with the most.***
+    """
 
     username = models.ForeignKey('accounts.Member', related_name='characters')
 
     # Flair
     char_name = models.CharField(max_length=1024)
-    char_age = models.SmallIntegerField()
-    char_height = models.SmallIntegerField()
-    char_weight = models.SmallIntegerField()
-    char_skin_color = models.CharField(max_length=128)
-    char_hair_color = models.CharField(max_length=128)
-    char_eye_color = models.CharField(max_length=128)
-    description = models.TextField(blank=True, null=True)
-    portrait = models.ImageField()
-    personality = models.TextField()
-    ideals = models.TextField()
-    bonds = models.TextField()
-    flaws = models.TextField()
+    description = models.TextField(blank=True, null=True,)
+
+    portrait = models.ImageField(blank=True, null=True,)
+    char_age = models.SmallIntegerField(blank=True, null=True,)
+    char_height = models.SmallIntegerField(blank=True, null=True,)
+    char_weight = models.SmallIntegerField(blank=True, null=True,)
+    char_skin_color = models.CharField(max_length=128, blank=True, null=True,)
+    char_hair_color = models.CharField(max_length=128, blank=True, null=True,)
+    char_eye_color = models.CharField(max_length=128, blank=True, null=True,)
+
+    personality = models.TextField(blank=True, null=True,)
+    ideals = models.TextField(blank=True, null=True,)
+    bonds = models.TextField(blank=True, null=True,)
+    flaws = models.TextField(blank=True, null=True,)
+
+    allies = models.CharField(max_length=512, blank=True, null=True,)
+    organizations = models.CharField(max_length=512, blank=True, null=True,)
 
     languages = models.ManyToManyField('rules.Language', related_name='characters')
 
@@ -110,7 +119,7 @@ class Character(models.Model):
     char_race = models.ForeignKey('rules.Race', related_name='characters')
     char_background = models.ForeignKey('rules.Background', related_name='characters')
     alignment = models.ForeignKey('rules.Alignment', related_name='characters')
-    char_xp = models.IntegerField(default=0)
+    char_xp = models.IntegerField(default=0, blank=True, null=True,)
 
     # Ability Scores
     STR_score = IntegerMinMaxField(min_value=1, max_value=20)
@@ -133,23 +142,23 @@ class Character(models.Model):
     features = models.ManyToManyField('rules.Feature', related_name='characters')
 
     # Combat
-    conditions = models.ManyToManyField('rules.Condition', related_name='characters')
+    conditions = models.ManyToManyField('rules.Condition', related_name='characters', blank=True, null=True,)
     death_fails = models.SmallIntegerField(default=0)
     death_successes = models.SmallIntegerField(default=0)
     max_health = models.SmallIntegerField()
     current_health = models.SmallIntegerField()
     temp_addtl_hp = models.SmallIntegerField()
     speed = models.SmallIntegerField()
-    inspiration = models.SmallIntegerField()
+    inspiration = models.SmallIntegerField(blank=True, null=True,)
 
     # Spells
-    spell_book = models.ManyToManyField('spells.Spell', related_name='characters', through=SpellsReady)
+    spell_book = models.ManyToManyField('spells.Spell', related_name='characters', through=SpellsReady, blank=True, null=True,)
 
     # Inventory
-    tools = models.ManyToManyField('equipment.Tool', related_name='characters', through=ToolProficiency)
-    items = models.ManyToManyField('equipment.Item', related_name='characters')
-    armor = models.ManyToManyField('equipment.Armor', related_name='characters', through=ArmorProficiency)
-    weapons = models.ManyToManyField('equipment.Weapon', related_name='characters', through=WeaponProficiency)
+    tools = models.ManyToManyField('equipment.Tool', related_name='characters', through=ToolProficiency, blank=True, null=True,)
+    items = models.ManyToManyField('equipment.Item', related_name='characters', blank=True, null=True,)
+    armor = models.ManyToManyField('equipment.Armor', related_name='characters', through=ArmorProficiency, blank=True, null=True,)
+    weapons = models.ManyToManyField('equipment.Weapon', related_name='characters', through=WeaponProficiency, blank=True, null=True,)
 
     def get_prof_bonus(self):
         """
@@ -166,12 +175,12 @@ class Character(models.Model):
         """
 
         score_conversion = {
-            'STR': self.STR_score,
-            'DEX': self.DEX_score,
-            'CON': self.CON_score,
-            'INT': self.INT_score,
-            'WIS': self.WIS_score,
-            'CHA': self.CHA_score,
+            'Strength': self.STR_score,
+            'Dexterity': self.DEX_score,
+            'Constitution': self.CON_score,
+            'Intelligence': self.INT_score,
+            'Wisdom': self.WIS_score,
+            'Charisma': self.CHA_score,
         }
 
         return (score_conversion[ability] - 10) // 2
@@ -183,12 +192,12 @@ class Character(models.Model):
         """
 
         score_conversion = {
-            'STR': self.STR_score,
-            'DEX': self.DEX_score,
-            'CON': self.CON_score,
-            'INT': self.INT_score,
-            'WIS': self.WIS_score,
-            'CHA': self.CHA_score,
+            'Strength': self.STR_score,
+            'Dexterity': self.DEX_score,
+            'Constitution': self.CON_score,
+            'Intelligence': self.INT_score,
+            'Wisdom': self.WIS_score,
+            'Charisma': self.CHA_score,
         }
 
         return self.get_ability_bonus(score_conversion[ability]) + 10

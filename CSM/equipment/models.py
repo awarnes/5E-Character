@@ -11,9 +11,10 @@ class Item(models.Model):
 
     name = models.CharField(max_length=100, unique=True, help_text='Name of the item.')
     item_type = models.CharField(max_length=128)
-    description = models.CharField(max_length=1028)
+    description = models.CharField(max_length=1024)
 
     weight = models.SmallIntegerField(null=True, blank=True,)
+    material = models.CharField(max_length=128)
     uses = models.SmallIntegerField(null=True, blank=True,)
     space = models.SmallIntegerField(null=True, blank=True,)
 
@@ -22,7 +23,7 @@ class Item(models.Model):
     cost_gold = models.SmallIntegerField(null=True, blank=True, help_text='Cost in gold pieces.')
     cost_platinum = models.SmallIntegerField(null=True, blank=True, help_text='Cost in platinum pieces.')
 
-    special = models.CharField(max_length=1028, null=True, blank=True, help_text='General field for additional rules.',)
+    special = models.CharField(max_length=1024, null=True, blank=True, help_text='General field for additional rules.',)
 
     def __str__(self):
         return self.name
@@ -103,10 +104,13 @@ class Tool(Item):
 
 
 class EquipmentBonus(models.Model):
-    """All possible bonuses a magic item can have."""
+    """
+    All possible bonuses a magic item can have.
+    """
+    # TODO: May have more to do on this one.
 
     name = models.CharField(max_length=100, unique=True, help_text='Name of the bonus.')
-    description = models.CharField(max_length=1028)
+    description = models.CharField(max_length=1024)
 
     ability_score = models.CharField(max_length=16, null=True, blank=True,)
     ability_bonus = models.SmallIntegerField(null=True, blank=True,)
