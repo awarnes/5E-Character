@@ -134,9 +134,11 @@ class Character(models.Model):
 
     # Combat
     conditions = models.ManyToManyField('rules.Condition', related_name='characters')
-    death_saves = models.SmallIntegerField(default=3)
+    death_fails = models.SmallIntegerField(default=0)
+    death_successes = models.SmallIntegerField(default=0)
     max_health = models.SmallIntegerField()
     current_health = models.SmallIntegerField()
+    temp_addtl_hp = models.SmallIntegerField()
     speed = models.SmallIntegerField()
     inspiration = models.SmallIntegerField()
 
@@ -173,6 +175,23 @@ class Character(models.Model):
         }
 
         return (score_conversion[ability] - 10) // 2
+
+    def get_passive_score(self, ability):
+        """
+        Gets the passive check for a given ability score.
+        :return: int()
+        """
+
+        score_conversion = {
+            'STR': self.STR_score,
+            'DEX': self.DEX_score,
+            'CON': self.CON_score,
+            'INT': self.INT_score,
+            'WIS': self.WIS_score,
+            'CHA': self.CHA_score,
+        }
+
+        return self.get_ability_bonus(score_conversion[ability]) + 10
 
     def get_char_level(self):
         """

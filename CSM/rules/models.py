@@ -1,6 +1,13 @@
-from django.db import models
+"""
+Models that describe the rules used by 5th Edition Dungeons and Dragons.
 
-# Create your models here.
+The goal is to make these loose enough to allow others to add new instances (such as classes),
+but particular enough that the information will still be programmatically accessible for the actual CSM
+"""
+
+
+# Django imports.
+from django.db import models
 
 
 class Subrace(models.Model):
@@ -30,6 +37,7 @@ class Race(models.Model):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=10000)
 
+    # Would like to move these to another module.
     # suggested_first_names
     # suggested_last_names
 
@@ -76,7 +84,12 @@ class Class(models.Model):
 
 
 class Feature(models.Model):
-    """Information about race, class, subrace, subclass, and background features."""
+    """
+    Information about race, class, subrace, subclass, and background features.
+
+    This is one of the heaviest lifters in the database because it will describe all possible interactions a player
+    can take, excepting spells and items.
+    """
 
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=10000)
@@ -100,7 +113,6 @@ class Feature(models.Model):
     spell_choice = models.ManyToManyField('spells.Spell', related_query_name='feature', blank=True, null=True)
     spell_choice_constraint_number = models.SmallIntegerField(blank=True, null=True)
     spell_choice_constraint_use = models.CharField(max_length=512, blank=True, null=True)
-
 
     damage_type = models.ManyToManyField(DamageType, related_query_name='feature', blank=True, null=True)
     damage_dice_number = models.SmallIntegerField(blank=True, null=True)
