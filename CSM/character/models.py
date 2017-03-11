@@ -42,6 +42,8 @@ class Character(models.Model):
     ***NOTE: This is the specific model a Member will be interacting with the most.***
     """
 
+    # TODO: change to member, not username.
+
     username = models.ForeignKey('accounts.Member', related_name='characters')
 
     # Flair

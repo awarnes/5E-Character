@@ -9,7 +9,11 @@
 
         <link rel="icon" type="image/jpg" href="{% static '/pages/img/logo_favicon.jpg' %}">
         {% block title %}Profile for {{ user.username }}{% endblock %}
+
+        {% include 'includes/jquery.html' %}
+
         {% include 'includes/bootstrap.html' %}
+
     </head>
 
     <body>
@@ -24,9 +28,9 @@
 
             <p>Recent Characters</p>
             <section>
-                {% for character in characters %}
-                    <p>{{ character.name }}</p>
-                {% endfor %}
+                <ul id="characters">
+                    <!--Characters Populate Here-->
+                </ul>
             </section>
 
             <button><a href="{% url 'logout' %}">Logout!</a></button>
@@ -47,10 +51,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Name: <span id="name"></span></p>
                         <p>Level: <span id="level"></span></p>
                         <p>Class: <span id="class"></span></p>
-                        <p>Race: <span id="school"></span></p>
+                        <p>Race: <span id="race"></span></p>
                         <hr>
                         <p>Strength: <span id="STR"></span></p>
                         <p>Dexterity: <span id="DEX"></span></p>
@@ -72,6 +75,7 @@
     </body>
 
     {% block final_js %}
+        <script type="text/javascript" src="{% static 'character/js/user_home.js' %}"></script>
     {% endblock %}
 
 </html>

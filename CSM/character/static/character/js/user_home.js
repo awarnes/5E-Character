@@ -4,38 +4,43 @@
 
 $(document).ready(function(evt){
 
-    $('.list-group-item').on('click', function(evt){
-        var $query = $(this).text();
+    $.get('/user/characters/names/', function(data){
+        for (var i=0;i<data.characters.length;i++) {
+            var $char;
+            $char = $('<li>').addClass('list-group-item text-center');
+            $char.text(data.characters[i][0]);
+            $char.on('click', function(){
+                get_char($(this))
+            })
+            $char.appendTo($('#characters'));
+        }
+    });
+
+    function get_char ($text){
+        var $query = $text.text();
 
         $('#output').modal('toggle');
 
-        $.get('/spells/spell/', {query_spell: $query}, function(data){
+        $.get('/user/characters/specific_one/', {query_char: $query}, function(data){
 
-            $('#name').text(data[0].name);
-            $('#level').text(data[0].level);
-            $('#school').text(data[0].school);
-            $('#cast_time').text(data[0].cast_time);
-            $('#distance').text(data[0].distance);
-            $('#components').text(data[0].raw_materials);
-            $('#duration').text(data[0].duration);
+            var $char = data[0]
 
-            if (data[0].concentration === true) {
-                $('#concentration').text('Yes');
-            } else {
-                $('#concentration').text('No');
-            }
+            $('#name').text($char.char_name);
+            $('#level').text($char.char_level);
+            $('#class').text($char.char_classes);
+            $('#race').text($char.char_race);
+            $('#STR').text($char.STR_score);
+            $('#DEX').text($char.DEX_score);
+            $('#CON').text($char.CON_score);
+            $('#INT').text($char.INT_score);
+            $('#WIS').text($char.WIS_score);
+            $('#CHA').text($char.CHA_score);
 
-            if (data[0].ritual === true) {
-                $('#ritual').text('Yes');
-            } else {
-                $('#ritual').text('No');
-            }
-
-            $('#description').text(data[0].description);
-            $('#available_to').text(data[0].available_to);
+            $('#description').text($char.description);
+            $('#features').text($char.features);
         });
-    })
+    };
 
 
-})
+});
 

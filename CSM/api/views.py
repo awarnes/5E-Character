@@ -1,14 +1,20 @@
+# Django Imports:
 from django.shortcuts import render
 from django.db.models import Q
 
-
+# DRF Imports:
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import SpellModelSerializer
+# Serializer and Form Imports:
+from .serializers import SpellModelSerializer, CharacterModelSerializer
+from .forms import SearchSpells #SearchUserCharacters
+
+# Model Imports:
 from spells.models import Spell
-from .forms import SearchSpells
+from character.models import Character
+from accounts.models import Member
 
 # Create your views here.
 
@@ -32,7 +38,7 @@ def get_spell_information(request):
 
     serializer = SpellModelSerializer(spell, many=True)
 
-    if bool(query_spell) == True:
+    if bool(spell) == True:
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
@@ -62,3 +68,37 @@ def spell_book(request):
     context = {'spells1': spells_1, 'spells2': spells_2, 'spells3': spells_3, 'form': form}
 
     return render(request, 'spellbook.html', context)
+
+
+@api_view(['GET'])
+def user_character_names(request):
+    """Returns all characters' names for a single user."""
+
+    member = request.user
+
+    member_characters = member.characters.values_list('char_name')
+
+    context = {'characters': member_characters}
+
+    if bool(member_characters):
+        return Response(context, status=status.HTTP_200_OK)
+    else:
+        return Response(context, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def specific_user_character(request):
+    """Returns a specific character for a user"""
+
+    member = request.user
+
+    query_char = request.GET.get('query_char')
+
+    character = member.characters.filter(char_name=query_char)
+
+    serializer = CharacterModelSerializer(character, many=True)
+
+    if bool(character) == True:
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)

@@ -31,6 +31,8 @@ from pages.views import report_issue
 # Imported API Views
 from api.views import get_spell_information
 from api.views import spell_book
+from api.views import specific_user_character
+from api.views import user_character_names
 
 # Imported Account View
 # from accounts.views import user_login
@@ -60,6 +62,8 @@ urlpatterns = [
 
     # User Profile
     url(r'^home/$', user_home, name='home'),
+    url(r'^user/characters/names/$', user_character_names, name='user_char_names'),
+    url(r'^user/characters/specific_one/$', specific_user_character, name='specific_user_char'),
 
     # Company Information
     url(r'^about_us/$', about_us, name='contact'),

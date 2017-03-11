@@ -201,7 +201,7 @@ class Feature(models.Model):
     can take, excepting spells and items.
     """
 
-    #Basic Information:
+    # Basic Information:
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=10000)
 
@@ -217,6 +217,7 @@ class Feature(models.Model):
     ability_change_amount = models.SmallIntegerField(blank=True, null=True,)
 
     # Proficiencies
+    # TODO: Make these many to many fields so that you can have multiple if needed.
     is_proficiency = models.BooleanField(default=False,)
     weapon_prof = models.ForeignKey('equipment.Weapon', related_name='feature_weapon_profs', blank=True, null=True,)
     armor_prof = models.ForeignKey('equipment.Armor', related_name='feature_armor_profs', blank=True, null=True,)

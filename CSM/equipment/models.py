@@ -2,6 +2,8 @@
 Models for all equipment in the game.
 """
 
+# TODO: Add a new base class: Equipment and subclass rest off of that. Items are other things >> Armor is not an Item.
+
 # Django Imports
 from django.db import models
 
