@@ -5,27 +5,27 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 
 # module level imports
-from rules.models import Alignment
+from equipment.models import WeaponProperty
 
 
 class Command(BaseCommand):
-    """Command to populate the database with all spells for 5th Edition."""
+    """Command to populate the database with all Weapon Properties for 5th Edition."""
 
     # args
-    help = 'Will auto populate the database with all the Alignments from 5th Edition Dungeons and Dragons.'
+    help = 'Will auto populate the database with all the base Weapon Properties from 5th Edition Dungeons and Dragons.'
 
     def handle(self, *args, **kwargs):
 
-        with open('/Users/alexanderwarnes/Documents/5E Rules CSVs/Alignments-Table 1.csv') as f:
-            alignments = pd.read_csv(f, delimiter=',')
+        with open('/Users/alexanderwarnes/Documents/5E Rules CSVs/Weapon Properties-Table 1.csv') as f:
+            properties = pd.read_csv(f, delimiter=',')
 
-        alignments = alignments.dropna()
+        properties = properties.dropna()
 
-        for alignment in alignments.iterrows():
+        for property in properties.iterrows():
 
-            alignment_entry = Alignment(
-                name=alignment[1][0],
-                description=alignment[1][1],
+            property_entry = WeaponProperty(
+                name=property[1][0],
+                description=property[1][1],
             )
 
-            alignment_entry.save()
+            property_entry.save()

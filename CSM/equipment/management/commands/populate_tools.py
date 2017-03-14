@@ -12,7 +12,7 @@ class Command(BaseCommand):
     """Command to populate the database with all spells for 5th Edition."""
 
     # args
-    help = 'Will auto populate the database with all the Tools from 5th Edition Dunegons and Dragons.'
+    help = 'Will auto populate the database with all the base Tools from 5th Edition Dungeons and Dragons.'
 
     def handle(self, *args, **kwargs):
 

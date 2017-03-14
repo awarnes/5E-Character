@@ -15,7 +15,7 @@ class Equipment(models.Model):
     item_type = models.CharField(max_length=128)
     description = models.CharField(max_length=1024)
 
-    weight = models.SmallIntegerField(null=True, blank=True, )
+    weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True,)
     material = models.CharField(max_length=128)
 
     cost_copper = models.SmallIntegerField(null=True, blank=True, help_text='Cost in copper pieces.')
@@ -67,8 +67,8 @@ class Weapon(Equipment):
         ('Ranged', 'Ranged'),
     ]
 
-    weapon_type = models.CharField(max_length=16, choices=WEAPON_TYPE, help_text='False = Simple Weapon, True = Martial Weapon.')
-    melee_or_ranged = models.CharField(max_length=16, choices=MELEE_RANGED, help_text='False = Melee Weapon, True = Ranged Weapon.')
+    weapon_type = models.CharField(max_length=16, choices=WEAPON_TYPE, help_text='')
+    melee_or_ranged = models.CharField(max_length=16, choices=MELEE_RANGED, help_text='')
     normal_range = models.SmallIntegerField(null=True, blank=True, help_text='If a ranged weapon, any attack over normal range is made at disadvantage.')
     max_range = models.SmallIntegerField(null=False, blank=True, help_text='Maximum range a weapon can attack.')
 
@@ -163,9 +163,9 @@ class MountAndVehicle(Equipment):
     """
 
     VEHICLE_TYPE = [
-        ('Land', 'Land')
-        ('Water', 'Water')
-        ('Air', 'Air')
+        ('Land', 'Land'),
+        ('Water', 'Water'),
+        ('Air', 'Air'),
     ]
 
     speed = models.SmallIntegerField(null=True, blank=True,)
