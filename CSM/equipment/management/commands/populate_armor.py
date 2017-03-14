@@ -22,8 +22,8 @@ class Command(BaseCommand):
         armors = armors.dropna()
 
         for armor in armors.iterrows():
-
-            armor_entry = Armor(
+            # import pdb;pdb.set_trace()
+            Armor.objects.create(
                 name=armor[1][0],
                 item_type=armor[1][1],
                 description=armor[1][2],
@@ -37,12 +37,11 @@ class Command(BaseCommand):
 
                 armor_type=armor[1][10],
                 base_armor_class=armor[1][11],
-                dexterity_modifier=armor[1][12],
-                dexterity_modifier_max=armor[1][13],
-                don_time=armor[1][14],
-                doff_time=armor[1][15],
-                prereq_strength=armor[1][16],
-                stealth_disadvantage=armor[1][17],
+                bonus_armor_class=armor[1][12],
+                dexterity_modifier=armor[1][13],
+                dexterity_modifier_max=armor[1][14],
+                don_time=armor[1][15],
+                doff_time=armor[1][16],
+                req_str=armor[1][17],
+                stealth_disadvantage=armor[1][18],
             )
-
-            armor_entry.save()

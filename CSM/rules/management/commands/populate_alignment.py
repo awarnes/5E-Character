@@ -23,9 +23,7 @@ class Command(BaseCommand):
 
         for alignment in alignments.iterrows():
 
-            alignment_entry = Alignment(
+            Alignment.objects.create(
                 name=alignment[1][0],
                 description=alignment[1][1],
             )
-
-            alignment_entry.save()

@@ -5,7 +5,7 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 
 # module level imports
-from rules.models import PrestigeClass
+from rules.models import PrestigeClass, Feature
 
 
 class Command(BaseCommand):
@@ -23,7 +23,7 @@ class Command(BaseCommand):
 
         for prestige in prestiges.iterrows():
 
-            prestige_entry = PrestigeClass(
+            prestige_entry = PrestigeClass.objects.create(
                 name=prestige[1][0],
                 description=prestige[1][1],
             )
@@ -32,7 +32,9 @@ class Command(BaseCommand):
 
             klass_features = prestige[1][2].split(', ')
 
-            for feature in klass_features:
-                prestige_entry.features.add(feature)
+            for feature_name in klass_features:
+                feature = Feature.objects.get(name=feature_name)
+                print(feature)
+                # import pdb;pdb.set_trace()
 
-            prestige_entry.save()
+                prestige_entry.features.add(feature)

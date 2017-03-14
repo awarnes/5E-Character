@@ -19,7 +19,7 @@ class Command(BaseCommand):
         with open('/Users/alexanderwarnes/Documents/5E Rules CSVs/Features-Table 1.csv') as f:
             features = pd.read_csv(f, delimiter=',')
 
-        features = features.ix[:,'Name':'Description']
+        features = features.ix[:,'name':'description']
 
         features = features.dropna()
 
