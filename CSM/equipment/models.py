@@ -8,24 +8,33 @@ Models for all equipment in the game.
 from django.db import models
 
 
-class Item(models.Model):
-    """Contains information on other items in the world."""
+class Equipment(models.Model):
+    """Base class for all things you could hold (or not) in 5E."""
 
     name = models.CharField(max_length=100, unique=True, help_text='Name of the item.')
     item_type = models.CharField(max_length=128)
     description = models.CharField(max_length=1024)
 
-    weight = models.SmallIntegerField(null=True, blank=True,)
+    weight = models.SmallIntegerField(null=True, blank=True, )
     material = models.CharField(max_length=128)
-    uses = models.SmallIntegerField(null=True, blank=True,)
-    space = models.SmallIntegerField(null=True, blank=True,)
 
     cost_copper = models.SmallIntegerField(null=True, blank=True, help_text='Cost in copper pieces.')
     cost_silver = models.SmallIntegerField(null=True, blank=True, help_text='Cost in silver pieces.')
     cost_gold = models.SmallIntegerField(null=True, blank=True, help_text='Cost in gold pieces.')
     cost_platinum = models.SmallIntegerField(null=True, blank=True, help_text='Cost in platinum pieces.')
 
-    special = models.CharField(max_length=1024, null=True, blank=True, help_text='General field for additional rules.',)
+    special = models.CharField(max_length=1024, null=True, blank=True,
+                               help_text='General field for additional rules.', )
+
+    def __str__(self):
+        return self.name
+
+
+class Item(Equipment):
+    """Contains information on other items in the world."""
+
+    uses = models.SmallIntegerField(null=True, blank=True,)
+    space = models.CharField(null=True, blank=True, max_length=128)
 
     def __str__(self):
         return self.name
@@ -45,7 +54,7 @@ class WeaponProperty(models.Model):
         verbose_name_plural = 'Weapon Properties'
 
 
-class Weapon(Item):
+class Weapon(Equipment):
     """Contains information regarding all weapons in the world."""
 
     WEAPON_TYPE = [
@@ -71,7 +80,7 @@ class Weapon(Item):
     properties = models.ManyToManyField('WeaponProperty', related_name='weapon_properties')
 
 
-class Armor(Item):
+class Armor(Equipment):
     """Contains information regarding armor in the world."""
 
     ARMOR_TYPES = [
@@ -81,6 +90,13 @@ class Armor(Item):
         ('Shield', 'Shield'),
     ]
 
+    ARMOR_TIMES = [
+        ('1 action', '1 action'),
+        ('1 minute', '1 minute'),
+        ('5 minutes', '5 minutes'),
+        ('10 minutes', '10 minutes'),
+    ]
+
     armor_type = models.CharField(max_length=16, choices=ARMOR_TYPES)
 
     base_armor_class = models.SmallIntegerField(null=True, blank=True)
@@ -88,8 +104,8 @@ class Armor(Item):
     dexterity_modifier = models.BooleanField(default=True,)
     dexterity_modifier_max = models.SmallIntegerField(null=True, blank=True,)
 
-    don_time = models.SmallIntegerField()
-    doff_time = models.SmallIntegerField()
+    don_time = models.CharField(max_length=16, choices=ARMOR_TIMES)
+    doff_time = models.CharField(max_length=16, choices=ARMOR_TIMES)
     req_str = models.SmallIntegerField(null=True, blank=True,)
     stealth_disadvantage = models.BooleanField(default=False,)
 
@@ -98,7 +114,7 @@ class Armor(Item):
         verbose_name_plural = 'Armor'
 
 
-class Tool(Item):
+class Tool(Equipment):
     """Subclass of items that are tools."""
 
     requires_proficiency = models.BooleanField(default=False)
@@ -140,3 +156,18 @@ class EquipmentBonus(models.Model):
     class Meta:
         verbose_name = 'Equipment Bonus'
         verbose_name_plural = 'Equipment Bonuses'
+
+class MountAndVehicle(Equipment):
+    """
+    All the mounts and vehicles in the game.
+    """
+
+    VEHICLE_TYPE = [
+        ('Land', 'Land')
+        ('Water', 'Water')
+        ('Air', 'Air')
+    ]
+
+    speed = models.SmallIntegerField(null=True, blank=True,)
+    carrying_capacity = models.SmallIntegerField(null=True, blank=True,)
+    vehicle_type = models.CharField(max_length=16, choices=VEHICLE_TYPE)

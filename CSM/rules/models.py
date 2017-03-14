@@ -5,6 +5,7 @@ The goal is to make these loose enough to allow others to add new instances (suc
 but particular enough that the information will still be programmatically accessible for the actual CSM
 """
 
+# TODO: limit_choices_to for limiting certain features.
 
 # Django imports.
 from django.db import models
@@ -29,6 +30,43 @@ ABILITIES = [
         ('Charisma', 'Charisma'),
     ]
 
+ARMOR_TYPES = [
+        ('Heavy', 'Heavy Armor'),
+        ('Medium', 'Medium Armor'),
+        ('Light', 'Light Armor'),
+        ('Shield', 'Shield'),
+    ]
+
+STATS = [
+        ('Speed', 'Speed'),
+        ('AC', 'Armor Class'),
+        ('Initiative', 'Initiative'),
+        ('Age', 'Age'),
+        ('Size', 'Size'),
+        ('Rest', 'Long Rest Duration'),
+        ('Sight', 'Sight'),
+        ('Sight - Darkvision', 'Sight - Darkvision'),
+        ('HP', 'Hit Points'),
+    ]
+
+ACTIONS = [
+        ('Attack', 'Attack'),
+        ('Cast', 'Cast a Spell'),
+        ('Dash', 'Dash'),
+        ('Disengage', 'Disengage'),
+        ('Dodge', 'Dodge'),
+        ('Help', 'Help'),
+        ('Hide', 'Hide'),
+        ('Ready', 'Ready'),
+        ('Search', 'Search'),
+        ('Use', 'Use an Object'),
+        ('Action', 'Action'),
+        ('Bonus', 'Bonus Action'),
+        ('Reaction', 'Reaction'),
+        ('Move', 'Move'),
+        ('None', 'None'),
+    ]
+
 
 class Subrace(models.Model):
     """Subraces for races."""
@@ -38,20 +76,14 @@ class Subrace(models.Model):
     description = models.CharField(max_length=1024)
 
     # Ability Score Bonuses:
-    ability_score_1 = models.CharField(max_length=16)
+    ability_score_1 = models.CharField(max_length=16, choices=ABILITIES)
     ability_score_1_bonus = models.SmallIntegerField(blank=True, null=True,)
 
-    ability_score_2 = models.CharField(max_length=16, blank=True, null=True)
+    ability_score_2 = models.CharField(max_length=16, choices=ABILITIES, blank=True, null=True)
     ability_score_2_bonus = models.SmallIntegerField(blank=True, null=True,)
 
     # Features:
     features = models.ManyToManyField('Feature', related_name='subrace_features')
-
-    # skill_profs = models.ManyToManyField('Skill', related_name='subrace_skill_profs')
-    # tool_profs = models.ManyToManyField('equipment.Tool', related_name='subrace_tool_profs')
-    # weapon_profs = models.ManyToManyField('equipment.Weapon', related_name='subrace_weapon_profs')
-    # armor_profs = models.ManyToManyField('equipment.Armor', related_name='subrace_armor_profs')
-    languages = models.ManyToManyField('Language', related_name='subrace_languages')
 
     # Additional Starting Equipment:
     subrace_tool_starts = models.ManyToManyField('equipment.Tool', related_name='subrace_tool_starts', blank=True,)
@@ -78,10 +110,6 @@ class Race(models.Model):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=10000)
 
-    # Would like to move these to another module.
-    # suggested_first_names
-    # suggested_last_names
-
     # Ability Bonuses:
     ability_score_1 = models.CharField(max_length=16)
     ability_score_1_bonus = models.SmallIntegerField(blank=True, null=True,)
@@ -105,13 +133,6 @@ class Race(models.Model):
 
     features = models.ManyToManyField('Feature', related_name='race_features')
 
-    # Starting Proficiencies
-    # skill_profs = models.ManyToManyField('Skill', related_name='race_skill_profs')
-    # tool_profs = models.ManyToManyField('equipment.Tool', related_name='race_tool_profs')
-    # weapon_profs = models.ManyToManyField('equipment.Weapon', related_name='race_weapon_profs')
-    # armor_profs = models.ManyToManyField('equipment.Armor', related_name='race_armor_profs')
-    # languages = models.ManyToManyField('Language', related_name='race_languages')
-
     # Starting Equipment:
     race_tool_starts = models.ManyToManyField('equipment.Tool', related_name='race_tool_starts', blank=True,)
     race_weapon_starts = models.ManyToManyField('equipment.Weapon', related_name='race_weapon_starts', blank=True,)
@@ -133,13 +154,7 @@ class PrestigeClass(models.Model):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=10000)
 
-    # Proficiencies
-    # armor_profs = models.ManyToManyField('equipment.Armor', related_name='prestige_class_armor_profs', blank=True, null=True,)
-    # weapons_profs = models.ManyToManyField('equipment.Weapon', related_name='prestige_class_weapon_profs', blank=True, null=True,)
-    # skills_profs = models.ManyToManyField('Skill', related_name='prestige_class_skill_profs', blank=True, null=True,)
-    # tools_profs = models.ManyToManyField('equipment.Tool', related_name='prestige_class_tool_profs', blank=True, null=True,)
-
-    number_of_skills = models.SmallIntegerField(blank=True, null=True,)
+    # number_of_skills = models.SmallIntegerField(blank=True, null=True,)
 
     # Features
     features = models.ManyToManyField('Feature', related_name='prestige_class_features')
@@ -167,12 +182,6 @@ class Class(models.Model):
 
     saving_throw_1 = models.CharField(max_length=16, choices=ABILITIES)
     saving_throw_2 = models.CharField(max_length=16, choices=ABILITIES, blank=True, null=True,)
-
-    # Proficiencies
-    # armor_profs = models.ManyToManyField('equipment.Armor', related_name='class_armor_profs', blank=True, null=True,)
-    # weapons_profs = models.ManyToManyField('equipment.Weapon', related_name='classes_weapon_profs', blank=True, null=True,)
-    # skills_profs = models.ManyToManyField('Skill', related_name='classes_skill_profs')
-    number_of_skills = models.SmallIntegerField()
 
     # Starting Wealth/Equipment
     starting_gold = models.SmallIntegerField(blank=True, null=True,)
@@ -203,52 +212,67 @@ class Feature(models.Model):
 
     # Basic Information:
     name = models.CharField(max_length=128)
-    description = models.CharField(max_length=10000)
+    description = models.TextField(max_length=10000)
 
-    # action
-    # action_constraint_start
-    # action_constraint_end
-    # action_duration
-    # action_uses_per_day
-    # action_distance
+    # Feature Modifiers
+    is_proficiency = models.BooleanField(default=False,)
+    is_choice = models.BooleanField(default=False,)
+    changes_at_level = models.BooleanField(default=False,)
+    grants_advantage = models.BooleanField(default=False,)
+
+    # Feature Actions
+    action_type = models.CharField(max_length=64, choices=ACTIONS, blank=True, null=True)
+    action_constraint_start = models.CharField(max_length=128, blank=True, null=True)
+    action_constraint_end = models.CharField(max_length=128, blank=True, null=True)
+    action_duration = models.CharField(max_length=128, blank=True, null=True)
+    action_distance = models.CharField(max_length=128, blank=True, null=True)
+    action_use_stat = models.CharField(max_length=128, blank=True, null=True) # TODO: NOT SURE ABOUT THIS ONE....
+    action_uses_per_day = models.CharField(max_length=128, blank=True, null=True)
 
     # Ability Score Modification
-    ability_to_change = models.CharField(max_length=64, choices=ABILITIES, blank=True, null=True,)
+    ability_to_change = models.CharField(max_length=32, choices=ABILITIES, blank=True, null=True,)
     ability_change_amount = models.SmallIntegerField(blank=True, null=True,)
+    stat_to_change = models.CharField(max_length=32, choices=STATS, blank=True, null=True,)
+    stat_change_amount = models.SmallIntegerField(blank=True, null=True,)
 
     # Proficiencies
-    # TODO: Make these many to many fields so that you can have multiple if needed.
-    is_proficiency = models.BooleanField(default=False,)
-    weapon_prof = models.ForeignKey('equipment.Weapon', related_name='feature_weapon_profs', blank=True, null=True,)
-    armor_prof = models.ForeignKey('equipment.Armor', related_name='feature_armor_profs', blank=True, null=True,)
-    tool_prof = models.ForeignKey('equipment.Tool', related_name='feature_tool_profs', blank=True, null=True,)
-    skill_prof = models.ForeignKey('Skill', related_name='feature_skill_profs', blank=True, null=True,)
-    languages_known = models.ForeignKey('Language', related_name='feature_languages', blank=True, null=True,)
+    weapon_prof = models.ManyToManyField('equipment.Weapon', related_name='feature_weapon_profs', blank=True,)
+    armor_prof = models.CharField(max_length=32, choices=ARMOR_TYPES, blank=True, null=True,)
+    tool_prof = models.ManyToManyField('equipment.Tool', related_name='feature_tool_profs', blank=True,)
+    skill_prof = models.ManyToManyField('Skill', related_name='feature_skill_profs', blank=True,)
+    languages_known = models.ManyToManyField('Language', related_name='feature_languages', blank=True,)
 
-    spell_choice = models.ManyToManyField('spells.Spell', related_name='feature_spells', blank=True,)
-    spell_choice_constraint_number = models.SmallIntegerField(blank=True, null=True,)
-    spell_choice_constraint_use = models.CharField(max_length=512, blank=True, null=True,)
+    # Feature Multiple Spells:
+    spell_choice = models.ManyToManyField('spells.Spell', related_name='feature_spell_choices', blank=True,)
+    spell_choice_number = models.SmallIntegerField(blank=True, null=True,)
+    spell_choice_level = models.SmallIntegerField(blank=True, null=True,)
+    spell_choices_class_list = models.CharField(max_length=512, blank=True, null=True,)
 
+    # Feature Single Spell:
+    spell_known = models.ForeignKey('spells.Spell', related_name='feature_spell_known', blank=True, null=True,)
+    spell_known_constraint = models.CharField(max_length=512, blank=True, null=True,)
+
+    # Feature Damage:
     damage_type = models.ForeignKey('DamageType', related_name='feature_damage_types', blank=True, null=True,)
     damage_dice_number = models.SmallIntegerField(blank=True, null=True,)
     damage_dice_size = models.SmallIntegerField(choices=DICE_SIZES, blank=True, null=True,)
     damage_dice_bonus = models.SmallIntegerField(blank=True, null=True,)
 
-    damage_resistance_type = models.ForeignKey('DamageType', related_name='feature_damage_resistance_types', blank=True, null=True,)
-    # spell_resistance
-    condition_resistance = models.ForeignKey('Condition', related_name='feature_conditions', blank=True, null=True,)
+    # Feature Resistances:
+    damage_resistance_type = models.ManyToManyField('DamageType', related_name='feature_damage_resistance_types', blank=True,)
+    spell_resistance = models.BooleanField(default=False,)
+    condition_resistance = models.ManyToManyField('Condition', related_name='feature_conditions', blank=True,)
 
-    long_rest_duration = models.SmallIntegerField(blank=True, null=True,)
-    # change_at_level
-
+    # Feature Prerequisites
     prereq_ability = models.CharField(max_length=16, choices=ABILITIES, blank=True, null=True,)
-    prereq_ability_score = models.SmallIntegerField(blank=True, null=True,)
-    prereq_skill = models.ForeignKey('Skill', related_name='feature_prereq_skill', blank=True, null=True,)
+    prereq_ability_amount = models.SmallIntegerField(blank=True, null=True,)
+    prereq_proficiency = models.ManyToManyField('Feature', related_name='feature_prereq_proficiency', blank=True,)
     prereq_character_level = models.SmallIntegerField(blank=True, null=True,)
     prereq_class = models.ForeignKey('Class', related_name='feature_prereq_class', blank=True, null=True,)
     prereq_class_level = models.SmallIntegerField(blank=True, null=True,)
     prereq_prestige_class = models.ForeignKey('PrestigeClass', related_name='feature_prereq_prestige_class', blank=True, null=True,)
-    prereq_prestige_class_level = models.SmallIntegerField(blank=True, null=True,)
+    prereq_race = models.ForeignKey('Race', related_name='feature_prereq_race', blank=True, null=True,)
+    prereq_subrace = models.ForeignKey('Subrace', related_name='feature_prereq_subrace', blank=True, null=True,)
 
     def __str__(self):
         return self.name
@@ -263,12 +287,6 @@ class Background(models.Model):
     name = models.CharField(max_length=128,)
     description = models.CharField(max_length=10000,)
 
-    # Proficiencies
-    # skill_profs = models.ManyToManyField('Skill', related_name='background_skill_profs', blank=True, null=True)
-    # tool_profs = models.ManyToManyField('equipment.Tool', related_name='background_tool_profs', blank=True, null=True)
-    # weapon_profs = models.ManyToManyField('equipment.Weapon', related_name='background_item_profs', blank=True, null=True)
-    # armor_profs = models.ManyToManyField('equipment.Armor', related_name='background_armor_profs', blank=True, null=True)
-
     languages = models.ManyToManyField('Language', related_name='background_languages', blank=True,)
     features = models.ForeignKey('Feature', related_name='background_features', blank=True, null=True,)
 
@@ -278,7 +296,9 @@ class Background(models.Model):
     item_starts = models.ManyToManyField('equipment.Item', related_name='background_item_starts', blank=True,)
     weapon_starts = models.ManyToManyField('equipment.Weapon', related_name='background_weapon_starts', blank=True,)
     armor_starts = models.ManyToManyField('equipment.Armor', related_name='background_armor_starts', blank=True,)
+    specials = models.CharField(max_length=512, null=True, blank=True)
 
+    # Suggested Flair
     suggested_personality_traits = models.ManyToManyField('PersonalityTrait', related_name='background_personality_traits', blank=True,)
     suggested_ideals = models.ManyToManyField('Ideal', related_name='background_ideals', blank=True,)
     suggested_bonds = models.ManyToManyField('Bond', related_name='background_bonds', blank=True,)
@@ -324,6 +344,8 @@ class DamageType(models.Model):
 
 class Condition(models.Model):
     """Model for different conditions."""
+
+    # TODO: Make a better model for programmatic access.
 
     name = models.CharField(max_length=128,)
     description = models.CharField(max_length=1024,)
