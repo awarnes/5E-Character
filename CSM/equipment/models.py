@@ -11,7 +11,6 @@ from django.db import models
 class Equipment(models.Model):
     """Base class for all things you could hold (or not) in 5E."""
 
-    name = models.CharField(max_length=100, unique=True, help_text='Name of the item.')
     item_type = models.CharField(max_length=128)
     description = models.CharField(max_length=1024)
 
@@ -32,6 +31,8 @@ class Equipment(models.Model):
 
 class Item(Equipment):
     """Contains information on other items in the world."""
+
+    name = models.CharField(max_length=100, unique=True, help_text='Name of the item.')
 
     uses = models.SmallIntegerField(null=True, blank=True,)
     space = models.CharField(null=True, blank=True, max_length=128)
@@ -67,6 +68,8 @@ class Weapon(Equipment):
         ('Ranged', 'Ranged'),
     ]
 
+    name = models.CharField(max_length=100, unique=True, help_text='Name of the item.')
+
     weapon_type = models.CharField(max_length=16, choices=WEAPON_TYPE, help_text='')
     melee_or_ranged = models.CharField(max_length=16, choices=MELEE_RANGED, help_text='')
     normal_range = models.SmallIntegerField(null=True, blank=True, help_text='If a ranged weapon, any attack over normal range is made at disadvantage.')
@@ -97,6 +100,8 @@ class Armor(Equipment):
         ('10 minutes', '10 minutes'),
     ]
 
+    name = models.CharField(max_length=100, unique=True, help_text='Name of the item.')
+
     armor_type = models.CharField(max_length=16, choices=ARMOR_TYPES)
 
     base_armor_class = models.SmallIntegerField(null=True, blank=True)
@@ -116,6 +121,8 @@ class Armor(Equipment):
 
 class Tool(Equipment):
     """Subclass of items that are tools."""
+
+    name = models.CharField(max_length=100, unique=True, help_text='Name of the item.')
 
     requires_proficiency = models.BooleanField(default=False)
     tool_type = models.CharField(max_length=128)
@@ -168,6 +175,8 @@ class MountAndVehicle(Equipment):
         ('Air', 'Air'),
     ]
 
-    speed = models.SmallIntegerField(null=True, blank=True,)
+    name = models.CharField(max_length=100, unique=True, help_text='Name of the item.')
+
+    speed = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True,)
     carrying_capacity = models.SmallIntegerField(null=True, blank=True,)
     vehicle_type = models.CharField(max_length=16, choices=VEHICLE_TYPE)

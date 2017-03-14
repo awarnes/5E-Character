@@ -34,7 +34,5 @@ class Command(BaseCommand):
 
             for feature_name in klass_features:
                 feature = Feature.objects.get(name=feature_name)
-                print(feature)
-                # import pdb;pdb.set_trace()
 
                 prestige_entry.features.add(feature)
