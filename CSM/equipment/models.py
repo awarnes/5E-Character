@@ -180,3 +180,7 @@ class MountAndVehicle(Equipment):
     speed = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True,)
     carrying_capacity = models.SmallIntegerField(null=True, blank=True,)
     vehicle_type = models.CharField(max_length=16, choices=VEHICLE_TYPE)
+
+    class Meta:
+        verbose_name = "Mount and Vehicle"
+        verbose_name_plural = "Mounts and Vehicles"

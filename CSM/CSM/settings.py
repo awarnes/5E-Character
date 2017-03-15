@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from _private.secrets import GMAIL_PASSWORD
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'rules',
     'api',
     'rest_framework',
+    '_private',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +147,16 @@ STATICFILES_DIR = [
     os.path.join(BASE_DIR, 'character', 'static'),
     os.path.join(BASE_DIR, 'pages', 'static'),
 ]
+
+
+"""Django email Settings"""
+
+DEFAULT_FROM_EMAIL = "alexander.warnes@gmail.com"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "alexander.warnes"
+EMAIL_HOST_PASSWORD = GMAIL_PASSWORD
+EMAIL_PORT = 587
+EMAIL_SUBJECT_PREFIX = '[*CSM*] '
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

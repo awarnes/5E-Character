@@ -5,7 +5,8 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 
 # module level imports
-from rules.models import Race
+from rules.models import Race, Alignment, Feature, Subrace
+from equipment.models import Item, Tool, Weapon, Armor
 
 
 class Command(BaseCommand):
@@ -23,7 +24,7 @@ class Command(BaseCommand):
 
         for race in races.iterrows():
 
-            race_entry = Race(
+            race_entry = Race.objects.create(
                 name=race[1][0],
                 description=race[1][1],
                 ability_score_1=race[1][2],
@@ -32,7 +33,7 @@ class Command(BaseCommand):
                 ability_score_2_bonus=race[1][5],
                 age_adult=race[1][6],
                 age_mortality=race[1][7],
-                typical_alignment=race[1][8],
+                typical_alignment=Alignment.objects.filter(name=race[1][8])[0],
                 size=race[1][9],
                 typical_height_min=race[1][10],
                 typical_height_max=race[1][11],
@@ -42,34 +43,48 @@ class Command(BaseCommand):
                 speed_special=race[1][15],
             )
 
+            # alignment = Alignment.objects.filter(name=race[1][8])
+            #
+            # race_entry.typical_alignment = alignment[0]
+
             race_features = race[1][16].split(', ')
 
-            for feature in race_features:
-                race_entry.features.add(feature)
+            for feature_name in race_features:
+                feature = Feature.objects.filter(name=feature_name)
+
+                race_entry.features.add(feature[0])
 
             race_tool_starts = race[1][17].split(', ')
 
-            for tool in race_tool_starts:
-                race_entry.race_tool_starts.add(tool)
+            for tool_name in race_tool_starts:
+                tool = Tool.objects.filter(name=tool_name)
+
+                race_entry.race_tool_starts.add(tool[0])
 
             race_weapon_starts = race[1][18].split(', ')
 
-            for weapon in race_weapon_starts:
-                race_entry.race_weapon_starts.add(weapon)
+            for weapon_name in race_weapon_starts:
+                weapon = Weapon.objects.filter(name=weapon_name)
+
+                race_entry.race_weapon_starts.add(weapon[0])
 
             race_armor_starts = race[1][19].split(', ')
 
-            for armor in race_armor_starts:
-                race_entry.race_armor_starts.add(armor)
+            for armor_name in race_armor_starts:
+                armor = Armor.objects.filter(name=armor_name)
+
+                race_entry.race_armor_starts.add(armor[0])
 
             race_item_starts = race[1][20].split(', ')
 
-            for item in race_item_starts:
-                race_entry.race_item_starts.add(item)
+            for item_name in race_item_starts:
+                item = Item.objects.filter(name=item_name)
+
+                race_entry.race_item_starts.add(item[0])
 
             race_subraces = race[1][21].split(', ')
 
-            for subrace in race_subraces:
-                race_entry.subraces.add(subrace)
+            for subrace_name in race_subraces:
+                subrace = Subrace.objects.filter(name=subrace_name)
 
-            race_entry.save()
+                race_entry.subraces.add(subrace[0])

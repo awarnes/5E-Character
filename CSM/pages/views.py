@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q
-
+from django.contrib import messages
 
 # Create your views here.
 
@@ -8,6 +8,8 @@ from django.db.models import Q
 def landing(request):
 
     context = dict()
+
+    messages.info(request, "Hello there! Welcome!")
 
     return render(request, 'landing.html', context)
 

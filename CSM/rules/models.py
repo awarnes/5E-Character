@@ -288,7 +288,7 @@ class Background(models.Model):
     description = models.CharField(max_length=10000,)
 
     languages = models.ManyToManyField('Language', related_name='background_languages', blank=True,)
-    features = models.ForeignKey('Feature', related_name='background_features', blank=True, null=True,)
+    features = models.ManyToManyField('Feature', related_name='background_features', blank=True,)
 
     # Starting Wealth/Equipment
     gold_start = models.SmallIntegerField()
@@ -359,7 +359,7 @@ class Alignment(models.Model):
 
     name = models.CharField(max_length=64,)
     description = models.CharField(max_length=1024,)
-
+    # TODO: Add examples column.
     def __str__(self):
         return self.name
 

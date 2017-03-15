@@ -5,7 +5,8 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 
 # module level imports
-from rules.models import Background
+from rules.models import Background, Feature
+from equipment.models import Item, Tool, Weapon, Armor
 
 
 class Command(BaseCommand):
@@ -22,44 +23,59 @@ class Command(BaseCommand):
         backgrounds = backgrounds.dropna()
 
         for background in backgrounds.iterrows():
+            # import pdb;pdb.set_trace()
 
-            background_entry = Background(
+            background_entry = Background.objects.create(
                 name=background[1][0],
                 description=background[1][1],
-                languages=background[1][2],
                 gold_start=background[1][4],
-                special=background[1][9],
-                suggested_personality_traits=background[1][10],
-                suggested_ideals=background[1][11],
-                suggested_bonds=background[1][12],
-                suggested_flaws=background[1][13],
+                specials=background[1][9],
+                # suggested_personality_traits=background[1][10],
+                # suggested_ideals=background[1][11],
+                # suggested_bonds=background[1][12],
+                # suggested_flaws=background[1][13],
             )
 
             # TODO: Fix suggested flaws etc for external DB and loader.
 
             background_features = background[1][3].split(', ')
 
-            for feature in background_features:
-                background_entry.features.add(feature)
+            for feature_name in background_features:
+                print(feature_name)
+                feature = Feature.objects.filter(name=feature_name)
+
+                background_entry.features.add(feature[0])
 
             background_tool_starts = background[1][5].split(', ')
 
-            for tool in background_tool_starts:
-                background_entry.subrace_tool_starts.add(tool)
+            for tool_name in background_tool_starts:
+
+                tool = Tool.objects.filter(name=tool_name)
+
+                background_entry.tool_starts.add(tool[0])
 
             background_weapon_starts = background[1][7].split(', ')
 
-            for weapon in background_weapon_starts:
-                background_entry.subrace_weapon_starts.add(weapon)
+            for weapon_name in background_weapon_starts:
+
+                weapon = Weapon.objects.filter(name=weapon_name)
+
+                background_entry.weapon_starts.add(weapon[0])
 
             background_armor_starts = background[1][8].split(', ')
 
-            for armor in background_armor_starts:
-                background_entry.subrace_armor_starts.add(armor)
+            for armor_name in background_armor_starts:
+
+                armor = Armor.objects.filter(name=armor_name)
+
+                background_entry.armor_starts.add(armor[0])
 
             background_item_starts = background[1][6].split(', ')
 
-            for item in background_item_starts:
-                background_entry.subrace_item_starts.add(item)
+            for item_name in background_item_starts:
+                print(item_name)
 
-            background_entry.save()
+                item = Item.objects.filter(name=item_name)
+
+                background_entry.item_starts.add(item[0])
+

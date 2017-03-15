@@ -5,7 +5,8 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 
 # module level imports
-from rules.models import Class
+from rules.models import Class, PrestigeClass, Feature
+from equipment.models import Weapon, Item, Tool, Armor
 
 
 class Command(BaseCommand):
@@ -23,7 +24,7 @@ class Command(BaseCommand):
 
         for klass in classes.iterrows():
 
-            class_entry = Class(
+            class_entry = Class.objects.create(
                 name=klass[1][0],
                 description=klass[1][1],
                 hit_die_size=klass[1][2],
@@ -36,32 +37,49 @@ class Command(BaseCommand):
 
             class_tool_starts = klass[1][11].split(', ')
 
-            for tool in class_tool_starts:
+            for tool_name in class_tool_starts:
+
+                tool = Tool.objects.get(name=tool_name)
+
                 class_entry.starting_tools.add(tool)
 
             class_weapon_starts = klass[1][8].split(', ')
 
-            for weapon in class_weapon_starts:
+            for weapon_name in class_weapon_starts:
+
+                weapon = Weapon.objects.get(name=weapon_name)
+
                 class_entry.starting_weapons.add(weapon)
 
             class_armor_starts = klass[1][9].split(', ')
 
-            for armor in class_armor_starts:
+            for armor_name in class_armor_starts:
+
+                armor = Armor.objects.get(name=armor_name)
+
                 class_entry.starting_armor.add(armor)
 
             class_item_starts = klass[1][10].split(', ')
 
-            for item in class_item_starts:
+            for item_name in class_item_starts:
+
+                item = Item.objects.get(name=item_name)
+
                 class_entry.starting_items.add(item)
 
             klass_features = klass[1][12].split(', ')
 
-            for feature in klass_features:
+            for feature_name in klass_features:
+
+                print(feature_name)
+                feature = Feature.objects.get(name=feature_name)
+
                 class_entry.features.add(feature)
 
             klass_prestige = klass[1][13].split(', ')
 
-            for prestige in klass_prestige:
-                class_entry.prestige_classes.add(prestige)
+            for prestige_name in klass_prestige:
 
-            class_entry.save()
+                prestige = PrestigeClass.objects.get(name=prestige_name)
+
+                class_entry.prestige_classes.add(prestige)
