@@ -2,7 +2,7 @@
 Models for all equipment in the game.
 """
 
-# TODO: Add a new base class: Equipment and subclass rest off of that. Items are other things >> Armor is not an Item.
+# TODO: ADD SRD BOOLEAN FOR ALL MODELS
 
 # Django Imports
 from django.db import models
@@ -25,8 +25,8 @@ class Equipment(models.Model):
     special = models.CharField(max_length=1024, null=True, blank=True,
                                help_text='General field for additional rules.', )
 
-    def __str__(self):
-        return self.name
+    # TODO: CLASS META: ABSTRACT = TRUE and DJANGO-POLYMORPHIC
+
 
 
 class Item(Equipment):
@@ -163,6 +163,7 @@ class EquipmentBonus(models.Model):
     class Meta:
         verbose_name = 'Equipment Bonus'
         verbose_name_plural = 'Equipment Bonuses'
+
 
 class MountAndVehicle(Equipment):
     """

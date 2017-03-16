@@ -5,7 +5,8 @@ The goal is to make these loose enough to allow others to add new instances (suc
 but particular enough that the information will still be programmatically accessible for the actual CSM
 """
 
-# TODO: limit_choices_to for limiting certain features.
+# TODO: limit_choices_to for limiting certain features. ??
+# TODO: ADD SRD BOOLEAN FOR ALL MODELS!
 
 # Django imports.
 from django.db import models

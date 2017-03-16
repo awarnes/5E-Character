@@ -41,7 +41,7 @@ class Command(BaseCommand):
             background_features = background[1][3].split(', ')
 
             for feature_name in background_features:
-                print(feature_name)
+
                 feature = Feature.objects.filter(name=feature_name)
 
                 background_entry.features.add(feature[0])
@@ -73,7 +73,6 @@ class Command(BaseCommand):
             background_item_starts = background[1][6].split(', ')
 
             for item_name in background_item_starts:
-                print(item_name)
 
                 item = Item.objects.filter(name=item_name)
 

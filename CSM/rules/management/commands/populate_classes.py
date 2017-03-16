@@ -71,7 +71,6 @@ class Command(BaseCommand):
 
             for feature_name in klass_features:
 
-                print(feature_name)
                 feature = Feature.objects.get(name=feature_name)
 
                 class_entry.features.add(feature)

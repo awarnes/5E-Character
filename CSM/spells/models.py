@@ -1,6 +1,13 @@
+"""
+Model for spells in 5e DnD.
+"""
+
+
+# Django Imports:
 from django.db import models
 
-# Create your models here.
+
+# TODO: ADD SRD BOOLEAN!
 
 class Spell(models.Model):
     """Gives basic interface of spells in 5th Edition Dungeons and Dragons"""
@@ -113,10 +120,3 @@ class Spell(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class SpellBook(models.Model):
-    """
-    Model that stores all spells available to a character.
-    """
-
