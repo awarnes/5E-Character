@@ -178,7 +178,7 @@ class Character(models.Model):
         :return: int()
         """
 
-        # TODO: interact with features, current dexterity to total intitiative bonus.
+        # TODO: interact with features, current dexterity to total initiative bonus.
 
     def get_armor_class(self):
         """
@@ -218,42 +218,3 @@ class SpellsReady(models.Model):
     class Meta:
         verbose_name = "Spell Ready"
         verbose_name_plural = "Spells Ready"
-
-
-# May not need to use this through table, as all skills a character has they will be proficient in.
-# if they don't have the skill, the calculation will just add normal results w/o prof bonus
-#
-# class SkillProficiency(models.Model):
-#     """Through table for if a character is proficient with a skill."""
-#
-#     character = models.ForeignKey(Character, related_name='skillproficiencies')
-#     skills = models.ForeignKey('rules.Skill', related_name='skillproficiencies')
-#
-#     proficient = models.BooleanField(default=False)
-
-#
-# class ToolProficiency(models.Model):
-#     """Through table to check for proficiency of a tool."""
-#
-#     character = models.ForeignKey(Character, related_name='toolproficiencies')
-#     tool = models.ForeignKey('equipment.Tool', related_name='toolproficiencies')
-#
-#     is_proficient = models.BooleanField(default=False)
-#
-#
-# class ArmorProficiency(models.Model):
-#     """Through table to check for proficiency of a tool."""
-#
-#     character = models.ForeignKey(Character, related_name='armorproficiencies')
-#     armor = models.ForeignKey('equipment.Armor', related_name='armorproficiencies')
-#
-#     is_proficient = models.BooleanField(default=False)
-#
-#
-# class WeaponProficiency(models.Model):
-#     """Through table to check for proficiency of a tool."""
-#
-#     character = models.ForeignKey(Character, related_name='weaponproficiencies')
-#     weapon = models.ForeignKey('equipment.Weapon', related_name='weaponproficiencies')
-#
-#     is_proficient = models.BooleanField(default=False)

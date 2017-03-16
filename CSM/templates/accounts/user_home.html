@@ -1,26 +1,9 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
+{% block title %}Profile for {{ user.username }}{% endblock %}
 
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta author="Alexander B Warnes">
 
-        <link rel="icon" type="image/jpg" href="{% static '/pages/img/logo_favicon.jpg' %}">
-        {% block title %}Profile for {{ user.username }}{% endblock %}
-
-        {% include 'includes/jquery.html' %}
-
-        {% include 'includes/bootstrap.html' %}
-
-    </head>
-
-    <body>
-
-        {% block header %}
-            {% include 'includes/header.html' %}
-        {% endblock %}
 
         {% block main %}
             {% include 'includes/navbar.html' %}

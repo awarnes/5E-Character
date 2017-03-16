@@ -28,7 +28,6 @@ class Equipment(models.Model):
     # TODO: CLASS META: ABSTRACT = TRUE and DJANGO-POLYMORPHIC
 
 
-
 class Item(Equipment):
     """Contains information on other items in the world."""
 

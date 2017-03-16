@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search the Database!{% endblock %}
+
+{% block main %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="input-group">
+        <span class="form-control">{{ form.as_p }}</span>
+        <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button">Search!</button>
+        </span>
+    </div>
+
+</form>
+{% endblock %}

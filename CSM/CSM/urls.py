@@ -28,8 +28,8 @@ from django.conf.urls import include
 
 # Imported General Views:
 from pages.views import landing
-from pages.views import about_us
-from pages.views import report_issue
+from pages.views import about_us, report_issue
+from pages.views import search_home
 
 # Imported API FBVs:
 from api.views import (get_spell_information, spell_book, specific_user_character, user_character_names)
@@ -86,11 +86,12 @@ urlpatterns = [
     url(r'^user/characters/names/$', user_character_names, name='user_char_names'),
     url(r'^user/characters/specific_one/$', specific_user_character, name='specific_user_char'),
 
+    # Search Pages:
+    url(r'^search/$', search_home, name='search_home'),
+
     # Company Information
     url(r'^about_us/$', about_us, name='contact'),
     url(r'^report_issue/$', report_issue, name='report'),
-
-
 
     # DRF configuration
     url(r'^api/v1/', include(router.urls)),

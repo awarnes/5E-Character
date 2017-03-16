@@ -224,7 +224,7 @@ def spell_book(request):
 
     context = {'spells1': spells_1, 'spells2': spells_2, 'spells3': spells_3, 'form': form}
 
-    return render(request, 'spellbook.html', context)
+    return render(request, 'database_view/spellbook.html', context)
 
 
 # Character API endpoints:

@@ -84,8 +84,8 @@ class ToolModelSerializer(serializers.ModelSerializer):
 class WeaponModelSerializer(serializers.ModelSerializer):
     """Serializer for the Weapon model."""
 
-    properties = WeaponPropertyModelSerializer
-    base_damage_type = DamageTypeModelSerializer
+    properties = WeaponPropertyModelSerializer(many=True)
+    base_damage_type = DamageTypeModelSerializer(many=True)
 
     class Meta:
         model = Weapon
