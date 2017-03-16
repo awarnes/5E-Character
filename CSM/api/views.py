@@ -5,7 +5,7 @@ from django.db.models import Q
 
 # DRF Imports:
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, detail_route
 from rest_framework.response import Response
 from rest_framework import viewsets
 
@@ -23,7 +23,7 @@ from .forms import SearchSpells #SearchUserCharacters
 from spells.models import Spell
 from character.models import Character
 from accounts.models import Member
-from equipment.models import Weapon, WeaponProperty, Armor, Item, Tool, MountAndVehicle
+from equipment.models import (Weapon, WeaponProperty, Armor, Item, Tool, MountAndVehicle)
 from rules.models import (Subrace, Race, PrestigeClass, Class, Feature, Background,
                           Skill, Language, DamageType, Condition, Alignment)
 
@@ -127,6 +127,34 @@ class AlignmentViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Alignment.objects.all()
     serializer_class = AlignmentModelSerializer
 
+    @detail_route(methods=['GET'])
+    def alignment_detail(self, request, pk=None):
+        query = request.GET.get('query')
+        alignment = Alignment.objects.filter(name__icontains=query)
+
+        serializer = AlignmentModelSerializer(alignment, many=False)
+
+        if bool(alignment) == True:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+# @api_view(['GET'])
+# def one_weapon(request):
+#
+#     query = request.GET.get('query')
+#     weapon = Weapon.objects.filter(name__icontains=query)
+#
+#     serializer = WeaponModelSerializer(weapon, many=True)
+#
+#     if bool(weapon) == True:
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+#     else:
+#         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 # Equipment API endpoints:
 class ItemViewSet(viewsets.ReadOnlyModelViewSet):

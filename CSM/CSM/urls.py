@@ -76,6 +76,8 @@ urlpatterns = [
     url(r'^spells/$', spell_book, name='spells'),
     url(r'^spells/spell/$', get_spell_information, name='spell_info'),
 
+    # url(r'^search/weapon/$', one_weapon, name='one_weapon'),
+
     # User Accounts
     url(r'^login/$', auth_views.login, {'template_name': 'accounts/login.html'}, name='login'),
     url(r'^register/$', register_user, name='register'),

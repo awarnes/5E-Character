@@ -1,22 +1,12 @@
 {% load static %}
 
-{#<header class="row">#}
-{#    <div class="col-md-4">#}
-{#        <img src="{% static 'pages/img/logo_medium_small.jpg' %}">#}
-{#    </div>#}
-{##}
-{#    <div class="col-md-6">#}
-{#        <h1 id="title"></h1>#}
-{#    </div>#}
-{#</header>#}
-
-
+<link type="text/css" rel="stylesheet" href='{% static "pages/css/header.css" %}'>
 
 <nav class="navbar navbar-static-top navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -26,34 +16,42 @@
             </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active" id="first-link"></li>
-                <li id="second-link"></li>
-                <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">One more separated link</a></li>
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <div class="nav-divider">
+                <ul class="nav navbar-nav">
+                    <li id="first-link"></li>
+                    <li id="second-link"></li>
+                    <li class="dropdown hidden" id="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Other Stuff <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                </li>
-            </ul>
-
-            <div class="navbar-text-center">
-                <p class="navbar-text"><strong id="title"></strong></p>
             </div>
 
-            <form class="navbar-form navbar-right">
-                <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search">
+{#            TODO: MAKE THIS FUCKING CENTERED!#}
+            <div class="nav-divider">
+                <div class="navbar-text">
+                    <p><strong id="title"></strong></p>
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+            </div>
+
+            <div class="nav-divider">
+                <form class="navbar-form navbar-right" action="{% url 'search_home' %}" method="POST" id="search_bar">
+                    {% csrf_token %}
+                    <div class="form-group">
+                    <input type="text" class="form-control" name='query' placeholder="Search the Database!">
+                    </div>
+                    <button type="submit" class="btn btn-default" >Submit</button>
+                </form>
+            </div>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
@@ -64,16 +62,28 @@
 
     var $first = $('#first-link');
     var $second = $('#second-link');
+    var $drop = $('#dropdown');
 
     {% if user.is_authenticated %}
         $first.html('<a href="{% url 'home' %}">Your Profile<span class="sr-only">(current)</span></a>');
         $second.html('<a href="#">Your Characters</a>');
+        $drop.toggleClass('hidden')
 
     {% else %}
         $first.html('<a href="{% url 'login' %}">Log In<span class="sr-only">(current)</span></a>');
         $second.html('<a href="{% url 'register' %}">Register</a>');
     {% endif %}
 
+    $first.hover(function(){
+        $(this).toggleClass('active');
+    })
 
+    $second.hover(function(){
+        $(this).toggleClass('active');
+    })
+
+    $drop.hover(function(){
+            $(this).toggleClass('active');
+        })
 
 </script>

@@ -4,14 +4,46 @@
 {% block title %}Search the Database!{% endblock %}
 
 {% block main %}
-<form action="" method="POST">
-    {% csrf_token %}
-    <div class="input-group">
-        <span class="form-control">{{ form.as_p }}</span>
-        <span class="input-group-btn">
-            <button class="btn btn-secondary" type="button">Search!</button>
-        </span>
-    </div>
 
-</form>
+    <main>
+        <h1>Results for <em>{{ query }} ({{ total }}):</em></h1>
+
+        <section>
+        <ul>
+            {% for term, result in results.items %}
+            <li class="list-group-item">{{ term }}</li>
+                {% for item in result %}
+                    <li class="list-group-item text-center search_term" data-type={{ term }}>{{ item }}</li>
+
+                {% endfor %}
+                {% empty %}
+                        <li class="list-group-item text-center">Sorry! I couldn't find anything called <em>{{ query }}</em>!</li>
+            {% endfor %}
+        </ul>
+        </section>
+    </main>
+
+    <div class="modal fade" id="output">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title" id="name"></h1>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Description:</p>
+                        <p id="description"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn">Open</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script type="text/javascript" src="{% static 'pages/js/search_home.js' %}"></script>
+
 {% endblock %}
+
