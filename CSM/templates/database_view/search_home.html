@@ -13,11 +13,11 @@
             {% for term, result in results.items %}
             <li class="list-group-item search_type" data-type='{{ term }}'>{{ term }}</li>
                 {% for item in result %}
-                    <li class="list-group-item text-center search_query" data-type='{{ term }}'>{{ item }}</li>
-
+                    <li class="list-group-item text-center search_query" data-type='{{ term }}' data-slug="{{ item.slug }}">{{ item.name }}</li>
                 {% endfor %}
                 {% empty %}
                         <li class="list-group-item text-center">Sorry! I couldn't find anything called <em>{{ query }}</em>!</li>
+
             {% endfor %}
         </ul>
         </section>
@@ -27,7 +27,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title" id="name"></h1>
+                        <h1 class="modal-title" data-slug='' data-type='' id="name"></h1>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -37,13 +37,22 @@
                         <p id="description"></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn">Open</button>
+                        <button type="button" class="btn btn-primary" id="open_details">Open</button>
                     </div>
                 </div>
             </div>
         </div>
 
     <script type="text/javascript" src="{% static 'pages/js/search_home.js' %}"></script>
+    <script type="text/javascript">
+        $('#open_details').on('click', function(evt){
+            var $type = $('#name').data('type');
+            var $slug = $('#name').data('slug')
+            window.location.replace('/' + $type + '/details/' + $slug + '/')
+
+        })
+
+    </script>
 
 {% endblock %}
 

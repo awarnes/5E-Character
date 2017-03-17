@@ -30,6 +30,9 @@ from django.conf.urls import include
 from pages.views import landing
 from pages.views import about_us, report_issue
 from pages.views import search_home
+from pages.views import (spell_details, subrace_details, race_details, prestige_details, class_details, feature_details,
+                         background_details, skill_details, language_details, condition_details, item_details, weapon_details,
+                         armor_details, tool_details, mount_details)
 
 # Imported API FBVs:
 from api.views import (spell_book, specific_user_character, user_character_names)
@@ -86,6 +89,25 @@ urlpatterns = [
     url(r'^home/$', user_home, name='home'),
     url(r'^user/characters/names/$', user_character_names, name='user_char_names'),
     url(r'^user/characters/specific_one/$', specific_user_character, name='specific_user_char'),
+
+    # Database Detail Pages:
+    url(r'^spells/details/(?P<slug>(\w+[a-z\-]+))', spell_details, name='spell_details'),
+    url(r'^subraces/details/(?P<slug>(\w+[a-z\-]+))', subrace_details, name='subrace_details'),
+    url(r'^races/details/(?P<slug>(\w+[a-z\-]+))', race_details, name='race_details'),
+    url(r'^prestige_classes/details/(?P<slug>(\w+[a-z\-]+))', prestige_details, name='prestige_details'),
+    url(r'^classes/details/(?P<slug>(\w+[a-z\-]+))', class_details, name='class_details'),
+    url(r'^features/details/(?P<slug>(\w+[a-z\-]+))', feature_details, name='feature_details'),
+    url(r'^backgrounds/details/(?P<slug>(\w+[a-z\-]+))', background_details, name='background_details'),
+    url(r'^skills/details/(?P<slug>(\w+[a-z\-]+))', skill_details, name='skill_details'),
+    url(r'^languages/details/(?P<slug>(\w+[a-z\-]+))', language_details, name='language_details'),
+    url(r'^conditions/details/(?P<slug>(\w+[a-z\-]+))', condition_details, name='condition_details'),
+    url(r'^items/details/(?P<slug>(\w+[a-z\-]+))', item_details, name='item_details'),
+    url(r'^weapons/details/(?P<slug>(\w+[a-z\-]+))', weapon_details, name='weapon_details'),
+    url(r'^armors/details/(?P<slug>(\w+[a-z\-]+))', armor_details, name='armor_details'),
+    url(r'^tools/details/(?P<slug>(\w+[a-z\-]+))', tool_details, name='tool_details'),
+    url(r'^mounts/details/(?P<slug>(\w+[a-z\-]+))', mount_details, name='mount_details'),
+
+
 
     # Search Pages:
     url(r'^search/$', search_home, name='search_home'),

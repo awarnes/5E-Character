@@ -95,12 +95,6 @@ class Character(models.Model):
     # Actions >> May not need to use if just pulling through races and etc.
     features = models.ManyToManyField('rules.Feature', related_name='character_features')
 
-    # # Proficiencies >> Comes from features through classes, prestige classes, races, or subraces now.
-    # skills_prof = models.ManyToManyField('rules.Skill', related_name='character_skill_profs')  # may use through=SkillProficiency
-    # tools_prof = models.ManyToManyField('equipment.Tool', related_name='character_tool_profs', blank=True, null=True,)
-    # armor_prof = models.ManyToManyField('equipment.Armor', related_name='character_armor_profs', blank=True, null=True,)
-    # weapons_prof = models.ManyToManyField('equipment.Weapon', related_name='character_weapon_profs', blank=True, null=True,)
-
     # Combat
     conditions = models.ManyToManyField('rules.Condition', related_name='character_conditions', blank=True,)
     death_fails = models.SmallIntegerField(default=0)
@@ -124,8 +118,8 @@ class Character(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
+            self.slug = slugify(self.char_name)
+        # super().save(*args, **kwargs)
 
     def get_prof_bonus(self):
         """
@@ -176,9 +170,11 @@ class Character(models.Model):
         :return: an int()
         """
 
-        # TODO: get information from through table: ClassLevels
+        levels = self.char_classes.all().values_list('class_level', flat=True)
 
-        return 1
+        result = sum(**levels)
+
+        return result
 
     def get_initiative_bonus(self):
         """

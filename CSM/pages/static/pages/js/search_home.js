@@ -7,16 +7,11 @@ $(document).ready(function(){
 
     $('.search_query').on('click', function (evt){
 
-        var $query = $(this).text().toLowerCase();
-
-
-        $query = $query.replace(/[^\w ]/g, '');
+        var $query = $(this).data('slug');
 
         var re = /\s/g;
 
-        $query = $query.replace(re, '-');
-
-        var $type = $(this).attr('data-type').toLowerCase();
+        var $type = $(this).data('type').toLowerCase();
 
         $type = $type.replace(re, '_');
 
@@ -27,16 +22,22 @@ $(document).ready(function(){
         if ($type === 'spells') {
             $.get('/api/v1/spells/spell/'+$query, function (data){
                 $('#name').text(data.name);
+                $('#name').data('type', $type);
+                $('#name').data('slug', $query);
                 $('#description').text(data.description);
             })
         }   else if ($equipment.indexOf($type) != -1) {
             $.get('/api/v1/equipment/' + $type + '/' + $query, function (data){
                 $('#name').text(data.name);
+                $('#name').data('type', $type);
+                $('#name').data('slug', $query);
                 $('#description').text(data.description);
             })
         }  else {
             $.get('/api/v1/rules/' + $type + '/' + $query, function (data){
                 $('#name').text(data.name);
+                $('#name').data('type', $type);
+                $('#name').data('slug', $query);
                 $('#description').text(data.description);
             })
         }

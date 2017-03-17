@@ -36,10 +36,16 @@
         {% block header %}
             {% include 'includes/header.html' %}
         {% endblock %}
-
-        {% block main %}
-            <div>Default information</div>
-        {% endblock %}
+        <main class="col-md-12">
+            <section class="col-md-4 hidden-sm hidden-xs">
+                {% include 'includes/recent_news.html' %}
+            </section>
+            <section class="col-md-8 col-xs-12">
+                {% block main %}
+                    <div>Default information</div>
+                {% endblock %}
+            </section>
+        </main>
 
         {% block footer %}
             {% include 'includes/footer.html' %}
