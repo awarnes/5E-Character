@@ -64,20 +64,20 @@ def search_home(request):
 
         for model in models:
             found = model.objects.filter(name__icontains=query)
-            model_name = re.findall(r'[A-Z]\w+', str(model))[0]
+            model_name = ' '.join(re.findall(r'[A-Z][a-z]+', str(model)))
 
             if found and model_name[-1] == 's':
                 model_name += 'es'
                 results[model_name] = list()
-                for name in found:
-                    results[model_name].append(name.name)
+                for item in found:
+                    results[model_name].append(item.name)
                     total += 1
 
             elif found and model_name[-1] != 's':
                 model_name += 's'
                 results[model_name] = list()
-                for name in found:
-                    results[model_name].append(name.name)
+                for item in found:
+                    results[model_name].append(item.name)
                     total += 1
 
     context = {'query': query, 'results': results, 'total': total}

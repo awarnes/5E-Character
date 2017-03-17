@@ -5,6 +5,7 @@ Model for spells in 5e DnD.
 
 # Django Imports:
 from django.db import models
+from django.utils.text import slugify
 
 
 # TODO: ADD SRD BOOLEAN!
@@ -102,6 +103,15 @@ class Spell(models.Model):
     special = models.CharField(max_length=256, blank=True, null=True, help_text='General special information for a spell.')
 
     phb_page = models.SmallIntegerField(blank=True, null=True, help_text="Between pages 211 and 289 in the Player's Handbook.")
+
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     @property
     def raw_materials(self):

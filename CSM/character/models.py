@@ -10,6 +10,7 @@ import math
 
 # Django Imports
 from django.db import models
+from django.utils.text import slugify
 
 
 class IntegerMinMaxField(models.IntegerField):
@@ -118,6 +119,13 @@ class Character(models.Model):
     items_inv = models.ManyToManyField('equipment.Item', related_name='character_items_inv', blank=True,)
     armor_inv = models.ManyToManyField('equipment.Armor', related_name='character_armor_inv', blank=True,)
     weapons_inv = models.ManyToManyField('equipment.Weapon', related_name='character_weapons_inv', blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def get_prof_bonus(self):
         """

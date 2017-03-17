@@ -21,7 +21,7 @@ class SpellModelSerializer(serializers.ModelSerializer):
         fields = ('name', 'school', 'level', 'available_to', 'cast_time', 'distance', 'duration', 'concentration',
                   'ritual', 'material', 'somatic', 'verbal', 'specific_materials', 'description', 'save_type',
                   'damage_dice_number', 'damage_dice_size', 'damage_dice_bonus', 'damage_type', 'targets',
-                  'higher_level', 'special', 'phb_page', 'raw_materials')
+                  'higher_level', 'special', 'phb_page', 'raw_materials', 'slug', 'srd',)
 
 
 class CharacterModelSerializer(serializers.ModelSerializer):
@@ -36,7 +36,7 @@ class CharacterModelSerializer(serializers.ModelSerializer):
                   'STR_saving_throw', 'DEX_saving_throw', 'CON_saving_throw', 'INT_saving_throw', 'WIS_saving_throw',
                   'CHA_saving_throw', 'features', 'conditions', 'death_fails', 'death_successes', 'max_health',
                   'current_health', 'temp_addtl_hp', 'speed', 'inspiration', 'spell_book', 'tools_inv', 'items_inv',
-                  'armor_inv', 'weapons_inv', 'get_char_level'
+                  'armor_inv', 'weapons_inv', 'get_char_level', 'slug',
                   # 'get_ability_bonus', 'get_passive_score',
                   # 'get_prof_bonus', 'get_initiative_bonus', 'get_armor_class',
                   )
@@ -49,7 +49,7 @@ class DamageTypeModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = DamageType
 
-        fields = ('name', 'description',)
+        fields = ('name', 'description', 'slug', 'srd',)
 
 
 class WeaponPropertyModelSerializer(serializers.ModelSerializer):
@@ -58,7 +58,7 @@ class WeaponPropertyModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = WeaponProperty
 
-        fields = ('name', 'description',)
+        fields = ('name', 'description', 'slug', 'srd',)
 
 
 class ItemModelSerializer(serializers.ModelSerializer):
@@ -68,7 +68,7 @@ class ItemModelSerializer(serializers.ModelSerializer):
         model = Item
 
         fields = ('name', 'item_type', 'description', 'weight', 'material', 'cost_copper', 'cost_silver', 'cost_gold',
-                  'cost_platinum', 'special', 'uses', 'space',)
+                  'cost_platinum', 'special', 'uses', 'space', 'slug', 'srd',)
 
 
 class ToolModelSerializer(serializers.ModelSerializer):
@@ -78,7 +78,7 @@ class ToolModelSerializer(serializers.ModelSerializer):
         model = Tool
 
         fields = ('name', 'item_type', 'description', 'weight', 'material', 'cost_copper', 'cost_silver', 'cost_gold',
-                  'cost_platinum', 'special', 'requires_proficiency', 'tool_type',)
+                  'cost_platinum', 'special', 'requires_proficiency', 'tool_type', 'slug', 'srd',)
 
 
 class WeaponModelSerializer(serializers.ModelSerializer):
@@ -92,7 +92,7 @@ class WeaponModelSerializer(serializers.ModelSerializer):
 
         fields = ('name', 'item_type', 'description', 'weight', 'material', 'cost_copper', 'cost_silver', 'cost_gold',
                   'cost_platinum', 'special', 'weapon_type', 'melee_or_ranged', 'normal_range', 'max_range',
-                  'damage_dice_number', 'damage_dice_size', 'damage_dice_bonus', 'base_damage_type', 'properties',)
+                  'damage_dice_number', 'damage_dice_size', 'damage_dice_bonus', 'base_damage_type', 'properties', 'slug', 'srd',)
 
 
 class ArmorModelSerializer(serializers.ModelSerializer):
@@ -103,7 +103,7 @@ class ArmorModelSerializer(serializers.ModelSerializer):
 
         fields = ('name', 'item_type', 'description', 'weight', 'material', 'cost_copper', 'cost_silver', 'cost_gold',
                   'cost_platinum', 'special', 'armor_type', 'base_armor_class', 'bonus_armor_class', 'dexterity_modifier',
-                  'don_time', 'doff_time', 'req_str', 'stealth_disadvantage',)
+                  'don_time', 'doff_time', 'req_str', 'stealth_disadvantage', 'slug', 'srd',)
 
 
 class MountAndVehicleModelSerializer(serializers.ModelSerializer):
@@ -113,7 +113,7 @@ class MountAndVehicleModelSerializer(serializers.ModelSerializer):
         model = MountAndVehicle
 
         fields = ('name', 'item_type', 'description', 'weight', 'material', 'cost_copper', 'cost_silver', 'cost_gold',
-                  'cost_platinum', 'special', 'speed', 'carrying_capacity', 'vehicle_type',)
+                  'cost_platinum', 'special', 'speed', 'carrying_capacity', 'vehicle_type', 'slug', 'srd',)
 
 
 # Rules Model Serializers:
@@ -123,7 +123,7 @@ class LanguageModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
 
-        fields = ('name', 'description', 'typical_speakers', 'script', )
+        fields = ('name', 'description', 'typical_speakers', 'script', 'slug', 'srd',)
 
 
 class ConditionModelSerializer(serializers.ModelSerializer):
@@ -132,7 +132,7 @@ class ConditionModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Condition
 
-        fields = ('name', 'description', )
+        fields = ('name', 'description', 'slug', 'srd',)
 
 
 class AlignmentModelSerializer(serializers.ModelSerializer):
@@ -141,9 +141,7 @@ class AlignmentModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Alignment
 
-        fields = ('name', 'description',
-                  # 'examples',
-                  )
+        fields = ('name', 'description', 'slug', 'srd', 'examples',)
 
 
 class SkillModelSerializer(serializers.ModelSerializer):
@@ -152,7 +150,7 @@ class SkillModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
 
-        fields = ('name', 'description', 'associated_ability', 'example_tasks', )
+        fields = ('name', 'description', 'associated_ability', 'example_tasks', 'slug', 'srd',)
 
 
 class FeatureModelSerializer(serializers.ModelSerializer):
@@ -161,7 +159,7 @@ class FeatureModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Feature
 
-        fields = ('name', 'description', )
+        fields = ('name', 'description', 'slug', 'srd',)
 
 
 class SubraceModelSerializer(serializers.ModelSerializer):
@@ -178,7 +176,7 @@ class SubraceModelSerializer(serializers.ModelSerializer):
 
         fields = ('name', 'description', 'ability_score_1', 'ability_score_1_bonus', 'ability_score_2',
                   'ability_score_2_bonus', 'features', 'subrace_tool_starts', 'subrace_weapon_starts',
-                  'subrace_armor_starts', 'subrace_item_starts',)
+                  'subrace_armor_starts', 'subrace_item_starts', 'slug', 'srd',)
 
 
 class RaceModelSerializer(serializers.ModelSerializer):
@@ -198,7 +196,7 @@ class RaceModelSerializer(serializers.ModelSerializer):
                   'ability_score_2_bonus', 'features', 'age_adult', 'age_mortality', 'typical_alignment', 'size',
                   'typical_height_min', 'typical_height_max', 'typical_weight_min', 'typical_weight_max',
                   'speed', 'speed_special', 'features', 'race_tool_starts', 'race_weapon_starts', 'race_armor_starts',
-                  'race_item_starts', 'subraces', )
+                  'race_item_starts', 'subraces', 'slug', 'srd',)
 
 
 class PrestigeClassModelSerializer(serializers.ModelSerializer):
@@ -209,7 +207,7 @@ class PrestigeClassModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = PrestigeClass
 
-        fields = ('name', 'description', 'features', )
+        fields = ('name', 'description', 'features', 'slug', 'srd',)
 
 
 class ClassModelSerializer(serializers.ModelSerializer):
@@ -227,7 +225,7 @@ class ClassModelSerializer(serializers.ModelSerializer):
 
         fields = ('name', 'description', 'hit_die_size', 'primary_ability_1', 'primary_ability_2', 'saving_throw_1',
                   'saving_throw_2', 'starting_gold', 'starting_weapons', 'starting_armor', 'starting_items',
-                  'starting_tools', 'features', 'prestige_classes', )
+                  'starting_tools', 'features', 'prestige_classes', 'slug', 'srd',)
 
 
 class BackgroundModelSerializer(serializers.ModelSerializer):
@@ -244,4 +242,4 @@ class BackgroundModelSerializer(serializers.ModelSerializer):
 
         fields = ('name', 'description', 'languages', 'features', 'gold_start', 'tool_starts', 'item_starts',
                   'weapon_starts', 'armor_starts', 'suggested_personality_traits', 'suggested_ideals',
-                  'suggested_bonds', 'suggested_flaws')
+                  'suggested_bonds', 'suggested_flaws', 'slug', 'srd',)

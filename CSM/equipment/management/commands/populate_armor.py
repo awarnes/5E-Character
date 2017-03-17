@@ -22,7 +22,7 @@ class Command(BaseCommand):
         armors = armors.dropna()
 
         for armor in armors.iterrows():
-            # import pdb;pdb.set_trace()
+
             Armor.objects.create(
                 name=armor[1][0],
                 item_type=armor[1][1],

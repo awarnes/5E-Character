@@ -36,6 +36,18 @@ class SkillViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Skill.objects.all()
     serializer_class = SkillModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def skill_detail(self, slug=None):
+        skill = Skill.objects.filter(name__icontains=slug)
+
+        serializer = SkillModelSerializer(skill, many=False)
+
+        if bool(skill):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class SubraceViewSet(viewsets.ReadOnlyModelViewSet):
@@ -45,6 +57,18 @@ class SubraceViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Subrace.objects.all()
     serializer_class = SubraceModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def subrace_detail(self, slug=None):
+        subrace = Subrace.objects.filter(name__icontains=slug)
+
+        serializer = SubraceModelSerializer(subrace, many=False)
+
+        if bool(subrace):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class RaceViewSet(viewsets.ReadOnlyModelViewSet):
@@ -54,6 +78,18 @@ class RaceViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Race.objects.all()
     serializer_class = RaceModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def race_detail(self, slug=None):
+        race = Race.objects.filter(name__icontains=slug)
+
+        serializer = RaceModelSerializer(race, many=False)
+
+        if bool(race):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class PrestigeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -63,6 +99,18 @@ class PrestigeViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = PrestigeClass.objects.all()
     serializer_class = PrestigeClassModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def prestige_detail(self, slug=None):
+        prestige = PrestigeClass.objects.filter(name__icontains=slug)
+
+        serializer = PrestigeClassModelSerializer(prestige, many=False)
+
+        if bool(prestige):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class ClassViewSet(viewsets.ReadOnlyModelViewSet):
@@ -72,6 +120,18 @@ class ClassViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Class.objects.all()
     serializer_class = ClassModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def class_detail(self, slug=None):
+        klass = Class.objects.filter(name__icontains=slug)
+
+        serializer = ClassModelSerializer(klass, many=False)
+
+        if bool(klass):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class FeatureViewSet(viewsets.ReadOnlyModelViewSet):
@@ -81,6 +141,18 @@ class FeatureViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Feature.objects.all()
     serializer_class = FeatureModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def feature_detail(self, slug=None):
+        feature = Feature.objects.filter(name__icontains=slug)
+
+        serializer = FeatureModelSerializer(feature, many=False)
+
+        if bool(feature):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class BackgroundViewSet(viewsets.ReadOnlyModelViewSet):
@@ -90,6 +162,18 @@ class BackgroundViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Background.objects.all()
     serializer_class = BackgroundModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def background_detail(self, slug=None):
+        background = Background.objects.filter(name__icontains=slug)
+
+        serializer = BackgroundModelSerializer(background, many=False)
+
+        if bool(background):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
@@ -99,6 +183,18 @@ class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Language.objects.all()
     serializer_class = LanguageModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def language_detail(self, slug=None):
+        language = Language.objects.filter(name__icontains=slug)
+
+        serializer = LanguageModelSerializer(language, many=False)
+
+        if bool(language):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class ConditionViewSet(viewsets.ReadOnlyModelViewSet):
@@ -108,6 +204,18 @@ class ConditionViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Condition.objects.all()
     serializer_class = ConditionModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def condition_detail(self, slug=None):
+        condition = Condition.objects.filter(name__icontains=slug)
+
+        serializer = AlignmentModelSerializer(condition, many=False)
+
+        if bool(condition):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class DamageTypeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -117,6 +225,18 @@ class DamageTypeViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = DamageType.objects.all()
     serializer_class = DamageTypeModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def damage_type_detail(self, slug=None):
+        damage_type = DamageType.objects.filter(name__icontains=slug)
+
+        serializer = DamageTypeModelSerializer(damage_type, many=False)
+
+        if bool(damage_type):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class AlignmentViewSet(viewsets.ReadOnlyModelViewSet):
@@ -126,35 +246,19 @@ class AlignmentViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Alignment.objects.all()
     serializer_class = AlignmentModelSerializer
+    lookup_field = 'slug'
 
     @detail_route(methods=['GET'])
-    def alignment_detail(self, request, pk=None):
-        query = request.GET.get('query')
-        alignment = Alignment.objects.filter(name__icontains=query)
+    def alignment_detail(self, slug=None):
+        alignment = Alignment.objects.filter(name__icontains=slug)
 
         serializer = AlignmentModelSerializer(alignment, many=False)
 
-        if bool(alignment) == True:
+        if bool(alignment):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
-
-
-
-
-# @api_view(['GET'])
-# def one_weapon(request):
-#
-#     query = request.GET.get('query')
-#     weapon = Weapon.objects.filter(name__icontains=query)
-#
-#     serializer = WeaponModelSerializer(weapon, many=True)
-#
-#     if bool(weapon) == True:
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-#     else:
-#         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 # Equipment API endpoints:
 class ItemViewSet(viewsets.ReadOnlyModelViewSet):
@@ -164,7 +268,18 @@ class ItemViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Item.objects.all()
     serializer_class = ItemModelSerializer
+    lookup_field = 'slug'
 
+    @detail_route(methods=['GET'])
+    def item_detail(self, slug=None):
+        item = Item.objects.filter(name__icontains=slug)
+
+        serializer = ItemModelSerializer(item, many=False)
+
+        if bool(item):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 class ToolViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -173,6 +288,18 @@ class ToolViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Tool.objects.all()
     serializer_class = ToolModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def tool_detail(self, slug=None):
+        tool = Tool.objects.filter(name__icontains=slug)
+
+        serializer = ToolModelSerializer(tool, many=False)
+
+        if bool(tool):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class WeaponViewSet(viewsets.ReadOnlyModelViewSet):
@@ -182,6 +309,18 @@ class WeaponViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Weapon.objects.all()
     serializer_class = WeaponModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def weapon_detail(self, slug=None):
+        weapon = Weapon.objects.filter(name__icontains=slug)
+
+        serializer = WeaponModelSerializer(weapon, many=False)
+
+        if bool(weapon):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class ArmorViewSet(viewsets.ReadOnlyModelViewSet):
@@ -191,6 +330,18 @@ class ArmorViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Armor.objects.all()
     serializer_class = ArmorModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def armor_detail(self, slug=None):
+        armor = Armor.objects.filter(name__icontains=slug)
+
+        serializer = ArmorModelSerializer(armor, many=False)
+
+        if bool(armor):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class WeaponPropertyViewSet(viewsets.ReadOnlyModelViewSet):
@@ -200,6 +351,18 @@ class WeaponPropertyViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = WeaponProperty.objects.all()
     serializer_class = WeaponPropertyModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def weapon_property_detail(self, slug=None):
+        weapon_property = WeaponProperty.objects.filter(name__icontains=slug)
+
+        serializer = WeaponPropertyModelSerializer(weapon_property, many=False)
+
+        if bool(weapon_property):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 class MountViewSet(viewsets.ReadOnlyModelViewSet):
@@ -209,24 +372,39 @@ class MountViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = MountAndVehicle.objects.all()
     serializer_class = MountAndVehicleModelSerializer
+    lookup_field = 'slug'
+
+    @detail_route(methods=['GET'])
+    def mount_detail(self, slug=None):
+        mount = MountAndVehicle.objects.filter(name__icontains=slug)
+
+        serializer = MountAndVehicleModelSerializer(mount, many=False)
+
+        if bool(mount):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 # Spell API endpoints:
-@api_view(['GET'])
-def get_spell_information(request):
+class SpellViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint to get information on a SINGLE spell.
     """
+    queryset = Spell.objects.all()
+    serializer_class = SpellModelSerializer
+    lookup_field = 'slug'
 
-    query_spell = request.GET.get('query_spell')
-    spell = Spell.objects.filter(name__icontains=query_spell)
+    @detail_route(methods=['GET'])
+    def spell_detail(self, slug=None):
+        spell = Spell.objects.filter(name__icontains=slug)
 
-    serializer = SpellModelSerializer(spell, many=True)
+        serializer = SpellModelSerializer(spell, many=True)
 
-    if bool(spell) == True:
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    else:
-        return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+        if bool(spell):
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET', 'POST'])

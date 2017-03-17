@@ -6,14 +6,14 @@
 {% block main %}
 
     <main>
-        <h1>Results for <em>{{ query }} ({{ total }}):</em></h1>
+        <h1>Results for <em>{{ query }}</em> ({{ total }}):</h1>
 
         <section>
         <ul>
             {% for term, result in results.items %}
-            <li class="list-group-item">{{ term }}</li>
+            <li class="list-group-item search_type" data-type='{{ term }}'>{{ term }}</li>
                 {% for item in result %}
-                    <li class="list-group-item text-center search_term" data-type={{ term }}>{{ item }}</li>
+                    <li class="list-group-item text-center search_query" data-type='{{ term }}'>{{ item }}</li>
 
                 {% endfor %}
                 {% empty %}

@@ -5,36 +5,56 @@
 
 $(document).ready(function(){
 
-    $('.search_term').on('click', function (evt){
+    $('.search_query').on('click', function (evt){
 
-        var $query = $(this).text();
+        var $query = $(this).text().toLowerCase();
+
+
+        $query = $query.replace(/[^\w ]/g, '');
+
+        var re = /\s/g;
+
+        $query = $query.replace(re, '-');
 
         var $type = $(this).attr('data-type').toLowerCase();
 
-        $('#output').modal('toggle');
+        $type = $type.replace(re, '_');
 
-        // $type = $type.substring(0, ($type.length - 1));
+        $('#output').modal('toggle');
 
         const $equipment = ['weapons', 'armors', 'items', 'tools'];
 
         if ($type === 'spells') {
-            $.get('/spells/spell/'+$query, {query_spell: $query}, function (data){
-                $('#name').text(data[0].name)
-                $('#description').text(data[0].description)
+            $.get('/api/v1/spells/spell/'+$query, function (data){
+                $('#name').text(data.name);
+                $('#description').text(data.description);
             })
         }   else if ($equipment.indexOf($type) != -1) {
-            $.get('/search/weapon',{query: $query}, function (data){
-                $('#name').text(data[0].name)
-                $('#description').text(data[0].description)
+            $.get('/api/v1/equipment/' + $type + '/' + $query, function (data){
+                $('#name').text(data.name);
+                $('#description').text(data.description);
             })
         }  else {
-            $.get('/api/v1/rules/'+$type, function (data){
-                $('#name').text(data)
-                $('#description').text(data)
+            $.get('/api/v1/rules/' + $type + '/' + $query, function (data){
+                $('#name').text(data.name);
+                $('#description').text(data.description);
             })
         }
 
 
+    })
+
+    $('.search_type').on('click', function (evt){
+
+        var $type_data = $(this).attr('data-type');
+
+        var queries = document.getElementsByClassName('search_query');
+
+        for (var i=0; i<queries.length; i++){
+            if (queries[i].dataset.type === $type_data) {
+                $(queries[i]).slideToggle();
+            }
+        }
     })
 
 })

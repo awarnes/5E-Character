@@ -32,11 +32,11 @@ from pages.views import about_us, report_issue
 from pages.views import search_home
 
 # Imported API FBVs:
-from api.views import (get_spell_information, spell_book, specific_user_character, user_character_names)
+from api.views import (spell_book, specific_user_character, user_character_names)
 
 # Imported API ViewSets:
 from api.views import (SubraceViewSet, RaceViewSet, PrestigeViewSet, ClassViewSet, FeatureViewSet, BackgroundViewSet,
-                       SkillViewSet, LanguageViewSet, DamageTypeViewSet, ConditionViewSet, AlignmentViewSet,
+                       SkillViewSet, LanguageViewSet, DamageTypeViewSet, ConditionViewSet, AlignmentViewSet, SpellViewSet,
                        ItemViewSet, WeaponPropertyViewSet, WeaponViewSet, ArmorViewSet, ToolViewSet, MountViewSet)
 
 # Imported Account Views:
@@ -61,9 +61,11 @@ router.register(r'rules/alignments', AlignmentViewSet)
 router.register(r'equipment/items', ItemViewSet)
 router.register(r'equipment/weapons', WeaponViewSet)
 router.register(r'equipment/weapon_properties', WeaponPropertyViewSet)
-router.register(r'equipment/armor', ArmorViewSet)
+router.register(r'equipment/armors', ArmorViewSet)
 router.register(r'equipment/tools', ToolViewSet)
 router.register(r'equipment/mounts_and_vehicles', MountViewSet)
+router.register(r'spells/spell', SpellViewSet)
+
 
 
 urlpatterns = [
@@ -73,10 +75,7 @@ urlpatterns = [
     url(r'^$', landing, name='landing'),
 
     # Spells Interface
-    url(r'^spells/$', spell_book, name='spells'),
-    url(r'^spells/spell/$', get_spell_information, name='spell_info'),
-
-    # url(r'^search/weapon/$', one_weapon, name='one_weapon'),
+    # url(r'^spells/$', spell_book, name='spells'),
 
     # User Accounts
     url(r'^login/$', auth_views.login, {'template_name': 'accounts/login.html'}, name='login'),

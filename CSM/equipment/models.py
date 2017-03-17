@@ -6,6 +6,7 @@ Models for all equipment in the game.
 
 # Django Imports
 from django.db import models
+from django.utils.text import slugify
 
 
 class Equipment(models.Model):
@@ -36,6 +37,15 @@ class Item(Equipment):
     uses = models.SmallIntegerField(null=True, blank=True,)
     space = models.CharField(null=True, blank=True, max_length=128)
 
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -45,6 +55,15 @@ class WeaponProperty(models.Model):
 
     name = models.CharField(max_length=100, unique=True, help_text='Name of the weapon property.')
     description = models.TextField(help_text='Full description of the weapon property.')
+
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -81,6 +100,15 @@ class Weapon(Equipment):
     base_damage_type = models.ManyToManyField('rules.DamageType', related_name='weapon_base_damage_types', help_text='What kind of damage is done by the weapon.')
     properties = models.ManyToManyField('WeaponProperty', related_name='weapon_properties')
 
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
 
 class Armor(Equipment):
     """Contains information regarding armor in the world."""
@@ -113,6 +141,15 @@ class Armor(Equipment):
     req_str = models.SmallIntegerField(null=True, blank=True,)
     stealth_disadvantage = models.BooleanField(default=False,)
 
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'Armor'
         verbose_name_plural = 'Armor'
@@ -125,6 +162,15 @@ class Tool(Equipment):
 
     requires_proficiency = models.BooleanField(default=False)
     tool_type = models.CharField(max_length=128)
+
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 
 class EquipmentBonus(models.Model):
@@ -156,6 +202,15 @@ class EquipmentBonus(models.Model):
     spell = models.ForeignKey('spells.Spell', related_name='equipment_bonus_spell', null=True, blank=True,)
     spell_bonus = models.CharField(max_length=128, null=True, blank=True,)
 
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -180,6 +235,15 @@ class MountAndVehicle(Equipment):
     speed = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True,)
     carrying_capacity = models.SmallIntegerField(null=True, blank=True,)
     vehicle_type = models.CharField(max_length=16, choices=VEHICLE_TYPE)
+
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Mount and Vehicle"
