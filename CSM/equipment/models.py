@@ -2,7 +2,6 @@
 Models for all equipment in the game.
 """
 
-# TODO: ADD SRD BOOLEAN FOR ALL MODELS
 
 # Django Imports
 from django.db import models

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Name of Spell{% endblock %}
+{% block title %}{{ result.name }}{% endblock %}
 
 {% block main %}
 
@@ -22,4 +22,7 @@
         </div>
     </section>
 
+    {% block modal %}
+        <p></p>
+    {% endblock %}
 {% endblock %}

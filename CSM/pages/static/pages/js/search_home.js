@@ -43,7 +43,14 @@ $(document).ready(function(){
         }
 
 
-    })
+    });
+
+    $('#open_details').on('click', function(evt){
+            var $type = $('#name').data('type');
+            var $slug = $('#name').data('slug')
+            window.location.href='/' + $type + '/details/' + $slug + '/'
+
+    });
 
     $('.search_type').on('click', function (evt){
 
@@ -56,6 +63,6 @@ $(document).ready(function(){
                 $(queries[i]).slideToggle();
             }
         }
-    })
+    });
 
-})
+});

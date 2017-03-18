@@ -10,6 +10,7 @@ import re
 # Django Imports:
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.db.models import Q
 from django.contrib import messages
 
@@ -63,7 +64,7 @@ def search_home(request):
 
     elif request.method == 'POST':
         models = (Spell, Weapon, Armor, Item, Tool, Feature, Class, Race, PrestigeClass, Subrace,
-                  Skill, Alignment, DamageType, MountAndVehicle)
+                  Skill, Alignment, DamageType, MountAndVehicle, Background, Language, Condition)
         results = dict()
         query = request.POST.get('query')
         total = 0
@@ -102,7 +103,7 @@ def spell_details(request, slug):
         if klass != '':
             classes.append(klass)
 
-    context = {'result': spell, 'classes': classes}
+    context = {'result': spell, 'classes': classes, 'rit': spell.ritual, 'con': spell.concentration}
 
     return render(request, 'database_view/detail_pages/spell_details.html', context)
 
@@ -113,7 +114,7 @@ def subrace_details(request, slug):
     """
     subrace = get_object_or_404(Subrace, slug=slug)
 
-    context = {'result': subrace}
+    context = {'result': subrace, 'features': subrace.features.all(), 'parent': subrace.race_subraces.get()}
 
     return render(request, 'database_view/detail_pages/subrace_details.html', context)
 
@@ -124,7 +125,7 @@ def race_details(request, slug):
     """
     race = get_object_or_404(Race, slug=slug)
 
-    context = {'result': race}
+    context = {'result': race, 'features': race.features.all(), 'subraces': race.subraces.all()}
 
     return render(request, 'database_view/detail_pages/race_details.html', context)
 
@@ -135,7 +136,7 @@ def prestige_details(request, slug):
     """
     prestige = get_object_or_404(PrestigeClass, slug=slug)
 
-    context = {'result': prestige}
+    context = {'result': prestige, 'features': prestige.features.all(), 'parent': prestige.class_prestige_classes.get()}
 
     return render(request, 'database_view/detail_pages/prestige_details.html', context)
 
@@ -146,7 +147,11 @@ def class_details(request, slug):
     """
     klass = get_object_or_404(Class, slug=slug)
 
-    context = {'result': klass}
+    pa2 = False
+    if klass.primary_ability_2 != 'None':
+        pa2 = True;
+
+    context = {'result': klass, 'prestiges': klass.prestige_classes.all(), 'pa2': pa2, 'features': klass.features.all()}
 
     return render(request, 'database_view/detail_pages/class_details.html', context)
 
@@ -157,7 +162,36 @@ def feature_details(request, slug):
     """
     feature = get_object_or_404(Feature, slug=slug)
 
-    context = {'result': feature}
+    parent = False
+    search_type = None
+
+    try:
+        parent = feature.class_features.all()
+        search_type = 'classes'
+    except ObjectDoesNotExist:
+        pass
+    try:
+        parent = feature.prestige_class_features.all()
+        search_type = 'prestige_classes'
+    except ObjectDoesNotExist:
+        pass
+    try:
+        parent = feature.race_features.all()
+        search_type = 'races'
+    except ObjectDoesNotExist:
+        pass
+    try:
+        parent = feature.subrace_features.all()
+        search_type = 'subraces'
+    except ObjectDoesNotExist:
+        pass
+    try:
+        parent = feature.background_features.all()
+        search_type = 'backgrounds'
+    except ObjectDoesNotExist:
+        pass
+
+    context = {'result': feature, 'parent': parent, 'type': search_type}
 
     return render(request, 'database_view/detail_pages/feature_details.html', context)
 
@@ -168,7 +202,7 @@ def background_details(request, slug):
     """
     background = get_object_or_404(Background, slug=slug)
 
-    context = {'result': background}
+    context = {'result': background, 'features': background.features.all()}
 
     return render(request, 'database_view/detail_pages/background_details.html', context)
 
@@ -223,7 +257,13 @@ def weapon_details(request, slug):
     """
     weapon = get_object_or_404(Weapon, slug=slug)
 
-    context = {'result': weapon}
+    ranged = False
+    if weapon.melee_or_ranged == 'Ranged':
+        ranged = True
+
+    dmg_type = weapon.base_damage_type.get()
+
+    context = {'result': weapon, 'ranged': ranged, 'properties': weapon.properties.all(), 'dmg_type': dmg_type.name}
 
     return render(request, 'database_view/detail_pages/weapon_details.html', context)
 
@@ -234,7 +274,16 @@ def armor_details(request, slug):
     """
     armor = get_object_or_404(Armor, slug=slug)
 
-    context = {'result': armor}
+    maximum = False
+
+    if armor.dexterity_modifier_max > 0:
+        maximum = armor.dexterity_modifier_max
+
+    minute = False
+    if armor.don_time != '1 action':
+        minute = True
+
+    context = {'result': armor, 'max': maximum, 'minute': minute}
 
     return render(request, 'database_view/detail_pages/armor_details.html', context)
 
@@ -256,7 +305,11 @@ def mount_details(request, slug):
     """
     mount = get_object_or_404(MountAndVehicle, slug=slug)
 
-    context = {'result': mount}
+    speed = 'feet'
+    if mount.vehicle_type == 'Water':
+        speed = 'mph'
+
+    context = {'result': mount, 'speed': speed}
 
     return render(request, 'database_view/detail_pages/mount_details.html', context)
 

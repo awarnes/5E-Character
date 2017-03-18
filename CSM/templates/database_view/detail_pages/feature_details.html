@@ -1,34 +1,15 @@
 {% extends 'database_view/detail_base.html' %}
 
 {% block detail_header %}
-    <h1>Name: <span id="name"></span></h1>
+    <h1>{{ result.name }}</h1>
+    {% if parent %}
+    <h3>Parent: {% for thing in parent %}<a href="/{{ type }}/details/{{ thing.slug }}">{{ thing.name }} </a>{% endfor %}</h3>
+    {% endif %}
 {% endblock %}
 
 {% block detail_body %}
-    <p>Description: <span id="desc"></span></p>
+    {{ result.description }}
 {% endblock %}
 
 {% block detail_footer %}
-    <p>Other: <span id="other"></span></p>
 {% endblock %}
-
-
-<div class="modal fade" id="output">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title" data-slug='' data-type='' id="name"></h1>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Description:</p>
-                <p id="description"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="open_details">Open</button>
-            </div>
-        </div>
-    </div>
-</div>

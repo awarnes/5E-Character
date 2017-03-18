@@ -1,19 +1,26 @@
 {% extends 'database_view/detail_base.html' %}
 
 {% block detail_header %}
-    <h3>Name: {{ result.name }}</h3>
+    <h3>{{ result.name }}</h3>
     <h4><em>{{ result.level }} {{ result.school }}</em></h4>
 {% endblock %}
 
 {% block detail_body %}
-    <p></p>
-
+    <p>Cast Time: {{ result.cast_time }}</p>
+    <p>Range: {{ result.distance }}</p>
+    <p>Duration: {{ result.duration }}</p>
+    <p>Components: {{ result.raw_materials }}</p>
+    {% if con %}
+        <p>Requires Concentration?: Yes</p>
+    {% endif %}
+    {% if rit %}
+        <p>Ritual Spell?: Yes</p>
+    {% endif %}
     <hr>
-    <p>Description: {{ result.description }}</p>
+    <p>{{ result.description }}</p>
 {% endblock %}
 
 {% block detail_footer %}
-
     <p>Available Classes: {% for class in classes %}<a href="/classes/details/{{ class.lower }}">{{ class }}, </a>{% endfor %}</p>
 {% endblock %}
 

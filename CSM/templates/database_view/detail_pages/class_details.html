@@ -1,23 +1,51 @@
 {% extends 'database_view/detail_base.html' %}
+{% load static %}
 
 {% block detail_header %}
-    <h1>Name: <span id="name"></span></h1>
+    <h1>{{ result.name }}</h1>
 {% endblock %}
 
 {% block detail_body %}
-    <p>Description: <span id="desc"></span></p>
+    <section class="panel panel-default">
+    {% if pa2 %}
+        <p>Primary Abilities: {{ result.primary_ability_1 }} and {{ result.primary_ability_2 }}</p>
+    {% else %}
+        <p>Primary Ability: {{ result.primary_ability_1 }}</p>
+    {% endif %}
+    <p>Saving Throws: <strong>{{ result.saving_throw_1 }}</strong> and <strong>{{ result.saving_throw_2 }}</strong></p>
+    <hr>
+    <section class="container" id="feature_container">
+        <p>Features:</p>
+        <ul id="features">
+            {% for feature in features %}
+                <li class="list-group-item" data-slug="{{ feature.slug }}" data-type="rules/features/">{{ feature.name }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    <hr>
+    <p>{{ result.description }}</p>
+    </section>
+    <section class="panel panel-default">
+        <section class="container" id="table">
+            Table:<br>
+            {% with 'pages/img/tables/'|add:result.slug|add:'_table.png' as image_static%}
+                <img class="img-rounded" id="table_img" src="{% static image_static %}">
+            {% endwith %}
+        </section>
+    </section>
 {% endblock %}
 
 {% block detail_footer %}
-    <p>Other: <span id="other"></span></p>
+    <p>Prestige Classes: {% for prestige in prestiges %}<a href="/prestige_classes/details/{{ prestige.slug }}">{{ prestige.name }}, </a>{% endfor %}</p>
 {% endblock %}
 
 
+{% block modal %}
 <div class="modal fade" id="output">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title" data-slug='' data-type='' id="name"></h1>
+                <h1 class="modal-title" data-slug='' id="name"></h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -32,3 +60,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+        <script type="text/javascript" src="{% static 'pages/js/details.js' %}"></script>
+{% endblock %}

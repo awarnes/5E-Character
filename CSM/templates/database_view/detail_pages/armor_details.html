@@ -1,18 +1,44 @@
 {% extends 'database_view/detail_base.html' %}
+{% load static %}
 
 {% block detail_header %}
-    <h1>Name: <span id="name"></span></h1>
+    <h1>{{ result.name }}</h1>
+    <h3>Armor Type: {{ result.armor_type }}</h3>
 {% endblock %}
 
 {% block detail_body %}
-    <p>Description: <span id="desc"></span></p>
+    <p>Armor Class:
+        {{ result.base_armor_class }}
+        {% if result.dexterity_modifier %}
+             + Dexterity Modifier
+        {% endif %}
+        {% if max > 0 %}
+            (max {{ max }})
+        {% endif %}</p>
+    <p>{% if result.req_str %}Required Strength: {{ result.req_str }}{% endif %}</p>
+    <p>{% if result.stealth_disadvantage %}<b>Stealth Disadvantage</b>{% endif %}</p>
+    <p>Weight: {{ result.weight }}</p>
+    <section class="container" id="feature_container">
+        Cost:
+        <section id="features">
+            Copper: {{ result.cost_copper }}<br>
+            Silver: {{ result.cost_silver }}<br>
+            Gold: {{ result.cost_gold }}<br>
+            Platinum: {{ result.cost_platinum }}<br>
+        </section>
+    </section>
+    <p></p>
+    <p>Special: {{ result.special }}</p>
+    <p>Don Time: {{ result.don_time }} {% if minute %} minute(s){% endif %}</p>
+    <p>Doff Time: {{ result.doff_time }} {% if minute %} minute(s){% endif %}</p>
+    <hr>
+    <p>Description: {{ result.description }}</p>
 {% endblock %}
 
 {% block detail_footer %}
-    <p>Other: <span id="other"></span></p>
 {% endblock %}
 
-
+{% block modal %}
 <div class="modal fade" id="output">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -32,3 +58,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script type="text/javascript" src="{% static 'pages/js/details.js' %}"></script>
+{% endblock %}

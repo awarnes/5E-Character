@@ -113,6 +113,7 @@ class Spell(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    # TODO: Change name to components
     @property
     def raw_materials(self):
         raw_string = ''

@@ -1,18 +1,47 @@
 {% extends 'database_view/detail_base.html' %}
+{% load static %}
 
 {% block detail_header %}
-    <h1>Name: <span id="name"></span></h1>
+    <h1>{{ result.name }}</h1>
+    <h3><em>{{ result.weapon_type }} {{ result.melee_or_ranged }}</em></h3>
 {% endblock %}
 
 {% block detail_body %}
-    <p>Description: <span id="desc"></span></p>
+    <p>Weight: {{ result.weight }}</p>
+    <section class="container" id="feature_container">
+        Cost:
+        <section id="features">
+            Copper: {{ result.cost_copper }}<br>
+            Silver: {{ result.cost_silver }}<br>
+            Gold: {{ result.cost_gold }}<br>
+            Platinum: {{ result.cost_platinum }}<br>
+        </section>
+    </section>
+    <p></p>
+    <p>Damage: {{ result.damage_dice_number }}d{{ result.damage_dice_size }}</p>
+    <p>Damage Type: {{ dmg_type }}</p>
+    {% if ranged %}
+        <p>Normal Range: {{ result.normal_range }}</p>
+        <p>Maximum Range: {{ result.max_range }}</p>
+    {% endif %}
+    <section class="container" id="property_container">
+        <p>Properties:</p>
+        <ul id="properties">
+            {% for property in properties %}
+                <li class="list-group-item" data-slug="{{ property.slug }}" data-type="equipment/weapon_properties/">{{ property.name }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    <p>Special: {{ result.special }}</p>
+    <hr>
+    <p>Description: {{ result.description }}</p>
 {% endblock %}
 
 {% block detail_footer %}
     <p>Other: <span id="other"></span></p>
 {% endblock %}
 
-
+{% block modal %}
 <div class="modal fade" id="output">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -26,9 +55,10 @@
                 <p>Description:</p>
                 <p id="description"></p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="open_details">Open</button>
-            </div>
         </div>
     </div>
 </div>
+{% endblock %}
+{% block extra_scripts %}
+    <script type="text/javascript" src="{% static 'pages/js/details.js' %}"></script>
+{% endblock %}

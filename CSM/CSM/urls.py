@@ -78,7 +78,7 @@ urlpatterns = [
     url(r'^$', landing, name='landing'),
 
     # Spells Interface
-    # url(r'^spells/$', spell_book, name='spells'),
+    url(r'^spells/$', spell_book, name='spells'),
 
     # User Accounts
     url(r'^login/$', auth_views.login, {'template_name': 'accounts/login.html'}, name='login'),

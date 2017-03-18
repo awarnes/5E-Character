@@ -44,15 +44,6 @@
         </div>
 
     <script type="text/javascript" src="{% static 'pages/js/search_home.js' %}"></script>
-    <script type="text/javascript">
-        $('#open_details').on('click', function(evt){
-            var $type = $('#name').data('type');
-            var $slug = $('#name').data('slug')
-            window.location.replace('/' + $type + '/details/' + $slug + '/')
-
-        })
-
-    </script>
 
 {% endblock %}
 
