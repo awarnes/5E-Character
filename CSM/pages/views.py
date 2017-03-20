@@ -11,11 +11,15 @@ import re
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import FormView, CreateView
+from django.urls import reverse_lazy
 from django.db.models import Q
 from django.contrib import messages
 
 # Module and Form Imports:
 from .forms import SearchDatabase
+from .forms import AbilityScoresChoice, AbilityScoresBuy, AbilityScoresRoll, CharacterCreationName
 
 # Model Imports:
 from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, DamageType, Feature, Skill, Background,
@@ -23,6 +27,7 @@ from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, Damage
 from spells.models import Spell
 from character.models import Character
 from equipment.models import (Weapon, Armor, Tool, Item, MountAndVehicle)
+from accounts.models import Member
 
 
 def landing(request):
@@ -92,6 +97,7 @@ def search_home(request):
     return render(request, 'database_view/search_home.html', context)
 
 
+# Rule Detail Views:
 def spell_details(request, slug):
     """
     Detail HTML for Spell instances
@@ -240,6 +246,7 @@ def condition_details(request, slug):
     return render(request, 'database_view/detail_pages/condition_details.html', context)
 
 
+# Equipment Detail Views:
 def item_details(request, slug):
     """
     Detail HTML for Spell instances
@@ -312,4 +319,41 @@ def mount_details(request, slug):
     context = {'result': mount, 'speed': speed}
 
     return render(request, 'database_view/detail_pages/mount_details.html', context)
+
+
+# Character Screens
+@login_required()
+def ability_scores_choice(request):
+    """
+    Help with character creation?
+    """
+
+    if request.method == "GET":
+        form = AbilityScoresChoice()
+
+    elif request.method == "POST":
+        form = AbilityScoresChoice(data=request.POST)
+
+        if form.is_valid():
+            # TODO: Update the character with ability scores.
+            pass
+
+    context = {'form': form}
+
+    return render(request, 'characters/ability_score_creation.html', context)
+
+
+# @login_required()
+class CharacterCreationName(CreateView):
+    """First view in the character creation flow."""
+
+    model = Character
+    fields = ['char_name',]
+    success_url = reverse_lazy('ability_scores')
+    template_name = 'characters/char_creation_name.html'
+
+    def form_valid(self, form):
+        form.instance.username = self.request.user
+        return super(CharacterCreationName, self).form_valid(form)
+
 

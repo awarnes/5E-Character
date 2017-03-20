@@ -1,0 +1,545 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">31%</span>
+        </h1>
+
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+
+<div id="index">
+    <table class="index">
+        <thead>
+            
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>1563</td>
+                <td>1074</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="489 1563">31%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            
+            <tr class="file">
+                <td class="name left"><a href="accounts_admin_py.html">accounts/admin.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="accounts_forms_py.html">accounts/forms.py</a></td>
+                <td>10</td>
+                <td>10</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 10">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="accounts_models_py.html">accounts/models.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="accounts_tests_py.html">accounts/tests.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="accounts_views_py.html">accounts/views.py</a></td>
+                <td>23</td>
+                <td>23</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 23">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="api_forms_py.html">api/forms.py</a></td>
+                <td>3</td>
+                <td>3</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 3">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="api_serializers_py.html">api/serializers.py</a></td>
+                <td>106</td>
+                <td>106</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 106">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="api_tests_py.html">api/tests.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="api_views_py.html">api/views.py</a></td>
+                <td>244</td>
+                <td>244</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 244">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="character_admin_py.html">character/admin.py</a></td>
+                <td>5</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="5 5">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="character_management_commands_populate_db_py.html">character/management/commands/populate_db.py</a></td>
+                <td>13</td>
+                <td>13</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 13">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="character_models_py.html">character/models.py</a></td>
+                <td>101</td>
+                <td>22</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="79 101">78%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="character_tests_py.html">character/tests.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="character_views_py.html">character/views.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="equipment_admin_py.html">equipment/admin.py</a></td>
+                <td>10</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 10">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="equipment_management_commands_populate_armor_py.html">equipment/management/commands/populate_armor.py</a></td>
+                <td>11</td>
+                <td>11</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 11">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="equipment_management_commands_populate_items_py.html">equipment/management/commands/populate_items.py</a></td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 12">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="equipment_management_commands_populate_mounts_and_vehicles_py.html">equipment/management/commands/populate_mounts_and_vehicles.py</a></td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 12">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="equipment_management_commands_populate_tools_py.html">equipment/management/commands/populate_tools.py</a></td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 12">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="equipment_management_commands_populate_weapon_properties_py.html">equipment/management/commands/populate_weapon_properties.py</a></td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 12">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="equipment_management_commands_populate_weapons_py.html">equipment/management/commands/populate_weapons.py</a></td>
+                <td>19</td>
+                <td>19</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 19">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="equipment_models_py.html">equipment/models.py</a></td>
+                <td>132</td>
+                <td>24</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="108 132">82%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="equipment_tests_py.html">equipment/tests.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="equipment_views_py.html">equipment/views.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pages_admin_py.html">pages/admin.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pages_forms_py.html">pages/forms.py</a></td>
+                <td>14</td>
+                <td>14</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 14">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pages_models_py.html">pages/models.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pages_tests_py.html">pages/tests.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="pages_views_py.html">pages/views.py</a></td>
+                <td>175</td>
+                <td>175</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 175">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_admin_py.html">rules/admin.py</a></td>
+                <td>18</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="18 18">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_alignments_py.html">rules/management/commands/populate_alignments.py</a></td>
+                <td>11</td>
+                <td>11</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 11">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_backgrounds_py.html">rules/management/commands/populate_backgrounds.py</a></td>
+                <td>32</td>
+                <td>32</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 32">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_classes_py.html">rules/management/commands/populate_classes.py</a></td>
+                <td>36</td>
+                <td>36</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 36">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_conditions_py.html">rules/management/commands/populate_conditions.py</a></td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 12">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_damage_types_py.html">rules/management/commands/populate_damage_types.py</a></td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 12">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_features_py.html">rules/management/commands/populate_features.py</a></td>
+                <td>13</td>
+                <td>13</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 13">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_languages_py.html">rules/management/commands/populate_languages.py</a></td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 12">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_prestige_classes_py.html">rules/management/commands/populate_prestige_classes.py</a></td>
+                <td>15</td>
+                <td>15</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 15">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_races_py.html">rules/management/commands/populate_races.py</a></td>
+                <td>36</td>
+                <td>36</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 36">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_skills_py.html">rules/management/commands/populate_skills.py</a></td>
+                <td>12</td>
+                <td>12</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 12">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_management_commands_populate_subraces_py.html">rules/management/commands/populate_subraces.py</a></td>
+                <td>32</td>
+                <td>32</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 32">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_models_py.html">rules/models.py</a></td>
+                <td>280</td>
+                <td>60</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="220 280">79%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_tests_py.html">rules/tests.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="rules_views_py.html">rules/views.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="spells_admin_py.html">spells/admin.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="spells_management_commands_populate_spells_py.html">spells/management/commands/populate_spells.py</a></td>
+                <td>54</td>
+                <td>54</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 54">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="spells_models_py.html">spells/models.py</a></td>
+                <td>49</td>
+                <td>13</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="36 49">73%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="spells_tests_py.html">spells/tests.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="spells_views_py.html">spells/views.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="utils_spells_py.html">utils/spells.py</a></td>
+                <td>1</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 1">0%</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.3.4</a>,
+            created at 2017-03-20 16:59
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+[run]
+omit =
+    *apps.py,
+    *migrations/*,
+    *settings*,
+    *tests/*,
+    *urls.py,
+    *wsgi.py,
+    manage.py,
+    *__init__.py*,
+    _private/*,
+    *secrets.py*,
+
+[html]
+directory = test_coverage_reports

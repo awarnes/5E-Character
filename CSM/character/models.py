@@ -45,10 +45,10 @@ class Character(models.Model):
 
     # TODO: change to member, not username.
 
-    username = models.ForeignKey('accounts.Member', related_name='characters')
+    username = models.ForeignKey('accounts.Member', related_name='characters', editable=False)
 
     # Flair
-    char_name = models.CharField(max_length=1024)
+    char_name = models.CharField(max_length=1024, blank=True, null=True,)
     description = models.TextField(blank=True, null=True,)
 
     portrait = models.ImageField(blank=True, null=True,)
@@ -70,19 +70,19 @@ class Character(models.Model):
     # languages = models.ManyToManyField('rules.Language', related_name='characters')
 
     # Basics
-    char_classes = models.ManyToManyField('rules.Class', related_name='characters', through='ClassLevel')
-    char_race = models.ForeignKey('rules.Race', related_name='characters')
-    char_background = models.ForeignKey('rules.Background', related_name='characters')
-    alignment = models.ForeignKey('rules.Alignment', related_name='character_alignments')
+    char_classes = models.ManyToManyField('rules.Class', related_name='characters', through='ClassLevel', blank=True,)
+    char_race = models.ForeignKey('rules.Race', related_name='characters', blank=True, null=True,)
+    char_background = models.ForeignKey('rules.Background', related_name='characters', blank=True, null=True)
+    alignment = models.ForeignKey('rules.Alignment', related_name='character_alignments', blank=True, null=True,)
     char_xp = models.IntegerField(default=0, blank=True, null=True,)
 
     # Ability Scores
-    STR_score = IntegerMinMaxField(min_value=1, max_value=20)
-    DEX_score = IntegerMinMaxField(min_value=1, max_value=20)
-    CON_score = IntegerMinMaxField(min_value=1, max_value=20)
-    INT_score = IntegerMinMaxField(min_value=1, max_value=20)
-    WIS_score = IntegerMinMaxField(min_value=1, max_value=20)
-    CHA_score = IntegerMinMaxField(min_value=1, max_value=20)
+    STR_score = IntegerMinMaxField(min_value=1, max_value=20, blank=True, null=True,)
+    DEX_score = IntegerMinMaxField(min_value=1, max_value=20, blank=True, null=True,)
+    CON_score = IntegerMinMaxField(min_value=1, max_value=20, blank=True, null=True,)
+    INT_score = IntegerMinMaxField(min_value=1, max_value=20, blank=True, null=True,)
+    WIS_score = IntegerMinMaxField(min_value=1, max_value=20, blank=True, null=True,)
+    CHA_score = IntegerMinMaxField(min_value=1, max_value=20, blank=True, null=True,)
 
     # Saving Throws
     STR_saving_throw = models.BooleanField(default=False)
@@ -93,16 +93,16 @@ class Character(models.Model):
     CHA_saving_throw = models.BooleanField(default=False)
 
     # Actions >> May not need to use if just pulling through races and etc.
-    features = models.ManyToManyField('rules.Feature', related_name='character_features')
+    features = models.ManyToManyField('rules.Feature', related_name='character_features', blank=True,)
 
     # Combat
     conditions = models.ManyToManyField('rules.Condition', related_name='character_conditions', blank=True,)
     death_fails = models.SmallIntegerField(default=0)
     death_successes = models.SmallIntegerField(default=0)
-    max_health = models.SmallIntegerField()
-    current_health = models.SmallIntegerField()
-    temp_addtl_hp = models.SmallIntegerField()
-    speed = models.SmallIntegerField()
+    max_health = models.SmallIntegerField(default=0)
+    current_health = models.SmallIntegerField(default=0)
+    temp_addtl_hp = models.SmallIntegerField(default=0)
+    speed = models.SmallIntegerField(default=30)
     inspiration = models.SmallIntegerField(blank=True, null=True,)
 
     # Spells
@@ -119,7 +119,7 @@ class Character(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.char_name)
-        # super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def get_prof_bonus(self):
         """
