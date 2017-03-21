@@ -14,12 +14,15 @@ from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView, CreateView
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from formtools.wizard.views import SessionWizardView
+
 from django.db.models import Q
 from django.contrib import messages
 
 # Module and Form Imports:
 from .forms import SearchDatabase
-from .forms import AbilityScoresChoice, AbilityScoresBuy, AbilityScoresRoll, CharacterCreationName
+# from .forms import AbilityScoresChoice, AbilityScoresBuy, AbilityScoresRoll, CharacterCreationName
 
 # Model Imports:
 from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, DamageType, Feature, Skill, Background,
@@ -328,17 +331,20 @@ def ability_scores_choice(request):
     Help with character creation?
     """
 
-    if request.method == "GET":
-        form = AbilityScoresChoice()
+    # if request.method == "GET":
+    #     form = AbilityScoresChoice()
+    #
+    #
+    # elif request.method == "POST":
+    #     form = AbilityScoresChoice(data=request.POST)
+    #
+    #     if form.is_valid():
+    #         # TODO: Update the character with ability scores.
+    #         pass
 
-    elif request.method == "POST":
-        form = AbilityScoresChoice(data=request.POST)
+    character = request.user.characters.latest('username')
 
-        if form.is_valid():
-            # TODO: Update the character with ability scores.
-            pass
-
-    context = {'form': form}
+    context = {'character': character}
 
     return render(request, 'characters/ability_score_creation.html', context)
 
@@ -355,5 +361,43 @@ class CharacterCreationName(CreateView):
     def form_valid(self, form):
         form.instance.username = self.request.user
         return super(CharacterCreationName, self).form_valid(form)
+
+
+def cc_check(request):
+
+    if request.method == "POST":
+
+        STR = request.POST.get('STR')
+        DEX = request.POST.get('DEX')
+        CON = request.POST.get('CON')
+        INT = request.POST.get('INT')
+        WIS = request.POST.get('WIS')
+        CHA = request.POST.get('CHA')
+
+        scores = {'STR': STR, 'DEX': DEX, 'CON': CON, 'INT': INT, 'WIS': WIS, 'CHA': CHA}
+
+        for k, v in scores.items():
+            print('{}: {}'.format(k, v))
+
+        context = {'scores': scores}
+
+        return render(request, 'characters/cc_race.html', context)
+
+
+class CharacterWizard(SessionWizardView):
+    """Character creation wizard!"""
+
+    def done(self, form_list, **kwargs):
+
+        return render(self.request, 'done.html', {'form_data': [form.cleaned_data for form in form_list]})
+
+        # Character.objects.create(
+        #     username=form_dict['user'],
+        #     char_name=form_dict['name'],
+        #     char_race=form_dict['name'],
+        #     char_subrace=form_dict['name'],
+        #     char_class=form_dict['name'],
+        # )
+
 
 

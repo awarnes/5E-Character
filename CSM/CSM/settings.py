@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     '_private',
+    'formtools',
 ]
 
 MIDDLEWARE = [

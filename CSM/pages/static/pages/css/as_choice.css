@@ -1,0 +1,12 @@
+.droppable {
+    height: 30px;
+    width: 30px;
+    border: 1px solid black;
+}
+
+.score {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border: 1px dotted black;
+}

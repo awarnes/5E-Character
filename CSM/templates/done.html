@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+<ul>
+{% for data in form_data %}
+
+    <li>{{ data }}</li>
+
+{% endfor%}
+</ul>
+{% endblock %}

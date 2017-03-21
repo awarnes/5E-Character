@@ -1,2 +1,196 @@
 {% extends 'characters/base_creation.html' %}
 {% load static %}
+
+{% block main %}
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/css/as_choice.css' %}">
+
+    <div>{{ character }}</div>
+
+    <section id="tabs">
+        <ul class="nav nav-tabs">
+            <li><a href="#tabs-1">Choice</a></li>
+            <li><a href="#tabs-2">Roll</a></li>
+            <li><a href="#tabs-3">Buy</a></li>
+        </ul>
+
+        <section id="tabs-1">
+            <section class="panel panel-default">
+                <form action="{% url 'cc_check' %}" method='POST' class="panel-body"> {% csrf_token %}
+                    <section class="panel-body col-md-6">
+                        <div>Strength:</div>
+                        <input type="number" class="disabled droppable" name="STR">
+                        <div>Dexterity:</div>
+                        <input type="number" class="disabled droppable" name="DEX">
+                        <div>Constitution:</div>
+                        <input type="number" class="disabled droppable" name="CON">
+                        <div>Intelligence:</div>
+                        <input type="number" class="disabled droppable" name="INT">
+                        <div>Wisdom:</div>
+                        <input type="number" class="disabled droppable" name="WIS">
+                        <div>Charisma:</div>
+                        <input type="number" class="disabled droppable" name="CHA">
+                    </section>
+                    <section class="panel-body col-md-2">
+                        <div>
+                            <div class="score" data-score="15">15</div>
+                            <div class="score" data-score="14">14</div>
+                            <div class="score" data-score="13">13</div>
+                            <div class="score" data-score="12">12</div>
+                            <div class="score" data-score="10">10</div>
+                            <div class="score" data-score="8">8</div>
+                        </div>
+                    </section>
+                    <button id="choice_next" class="btn btn-primary">Next</button>
+                </form>
+            </section>
+
+        </section>
+
+        <section id="tabs-2">
+            <p>ROLL SCORES HERE!</p>
+        </section>
+
+        <section id="tabs-3">
+            <p>BUY SCORES HERE!</p>
+        </section>
+
+    </section>
+
+
+{% endblock %}
+
+{% block extra_scripts %}
+
+    <script
+      src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+      integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+      crossorigin="anonymous">
+    </script>
+
+    <script src="{% static 'pages/js/as_choice.js' %}"></script>
+{% endblock %}
+
+
+
+{#<main class="col-md-8">#}
+{#        <section id="tabs">#}
+{#            <ul>#}
+{#                <li><a href="#tabs-1">Choice</a></li>#}
+{#                <li><a href="#tabs-2">Roll</a></li>#}
+{#                <li><a href="#tabs-3">Buy</a></li>#}
+{#            </ul>#}
+{##}
+{#            <section id="#tabs-1">#}
+{#                <p>ONE</p>#}
+{#                <section id="containment-wrapper">#}
+{#                        <div class="col-md-6">#}
+{#                                <div>Strength:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Dexterity:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Constitution:</div>#}
+{#                                <input class="hidden" id="CON">#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Intelligence:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Wisdom:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Charisma:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{#                        </div>#}
+{#                        <div class="col-md-2">#}
+{#                            <div class="container-fluid">#}
+{#                                <div class="score" data-score="15">15</div>#}
+{#                                <div class="score" data-score="14">14</div>#}
+{#                                <div class="score" data-score="13">13</div>#}
+{#                                <div class="score" data-score="12">12</div>#}
+{#                                <div class="score" data-score="10">10</div>#}
+{#                                <div class="score" data-score="8">8</div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </section>#}
+{#                <button type="submit" class="btn btn-primary">Next!</button>#}
+{#            </section>#}
+{##}
+{#            <section id="#tabs-2">#}
+{#                <p>TWO</p>#}
+{#                <section id="containment-wrapper">#}
+{#                        <div class="col-md-6">#}
+{#                                <div>TWo:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Dexterity:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Constitution:</div>#}
+{#                                <input class="hidden" id="CON">#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Intelligence:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Wisdom:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Charisma:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{#                        </div>#}
+{#                        <div class="col-md-2">#}
+{#                            <div class="container-fluid">#}
+{#                                <div class="score" data-score="15">15</div>#}
+{#                                <div class="score" data-score="14">14</div>#}
+{#                                <div class="score" data-score="13">13</div>#}
+{#                                <div class="score" data-score="12">12</div>#}
+{#                                <div class="score" data-score="10">10</div>#}
+{#                                <div class="score" data-score="8">8</div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </section>#}
+{#                <button type="submit" class="btn btn-primary">Next!</button>#}
+{#            </section>#}
+{##}
+{#            <section id="#tabs-3">#}
+{#                <p>THREE</p>#}
+{#                <section id="containment-wrapper">#}
+{#                        <div class="col-md-6">#}
+{#                                <div>Three:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Dexterity:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Constitution:</div>#}
+{#                                <input class="hidden" id="CON">#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Intelligence:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Wisdom:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{##}
+{#                                <div>Charisma:</div>#}
+{#                                <div class="droppable" data-score=""></div>#}
+{#                        </div>#}
+{#                        <div class="col-md-2">#}
+{#                            <div class="container-fluid">#}
+{#                                <div class="score" data-score="15">15</div>#}
+{#                                <div class="score" data-score="14">14</div>#}
+{#                                <div class="score" data-score="13">13</div>#}
+{#                                <div class="score" data-score="12">12</div>#}
+{#                                <div class="score" data-score="10">10</div>#}
+{#                                <div class="score" data-score="8">8</div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </section>#}
+{#                <button type="submit" class="btn btn-primary">Next!</button>#}
+{#            </section>#}
+{#        </section>#}
+{##}
+{##}
+{#    </main>#}

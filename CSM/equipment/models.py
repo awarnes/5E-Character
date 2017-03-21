@@ -108,6 +108,9 @@ class Weapon(Equipment):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
 
 class Armor(Equipment):
     """Contains information regarding armor in the world."""
@@ -149,6 +152,9 @@ class Armor(Equipment):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'Armor'
         verbose_name_plural = 'Armor'
@@ -170,6 +176,9 @@ class Tool(Equipment):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 
 class EquipmentBonus(models.Model):
@@ -243,6 +252,9 @@ class MountAndVehicle(Equipment):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = "Mount and Vehicle"
