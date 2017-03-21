@@ -7,8 +7,10 @@
             <section class="col-md-4">
                 <form action="" method="POST">{% csrf_token %}
                     {{ class_form.errors }}
-                    <p>Class: {{ class_form.race }}</p>
-                    <p hidden="true">Prestige Class: {{ class_form.subrace }}</p>
+                    <p>Class: {{ class_form.klass }}</p>
+                    <p id="cleric">Prestige Class: {{ class_form.cleric_prestige }}</p>
+                    <p id="sorcerer">Prestige Class: {{ class_form.sorcerer_prestige }}</p>
+                    <p id="warlock">Prestige Class: {{ class_form.warlock_prestige }}</p>
                     <button type="submit" class="btn btn-primary">Next!</button>
                 </form>
             </section>

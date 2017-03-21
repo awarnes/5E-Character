@@ -92,4 +92,3 @@ $(document).ready(function(){
 
 });
 
-//  <p><strong><span id="subrace_ab_1"></span> +<span id="subrace_ab_1_am"></span></strong></p>

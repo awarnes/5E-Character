@@ -33,7 +33,7 @@ from pages.views import search_home
 from pages.views import (spell_details, subrace_details, race_details, prestige_details, class_details, feature_details,
                          background_details, skill_details, language_details, condition_details, item_details, weapon_details,
                          armor_details, tool_details, mount_details)
-from pages.views import CharacterCreationName, cc_ability_scores, cc_race, cc_class
+from pages.views import CharacterCreationName, cc_ability_scores, cc_race, cc_class, cc_personality
 
 # Imported API FBVs:
 from api.views import (spell_book, specific_user_character, user_character_names)
@@ -113,6 +113,7 @@ urlpatterns = [
     url(r'^cc_ability_scores/$', cc_ability_scores, name='cc_ability_scores'),
     url(r'^cc_race/$', cc_race, name='cc_race'),
     url(r'^cc_class/$', cc_class, name='cc_class'),
+    url(r'^cc_personality/$', cc_personality, name='cc_personality'),
 
 
     # Search Pages:

@@ -209,7 +209,7 @@ class ClassLevel(models.Model):
     class_level = IntegerMinMaxField(min_value=1, max_value=20)
 
     def __str__(self):
-        return self.character
+        return self.character.char_name
 
 
 class SpellsReady(models.Model):

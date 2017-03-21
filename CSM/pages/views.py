@@ -23,14 +23,13 @@ from django.contrib import messages
 
 # Module and Form Imports:
 from .forms import SearchDatabase
-from .forms import AbilityScoresChoice, CCRace, CCClass
-# AbilityScoresBuy, AbilityScoresRoll, CharacterCreationName
+from .forms import AbilityScoresChoice, CCRace, CCClass, CCPersonality, CCBackground, CCEquipment
 
 # Model Imports:
 from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, DamageType, Feature, Skill, Background,
                           Language, Condition, )
 from spells.models import Spell
-from character.models import Character
+from character.models import Character, ClassLevel
 from equipment.models import (Weapon, Armor, Tool, Item, MountAndVehicle)
 from accounts.models import Member
 
@@ -327,42 +326,6 @@ def mount_details(request, slug):
 
 
 # Character Creation Screens (CC):
-@login_required()
-def cc_ability_scores(request):
-    """
-    Help with character creation?
-    """
-
-    if request.method == "GET":
-        choice_form = AbilityScoresChoice()
-        roll_form = AbilityScoresChoice()
-        buy_form = AbilityScoresChoice()
-        character = Character.objects.get(pk=request.session['character'])
-
-        context = {'character': character, 'choice_form': choice_form, 'roll_form': roll_form, 'buy_form': buy_form}
-
-        return render(request, 'characters/ability_score_creation.html', context)
-
-    elif request.method == "POST":
-
-        form = AbilityScoresChoice(data=request.POST)
-
-        if form.is_valid():
-            character = Character.objects.get(pk=request.session['character'])
-            character.STR_score = form.cleaned_data['Strength']
-            character.DEX_score = form.cleaned_data['Dexterity']
-            character.CON_score = form.cleaned_data['Constitution']
-            character.INT_score = form.cleaned_data['Intelligence']
-            character.WIS_score = form.cleaned_data['Wisdom']
-            character.CHA_score = form.cleaned_data['Charisma']
-
-            character.save()
-
-            request.session['character'] = character.pk
-
-            return redirect('cc_personality')
-
-
 @method_decorator(login_required, name='dispatch')
 class CharacterCreationName(CreateView):
     """First view in the character creation flow."""
@@ -417,7 +380,7 @@ def cc_class(request):
         character = Character.objects.get(pk=request.session['character'])
         form = CCClass()
 
-        context = {'character': character, 'form': form}
+        context = {'character': character, 'class_form': form}
 
         return render(request, 'characters/cc_class.html', context)
 
@@ -425,37 +388,89 @@ def cc_class(request):
         character = Character.objects.get(pk=request.session['character'])
         form = CCClass(data=request.POST)
 
-        context = {'form': form, 'character': character}
+        context = {'class_form': form, 'character': character}
 
         if form.is_valid():
-            character.char_classes = form.cleaned_data['klass']
-            character.prestige
+
+            ClassLevel.objects.create(
+                character=character,
+                char_class=form.cleaned_data['klass'],
+                class_level=1
+            )
+
+            if form.cleaned_data['klass'] == Class.objects.get(name='Cleric'):
+                character.char_prestige = form.cleaned_data['cleric_prestige']
+
+            elif form.cleaned_data['klass'] == Class.objects.get(name='Sorcerer'):
+                character.char_prestige = form.cleaned_data['sorcerer_prestige']
+
+            elif form.cleaned_data['klass'] == Class.objects.get(name='Warlock'):
+                character.char_prestige = form.cleaned_data['warlock_prestige']
+
+            else:
+                character.char_prestige = PrestigeClass.objects.get(name='None')
+
             character.save()
 
             request.session['character'] = character.pk
 
             return redirect('cc_ability_scores')
 
-        else:
-            return render(request, 'characters/cc_class.html', context)
+        return render(request, 'characters/cc_class.html', context)
 
-# def cc_check(request):
-#
-#     if request.method == "POST":
-#
-#         STR = request.POST.get('STR')
-#         DEX = request.POST.get('DEX')
-#         CON = request.POST.get('CON')
-#         INT = request.POST.get('INT')
-#         WIS = request.POST.get('WIS')
-#         CHA = request.POST.get('CHA')
-#
-#         scores = {'STR': STR, 'DEX': DEX, 'CON': CON, 'INT': INT, 'WIS': WIS, 'CHA': CHA}
-#
-#         for k, v in scores.items():
-#             print('{}: {}'.format(k, v))
-#
-#         context = {'scores': scores}
-#
-#         return render(request, 'characters/cc_race.html', context)
+
+@login_required()
+def cc_ability_scores(request):
+    """
+    Help with character creation?
+    """
+
+    if request.method == "GET":
+        choice_form = AbilityScoresChoice()
+        roll_form = AbilityScoresChoice()
+        buy_form = AbilityScoresChoice()
+        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+        character = Character.objects.get(pk=request.session['character'])
+
+        context = {'character': character, 'class_level': class_level, 'choice_form': choice_form, 'roll_form': roll_form, 'buy_form': buy_form}
+
+        return render(request, 'characters/ability_score_creation.html', context)
+
+    elif request.method == "POST":
+        form = AbilityScoresChoice(data=request.POST)
+        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+        character = Character.objects.get(pk=request.session['character'])
+
+        context = {'character': character, 'class_level': class_level, 'form': form}
+
+
+        if form.is_valid():
+            character = Character.objects.get(pk=request.session['character'])
+            character.STR_score = form.cleaned_data['Strength']
+            character.DEX_score = form.cleaned_data['Dexterity']
+            character.CON_score = form.cleaned_data['Constitution']
+            character.INT_score = form.cleaned_data['Intelligence']
+            character.WIS_score = form.cleaned_data['Wisdom']
+            character.CHA_score = form.cleaned_data['Charisma']
+
+            character.save()
+
+            request.session['character'] = character.pk
+
+            return redirect('cc_personality')
+
+        return render(request, 'characters/ability_score_creation.html', context)
+
+
+@login_required()
+def cc_personality(request):
+    """Get information about the character's personality."""
+
+    form = CCPersonality()
+    class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+    character = Character.objects.get(pk=request.session['character'])
+
+    context = {'character': character, 'class_level': class_level, 'form': form}
+
+    return render(request, 'characters/cc_personality.html', context)
 
