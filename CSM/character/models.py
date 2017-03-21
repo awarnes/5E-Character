@@ -47,6 +47,8 @@ class Character(models.Model):
 
     username = models.ForeignKey('accounts.Member', related_name='characters', editable=False)
 
+    accessed = models.DateTimeField(auto_now=True,)
+
     # Flair
     char_name = models.CharField(max_length=1024, blank=True, null=True,)
     description = models.TextField(blank=True, null=True,)

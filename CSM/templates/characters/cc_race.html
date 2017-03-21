@@ -2,7 +2,10 @@
 {% load static %}
 
 {% block main %}
-    {% for name, score in scores.items %}
-        <li>{{ name }} : {{ score }}</li>
-    {% endfor %}
+    <p>STR: {{ character.STR_score }}</p>
+    <p>DEX: {{ character.DEX_score }}</p>
+    <p>CON: {{ character.CON_score }}</p>
+    <p>INT: {{ character.INT_score }}</p>
+    <p>WIS: {{ character.WIS_score }}</p>
+    <p>CHA: {{ character.CHA_score }}</p>
 {% endblock %}

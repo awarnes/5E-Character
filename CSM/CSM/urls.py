@@ -34,7 +34,7 @@ from pages.views import (spell_details, subrace_details, race_details, prestige_
                          background_details, skill_details, language_details, condition_details, item_details, weapon_details,
                          armor_details, tool_details, mount_details)
 from pages.views import CharacterCreationName, ability_scores_choice, cc_check
-from pages.views import CharacterWizard
+# from pages.views import CharacterWizard
 
 # from pages.forms import CCAlignment, CCBackground, CCClass, CCEquipment, CCName, CCPersonality, CCRace, CCSubrace
 

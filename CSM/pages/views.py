@@ -1,7 +1,7 @@
 """
 All the views that a user will see on the site.
 """
-
+import pdb
 
 # Python Imports:
 import re
@@ -22,7 +22,8 @@ from django.contrib import messages
 
 # Module and Form Imports:
 from .forms import SearchDatabase
-# from .forms import AbilityScoresChoice, AbilityScoresBuy, AbilityScoresRoll, CharacterCreationName
+from .forms import AbilityScoresChoice
+# AbilityScoresBuy, AbilityScoresRoll, CharacterCreationName
 
 # Model Imports:
 from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, DamageType, Feature, Skill, Background,
@@ -331,22 +332,38 @@ def ability_scores_choice(request):
     Help with character creation?
     """
 
-    # if request.method == "GET":
-    #     form = AbilityScoresChoice()
-    #
-    #
-    # elif request.method == "POST":
-    #     form = AbilityScoresChoice(data=request.POST)
-    #
-    #     if form.is_valid():
-    #         # TODO: Update the character with ability scores.
-    #         pass
+    if request.method == "GET":
+        choice_form = AbilityScoresChoice()
+        roll_form = AbilityScoresChoice()
+        buy_form = AbilityScoresChoice()
+        character = request.user.characters.latest('accessed')
 
-    character = request.user.characters.latest('username')
+        context = {'character': character, 'choice_form': choice_form, 'roll_form': roll_form, 'buy_form': buy_form}
 
-    context = {'character': character}
+        return render(request, 'characters/ability_score_creation.html', context)
 
-    return render(request, 'characters/ability_score_creation.html', context)
+
+    elif request.method == "POST":
+
+        form = AbilityScoresChoice(data=request.POST)
+
+
+        if form.is_valid():
+            character = request.user.characters.latest('accessed')
+            character.STR_score = form.cleaned_data['Strength']
+            character.DEX_score = form.cleaned_data['Dexterity']
+            character.CON_score = form.cleaned_data['Constitution']
+            character.INT_score = form.cleaned_data['Intelligence']
+            character.WIS_score = form.cleaned_data['Wisdom']
+            character.CHA_score = form.cleaned_data['Charisma']
+
+            character.save()
+
+            context = {'character': character}
+
+            return render(request, 'characters/cc_race.html', context)
+
+
 
 
 # @login_required()
@@ -382,22 +399,4 @@ def cc_check(request):
         context = {'scores': scores}
 
         return render(request, 'characters/cc_race.html', context)
-
-
-class CharacterWizard(SessionWizardView):
-    """Character creation wizard!"""
-
-    def done(self, form_list, **kwargs):
-
-        return render(self.request, 'done.html', {'form_data': [form.cleaned_data for form in form_list]})
-
-        # Character.objects.create(
-        #     username=form_dict['user'],
-        #     char_name=form_dict['name'],
-        #     char_race=form_dict['name'],
-        #     char_subrace=form_dict['name'],
-        #     char_class=form_dict['name'],
-        # )
-
-
 

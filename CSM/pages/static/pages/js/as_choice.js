@@ -8,10 +8,6 @@ $(document).ready(function(){
 
     $('.score').draggable({
         containment: '#containment-wrapper',
-        // helper: function (event) {
-        //     var ctrl = $(this);
-        //     var val = ctrl.data('score');
-        // },
 
     });
 

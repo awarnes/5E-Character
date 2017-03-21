@@ -15,20 +15,20 @@
 
         <section id="tabs-1">
             <section class="panel panel-default">
-                <form action="{% url 'cc_check' %}" method='POST' class="panel-body"> {% csrf_token %}
+                <form action="" method='POST' class="panel-body"> {% csrf_token %}
                     <section class="panel-body col-md-6">
                         <div>Strength:</div>
-                        <input type="number" class="disabled droppable" name="STR">
+                        {{ choice_form.Strength }}
                         <div>Dexterity:</div>
-                        <input type="number" class="disabled droppable" name="DEX">
+                        {{ choice_form.Dexterity }}
                         <div>Constitution:</div>
-                        <input type="number" class="disabled droppable" name="CON">
+                        {{ choice_form.Constitution }}
                         <div>Intelligence:</div>
-                        <input type="number" class="disabled droppable" name="INT">
+                        {{ choice_form.Intelligence }}
                         <div>Wisdom:</div>
-                        <input type="number" class="disabled droppable" name="WIS">
+                        {{ choice_form.Wisdom }}
                         <div>Charisma:</div>
-                        <input type="number" class="disabled droppable" name="CHA">
+                        {{ choice_form.Charisma }}
                     </section>
                     <section class="panel-body col-md-2">
                         <div>
