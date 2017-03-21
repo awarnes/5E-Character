@@ -72,9 +72,11 @@ class Character(models.Model):
     # languages = models.ManyToManyField('rules.Language', related_name='characters')
 
     # Basics
-    char_classes = models.ManyToManyField('rules.Class', related_name='characters', through='ClassLevel', blank=True,)
-    char_race = models.ForeignKey('rules.Race', related_name='characters', blank=True, null=True,)
-    char_background = models.ForeignKey('rules.Background', related_name='characters', blank=True, null=True)
+    char_classes = models.ManyToManyField('rules.Class', related_name='character_classes', through='ClassLevel', blank=True,)
+    char_prestige_classes = models.ManyToManyField('rules.PrestigeClass', related_name='character_prestiges', blank=True,)
+    char_race = models.ForeignKey('rules.Race', related_name='character_races', blank=True, null=True,)
+    char_subrace = models.ForeignKey('rules.Subrace', related_name='character_subraces', blank=True, null=True)
+    char_background = models.ForeignKey('rules.Background', related_name='character_backgrounds', blank=True, null=True)
     alignment = models.ForeignKey('rules.Alignment', related_name='character_alignments', blank=True, null=True,)
     char_xp = models.IntegerField(default=0, blank=True, null=True,)
 

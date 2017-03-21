@@ -3,8 +3,11 @@
 
 {% block title %}Create Your Character{% endblock %}
 
-{% block main %}
+{% block recent_news %}
+    {% include 'includes/current_character.html' %}
+{% endblock %}
 
+{% block main %}
     <main>
         <section class="container">
             <form action="" method="POST">

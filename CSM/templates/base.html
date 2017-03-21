@@ -38,7 +38,9 @@
         {% endblock %}
         <main class="col-md-12">
             <section class="col-md-4 hidden-sm hidden-xs">
-                {% include 'includes/recent_news.html' %}
+                {% block recent_news %}
+                    {% include 'includes/recent_news.html' %}
+                {% endblock %}
             </section>
             <section class="col-md-8 col-xs-12">
                 {% block main %}

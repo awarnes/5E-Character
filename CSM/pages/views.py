@@ -8,9 +8,10 @@ import re
 
 
 # Django Imports:
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView, CreateView
 from django.urls import reverse_lazy
@@ -22,7 +23,7 @@ from django.contrib import messages
 
 # Module and Form Imports:
 from .forms import SearchDatabase
-from .forms import AbilityScoresChoice
+from .forms import AbilityScoresChoice, CCRace, CCClass
 # AbilityScoresBuy, AbilityScoresRoll, CharacterCreationName
 
 # Model Imports:
@@ -325,9 +326,9 @@ def mount_details(request, slug):
     return render(request, 'database_view/detail_pages/mount_details.html', context)
 
 
-# Character Screens
+# Character Creation Screens (CC):
 @login_required()
-def ability_scores_choice(request):
+def cc_ability_scores(request):
     """
     Help with character creation?
     """
@@ -336,20 +337,18 @@ def ability_scores_choice(request):
         choice_form = AbilityScoresChoice()
         roll_form = AbilityScoresChoice()
         buy_form = AbilityScoresChoice()
-        character = request.user.characters.latest('accessed')
+        character = Character.objects.get(pk=request.session['character'])
 
         context = {'character': character, 'choice_form': choice_form, 'roll_form': roll_form, 'buy_form': buy_form}
 
         return render(request, 'characters/ability_score_creation.html', context)
 
-
     elif request.method == "POST":
 
         form = AbilityScoresChoice(data=request.POST)
 
-
         if form.is_valid():
-            character = request.user.characters.latest('accessed')
+            character = Character.objects.get(pk=request.session['character'])
             character.STR_score = form.cleaned_data['Strength']
             character.DEX_score = form.cleaned_data['Dexterity']
             character.CON_score = form.cleaned_data['Constitution']
@@ -359,20 +358,18 @@ def ability_scores_choice(request):
 
             character.save()
 
-            context = {'character': character}
+            request.session['character'] = character.pk
 
-            return render(request, 'characters/cc_race.html', context)
-
-
+            return redirect('cc_personality')
 
 
-# @login_required()
+@method_decorator(login_required, name='dispatch')
 class CharacterCreationName(CreateView):
     """First view in the character creation flow."""
 
     model = Character
     fields = ['char_name',]
-    success_url = reverse_lazy('ability_scores')
+    success_url = reverse_lazy('cc_race')
     template_name = 'characters/char_creation_name.html'
 
     def form_valid(self, form):
@@ -380,23 +377,85 @@ class CharacterCreationName(CreateView):
         return super(CharacterCreationName, self).form_valid(form)
 
 
-def cc_check(request):
+@login_required()
+def cc_race(request):
+    """Choose a race and subclass if available."""
 
-    if request.method == "POST":
+    if request.method == "GET":
+        character = request.user.characters.latest('accessed')
+        request.session['character'] = character.pk
+        form = CCRace()
 
-        STR = request.POST.get('STR')
-        DEX = request.POST.get('DEX')
-        CON = request.POST.get('CON')
-        INT = request.POST.get('INT')
-        WIS = request.POST.get('WIS')
-        CHA = request.POST.get('CHA')
-
-        scores = {'STR': STR, 'DEX': DEX, 'CON': CON, 'INT': INT, 'WIS': WIS, 'CHA': CHA}
-
-        for k, v in scores.items():
-            print('{}: {}'.format(k, v))
-
-        context = {'scores': scores}
+        context = {'race_form': form, 'character': character}
 
         return render(request, 'characters/cc_race.html', context)
+
+    elif request.method == "POST":
+        character = Character.objects.get(pk=request.session['character'])
+        form = CCRace(data=request.POST)
+
+        context = {'race_form': form, 'character': character}
+
+        if form.is_valid():
+
+            character.char_race = form.cleaned_data['race']
+            character.char_subrace = form.cleaned_data['subrace']
+            character.save()
+
+            request.session['character'] = character.pk
+
+            return redirect('cc_class')
+
+        return render(request, 'characters/cc_race.html', context)
+
+
+@login_required()
+def cc_class(request):
+    """Choose a class for new character."""
+
+    if request.method == "GET":
+        character = Character.objects.get(pk=request.session['character'])
+        form = CCClass()
+
+        context = {'character': character, 'form': form}
+
+        return render(request, 'characters/cc_class.html', context)
+
+    elif request.method == "POST":
+        character = Character.objects.get(pk=request.session['character'])
+        form = CCClass(data=request.POST)
+
+        context = {'form': form, 'character': character}
+
+        if form.is_valid():
+            character.char_classes = form.cleaned_data['klass']
+            character.prestige
+            character.save()
+
+            request.session['character'] = character.pk
+
+            return redirect('cc_ability_scores')
+
+        else:
+            return render(request, 'characters/cc_class.html', context)
+
+# def cc_check(request):
+#
+#     if request.method == "POST":
+#
+#         STR = request.POST.get('STR')
+#         DEX = request.POST.get('DEX')
+#         CON = request.POST.get('CON')
+#         INT = request.POST.get('INT')
+#         WIS = request.POST.get('WIS')
+#         CHA = request.POST.get('CHA')
+#
+#         scores = {'STR': STR, 'DEX': DEX, 'CON': CON, 'INT': INT, 'WIS': WIS, 'CHA': CHA}
+#
+#         for k, v in scores.items():
+#             print('{}: {}'.format(k, v))
+#
+#         context = {'scores': scores}
+#
+#         return render(request, 'characters/cc_race.html', context)
 

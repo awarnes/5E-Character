@@ -1,0 +1,25 @@
+{% load static %}
+
+<main class="panel panel-default">
+    <section class="panel-heading">
+      <h3>Name: {{ character.char_name }}</h3>
+    </section>
+    <section class="panel-body">
+        <section class="col-md-12">
+            <p>Race: {{ character.char_race }}</p>
+            <p>Subrace: {{ character.char_subrace }}</p>
+            <p>Class: {{ character.char_classes }}</p>
+            <hr>
+        </section>
+    </section>
+    <section class="panel-body">
+        <section class="col-md-6">
+            <p>Strength: {{ character.STR_score }}</p>
+            <p>Dexterity: {{ character.DEX_score }}</p>
+            <p>Constitution: {{ character.CON_score }}</p>
+            <p>Intelligence: {{ character.INT_score }}</p>
+            <p>Wisdom: {{ character.WIS_score }}</p>
+            <p>Charisma: {{ character.CHA_score }}</p>
+        </section>
+    </section>
+</main>

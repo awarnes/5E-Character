@@ -8,7 +8,7 @@
     
     
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for accounts/views.py: 0%</title>
+    <title>Coverage for accounts/views.py: 26%</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -24,15 +24,15 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>accounts/views.py</b> :
-            <span class="pc_cov">0%</span>
+            <span class="pc_cov">26%</span>
         </h1>
 
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
             23 statements &nbsp;
-            <span class="run hide_run shortkey_r button_toggle_run">0 run</span>
-            <span class="mis shortkey_m button_toggle_mis">23 missing</span>
+            <span class="run hide_run shortkey_r button_toggle_run">6 run</span>
+            <span class="mis shortkey_m button_toggle_mis">17 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
 
             
@@ -67,10 +67,10 @@
     <table>
         <tr>
             <td class="linenos">
-<p id="n1" class="stm mis"><a href="#n1">1</a></p>
-<p id="n2" class="stm mis"><a href="#n2">2</a></p>
+<p id="n1" class="stm run hide_run"><a href="#n1">1</a></p>
+<p id="n2" class="stm run hide_run"><a href="#n2">2</a></p>
 <p id="n3" class="pln"><a href="#n3">3</a></p>
-<p id="n4" class="stm mis"><a href="#n4">4</a></p>
+<p id="n4" class="stm run hide_run"><a href="#n4">4</a></p>
 <p id="n5" class="pln"><a href="#n5">5</a></p>
 <p id="n6" class="pln"><a href="#n6">6</a></p>
 <p id="n7" class="pln"><a href="#n7">7</a></p>
@@ -116,7 +116,7 @@
 <p id="n47" class="pln"><a href="#n47">47</a></p>
 <p id="n48" class="pln"><a href="#n48">48</a></p>
 <p id="n49" class="pln"><a href="#n49">49</a></p>
-<p id="n50" class="stm mis"><a href="#n50">50</a></p>
+<p id="n50" class="stm run hide_run"><a href="#n50">50</a></p>
 <p id="n51" class="pln"><a href="#n51">51</a></p>
 <p id="n52" class="pln"><a href="#n52">52</a></p>
 <p id="n53" class="pln"><a href="#n53">53</a></p>
@@ -128,14 +128,14 @@
 <p id="n59" class="stm mis"><a href="#n59">59</a></p>
 <p id="n60" class="pln"><a href="#n60">60</a></p>
 <p id="n61" class="pln"><a href="#n61">61</a></p>
-<p id="n62" class="stm mis"><a href="#n62">62</a></p>
+<p id="n62" class="stm run hide_run"><a href="#n62">62</a></p>
 <p id="n63" class="pln"><a href="#n63">63</a></p>
 <p id="n64" class="stm mis"><a href="#n64">64</a></p>
 <p id="n65" class="pln"><a href="#n65">65</a></p>
 <p id="n66" class="stm mis"><a href="#n66">66</a></p>
 <p id="n67" class="pln"><a href="#n67">67</a></p>
 <p id="n68" class="pln"><a href="#n68">68</a></p>
-<p id="n69" class="stm mis"><a href="#n69">69</a></p>
+<p id="n69" class="stm run hide_run"><a href="#n69">69</a></p>
 <p id="n70" class="pln"><a href="#n70">70</a></p>
 <p id="n71" class="pln"><a href="#n71">71</a></p>
 <p id="n72" class="pln"><a href="#n72">72</a></p>
@@ -161,10 +161,10 @@
 
             </td>
             <td class="text">
-<p id="t1" class="stm mis"><span class="key">from</span> <span class="nam">django</span><span class="op">.</span><span class="nam">shortcuts</span> <span class="key">import</span> <span class="nam">render</span><span class="strut">&nbsp;</span></p>
-<p id="t2" class="stm mis"><span class="key">from</span> <span class="nam">django</span><span class="op">.</span><span class="nam">contrib</span><span class="op">.</span><span class="nam">auth</span> <span class="key">import</span> <span class="nam">logout</span><span class="strut">&nbsp;</span></p>
+<p id="t1" class="stm run hide_run"><span class="key">from</span> <span class="nam">django</span><span class="op">.</span><span class="nam">shortcuts</span> <span class="key">import</span> <span class="nam">render</span><span class="strut">&nbsp;</span></p>
+<p id="t2" class="stm run hide_run"><span class="key">from</span> <span class="nam">django</span><span class="op">.</span><span class="nam">contrib</span><span class="op">.</span><span class="nam">auth</span> <span class="key">import</span> <span class="nam">logout</span><span class="strut">&nbsp;</span></p>
 <p id="t3" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t4" class="stm mis"><span class="key">from</span> <span class="op">.</span><span class="nam">forms</span> <span class="key">import</span> <span class="nam">MemberCreateForm</span><span class="strut">&nbsp;</span></p>
+<p id="t4" class="stm run hide_run"><span class="key">from</span> <span class="op">.</span><span class="nam">forms</span> <span class="key">import</span> <span class="nam">MemberCreateForm</span><span class="strut">&nbsp;</span></p>
 <p id="t5" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t6" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t7" class="pln"><span class="str">"""</span><span class="strut">&nbsp;</span></p>
@@ -210,7 +210,7 @@
 <p id="t47" class="pln"><span class="com">#     return render(request, 'accounts/login.html', context)</span><span class="strut">&nbsp;</span></p>
 <p id="t48" class="pln"><span class="com">#</span><span class="strut">&nbsp;</span></p>
 <p id="t49" class="pln"><span class="com">#</span><span class="strut">&nbsp;</span></p>
-<p id="t50" class="stm mis"><span class="key">def</span> <span class="nam">user_logout</span><span class="op">(</span><span class="nam">request</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t50" class="stm run hide_run"><span class="key">def</span> <span class="nam">user_logout</span><span class="op">(</span><span class="nam">request</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t51" class="pln">    <span class="str">"""</span><span class="strut">&nbsp;</span></p>
 <p id="t52" class="pln"><span class="str">    Logs out a currently active user.</span><span class="strut">&nbsp;</span></p>
 <p id="t53" class="pln"><span class="str">    """</span><span class="strut">&nbsp;</span></p>
@@ -222,14 +222,14 @@
 <p id="t59" class="stm mis">    <span class="key">return</span> <span class="nam">render</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="str">'accounts/logged_out.html'</span><span class="op">,</span> <span class="nam">context</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t60" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t61" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t62" class="stm mis"><span class="key">def</span> <span class="nam">user_home</span><span class="op">(</span><span class="nam">request</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t62" class="stm run hide_run"><span class="key">def</span> <span class="nam">user_home</span><span class="op">(</span><span class="nam">request</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t63" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t64" class="stm mis">    <span class="nam">context</span> <span class="op">=</span> <span class="nam">dict</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t65" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t66" class="stm mis">    <span class="key">return</span> <span class="nam">render</span><span class="op">(</span><span class="nam">request</span><span class="op">,</span> <span class="str">'accounts/user_home.html'</span><span class="op">,</span> <span class="nam">context</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t67" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t68" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t69" class="stm mis"><span class="key">def</span> <span class="nam">register_user</span><span class="op">(</span><span class="nam">request</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t69" class="stm run hide_run"><span class="key">def</span> <span class="nam">register_user</span><span class="op">(</span><span class="nam">request</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t70" class="pln">    <span class="str">"""</span><span class="strut">&nbsp;</span></p>
 <p id="t71" class="pln"><span class="str">    Registers a new user in the system with base permissions.</span><span class="strut">&nbsp;</span></p>
 <p id="t72" class="pln"><span class="str">    """</span><span class="strut">&nbsp;</span></p>
@@ -262,7 +262,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.3.4</a>,
-            created at 2017-03-20 16:59
+            created at 2017-03-21 16:43
         </p>
     </div>
 </div>

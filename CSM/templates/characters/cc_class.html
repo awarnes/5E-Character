@@ -6,39 +6,29 @@
         <section class="panel-body">
             <section class="col-md-4">
                 <form action="" method="POST">{% csrf_token %}
-                    {{ race_form.errors }}
-                    <p>Race: {{ race_form.race }}</p>
-                    <p>Subrace: {{ race_form.subrace }}</p>
+                    {{ class_form.errors }}
+                    <p>Class: {{ class_form.race }}</p>
+                    <p hidden="true">Prestige Class: {{ class_form.subrace }}</p>
                     <button type="submit" class="btn btn-primary">Next!</button>
                 </form>
             </section>
             <section class="col-md-8">
                 <section class="panel panel-default">
                     <section class="panel-body">
-                        <p>Name: <span id="race_name"></span></p>
-                        <hr>
-                        <p>Increased Abilities:</p>
-                        <ul id="race_abilities">
-
-                        </ul>
+                        <p>Name: <span id="class_name"></span></p>
                         <hr>
                         <p>Features:</p>
-                        <ul id="race_features">
+                        <ul id="class_features">
 
                         </ul>
                     </section>
                 </section>
                 <section class="panel panel-default">
                     <section class="panel-body">
-                        <p>Name: <span id="subrace_name"></span></p>
-                        <hr>
-                        <p>Increased Abilities:</p>
-                        <div id="subrace_abilities">
-
-                        </div>
+                        <p>Name: <span id="prestige_name"></span></p>
                         <hr>
                         <p>Features:</p>
-                        <ul id="subrace_features">
+                        <ul id="prestige_features">
 
                         </ul>
                     </section>
@@ -49,5 +39,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static 'pages/js/cc_race.js' %}"></script>
+    <script src="{% static 'pages/js/cc_class.js' %}"></script>
 {% endblock %}
