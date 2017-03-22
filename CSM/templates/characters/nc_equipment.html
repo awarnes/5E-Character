@@ -1,0 +1,40 @@
+{% extends 'characters/base_creation.html' %}
+{% load static %}
+
+{% block main %}
+    <section class="panel panel-default">
+        <section class="panel-body">
+            <section class="col-md-6">
+                <form action="" method="POST">{% csrf_token %}
+                    {{ form.errors }}
+                    <p>Weapons:</p>
+                    <p>{{ form.weapons }}</p>
+                    <p>Armor:</p>
+                    <p>{{ form.armor }}</p>
+                    <p>Items:</p>
+                    <p>{{ form.items }}</p>
+                    <p>Tools:</p>
+                    <p>{{ form.tools }}</p>
+                    <button type="submit" class="btn btn-primary">Next!</button>
+                </form>
+            </section>
+            <section class="col-md-6">
+                <section class="panel panel-default">
+                    <section class="panel-body">
+                        <p>Name: <span id="name"></span></p>
+                        <hr>
+                        <p>Description:</p>
+                        <p id="description"></p>
+                        <hr>
+                        <p>Other Information:</p>
+                        <p id="information"></p>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'pages/js/nc_equipment.js' %}"></script>
+{% endblock %}

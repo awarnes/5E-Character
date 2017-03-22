@@ -1,0 +1,39 @@
+{% extends 'characters/base_creation.html' %}
+{% load static %}
+
+{% block main %}
+    <section class="panel panel-default">
+        <section class="panel-body">
+            <section class="col-md-6">
+                <form action="" method="POST">{% csrf_token %}
+                    {{ form.errors }}
+                    <p>Alignment: {{ form.alignment }}</p>
+                    <p>Ideals:</p>
+                    <p>{{ form.ideals }}</p>
+                    <p>Bonds:</p>
+                    <p>{{ form.bonds }}</p>
+                    <p>Flaws:</p>
+                    <p>{{ form.flaws }}</p>
+                    <button type="submit" class="btn btn-primary">Next!</button>
+                </form>
+            </section>
+            <section class="col-md-6">
+                <section class="panel panel-default">
+                    <section class="panel-body">
+                        <p>Name: <span id="alignment_name"></span></p>
+                        <hr>
+                        <p>Description:</p>
+                        <p id="alignment_desc"></p>
+                        <hr>
+                        <p>Examples:</p>
+                        <p id="alignment_examples"></p>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'pages/js/nc_personality.js' %}"></script>
+{% endblock %}

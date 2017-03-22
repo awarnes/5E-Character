@@ -7,26 +7,25 @@
             <section class="col-md-6">
                 <form action="" method="POST">{% csrf_token %}
                     {{ form.errors }}
-                    <p>Alignment: {{ form.alignment }}</p>
-                    <p>Ideals:</p>
-                    <p>{{ form.ideals }}</p>
-                    <p>Bonds:</p>
-                    <p>{{ form.bonds }}</p>
-                    <p>Flaws:</p>
-                    <p>{{ form.flaws }}</p>
+                    <p>Background: {{ form.background }}</p>
                     <button type="submit" class="btn btn-primary">Next!</button>
                 </form>
             </section>
             <section class="col-md-6">
                 <section class="panel panel-default">
                     <section class="panel-body">
-                        <p>Name: <span id="alignment_name"></span></p>
+                        <p>Name: <span id="name"></span></p>
+                        <p>Starting Gold: <span id="gold"></span></p>
                         <hr>
                         <p>Description:</p>
-                        <p id="alignment_desc"></p>
+                        <p id="description"></p>
                         <hr>
-                        <p>Examples:</p>
-                        <p id="alignment_examples"></p>
+                        <p>Special: <span id="special"></span></p>
+                        <p>Features:</p>
+                        <ul id="features">
+
+                        </ul>
+
                     </section>
                 </section>
             </section>
@@ -35,5 +34,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static 'pages/js/cc_personality.js' %}"></script>
+    <script src="{% static 'pages/js/nc_background.js' %}"></script>
 {% endblock %}

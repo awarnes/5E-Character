@@ -6,31 +6,39 @@
         <section class="panel-body">
             <section class="col-md-4">
                 <form action="" method="POST">{% csrf_token %}
-                    {{ class_form.errors }}
-                    <p>Class: {{ class_form.klass }}</p>
-                    <p id="cleric">Prestige Class: {{ class_form.cleric_prestige }}</p>
-                    <p id="sorcerer">Prestige Class: {{ class_form.sorcerer_prestige }}</p>
-                    <p id="warlock">Prestige Class: {{ class_form.warlock_prestige }}</p>
+                    {{ race_form.errors }}
+                    <p>Race: {{ race_form.race }}</p>
+                    <p>Subrace: {{ race_form.subrace }}</p>
                     <button type="submit" class="btn btn-primary">Next!</button>
                 </form>
             </section>
             <section class="col-md-8">
                 <section class="panel panel-default">
                     <section class="panel-body">
-                        <p>Name: <span id="class_name"></span></p>
+                        <p>Name: <span id="race_name"></span></p>
+                        <hr>
+                        <p>Increased Abilities:</p>
+                        <ul id="race_abilities">
+
+                        </ul>
                         <hr>
                         <p>Features:</p>
-                        <ul id="class_features">
+                        <ul id="race_features">
 
                         </ul>
                     </section>
                 </section>
                 <section class="panel panel-default">
                     <section class="panel-body">
-                        <p>Name: <span id="prestige_name"></span></p>
+                        <p>Name: <span id="subrace_name"></span></p>
+                        <hr>
+                        <p>Increased Abilities:</p>
+                        <div id="subrace_abilities">
+
+                        </div>
                         <hr>
                         <p>Features:</p>
-                        <ul id="prestige_features">
+                        <ul id="subrace_features">
 
                         </ul>
                     </section>
@@ -41,5 +49,5 @@
 {% endblock %}
 
 {% block extra_scripts %}
-    <script src="{% static 'pages/js/cc_class.js' %}"></script>
+    <script src="{% static 'pages/js/nc_race.js' %}"></script>
 {% endblock %}

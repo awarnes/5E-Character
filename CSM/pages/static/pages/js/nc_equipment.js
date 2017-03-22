@@ -1,0 +1,1 @@
+// TODO: Make the js to pull information from each selected element and put it into the panel on the right.

@@ -64,8 +64,13 @@ class CCEquipment(forms.Form):
     """Choose equipment."""
 
     weapons = forms.ModelMultipleChoiceField(queryset=Weapon.objects.all(), required=False)
-    armor = forms.ModelChoiceField(queryset=Armor.objects.all(), required=False)
-    items = forms.ModelChoiceField(queryset=Item.objects.all(), required=False)
-    tools = forms.ModelChoiceField(queryset=Tool.objects.all(), required=False)
+    armor = forms.ModelMultipleChoiceField(queryset=Armor.objects.all(), required=False)
+    items = forms.ModelMultipleChoiceField(queryset=Item.objects.all(), required=False)
+    tools = forms.ModelMultipleChoiceField(queryset=Tool.objects.all(), required=False)
 
+
+class NCResolve(forms.Form):
+    """Final form for new character creation."""
+
+    next_page = forms.CharField(max_length=128, widget=forms.TextInput, required=False)
 

@@ -33,7 +33,8 @@ from pages.views import search_home
 from pages.views import (spell_details, subrace_details, race_details, prestige_details, class_details, feature_details,
                          background_details, skill_details, language_details, condition_details, item_details, weapon_details,
                          armor_details, tool_details, mount_details)
-from pages.views import CharacterCreationName, cc_ability_scores, cc_race, cc_class, cc_personality
+from pages.views import (CharacterCreationName, nc_ability_scores, nc_race, nc_class, nc_personality, nc_equipment,
+                         nc_background, nc_resolve)
 
 # Imported API FBVs:
 from api.views import (spell_book, specific_user_character, user_character_names)
@@ -108,12 +109,15 @@ urlpatterns = [
     url(r'^tools/details/(?P<slug>(\w+[a-z\-]+))', tool_details, name='tool_details'),
     url(r'^mounts/details/(?P<slug>(\w+[a-z\-]+))', mount_details, name='mount_details'),
 
-    # Create Character (cc):
-    url(r'^new_character/$', CharacterCreationName.as_view(), name='cc_new'),
-    url(r'^cc_ability_scores/$', cc_ability_scores, name='cc_ability_scores'),
-    url(r'^cc_race/$', cc_race, name='cc_race'),
-    url(r'^cc_class/$', cc_class, name='cc_class'),
-    url(r'^cc_personality/$', cc_personality, name='cc_personality'),
+    # Create New Character (NC):
+    url(r'^new_character_name/$', CharacterCreationName.as_view(), name='nc_new'),
+    url(r'^nc_ability_scores/$', nc_ability_scores, name='nc_ability_scores'),
+    url(r'^nc_race/$', nc_race, name='nc_race'),
+    url(r'^nc_class/$', nc_class, name='nc_class'),
+    url(r'^nc_personality/$', nc_personality, name='nc_personality'),
+    url(r'^nc_background/$', nc_background, name='nc_background'),
+    url(r'^nc_equipment/$', nc_equipment, name='nc_equipment'),
+    url(r'^nc_resolve/$', nc_resolve, name='nc_resolve'),
 
 
     # Search Pages:

@@ -23,7 +23,7 @@ from django.contrib import messages
 
 # Module and Form Imports:
 from .forms import SearchDatabase
-from .forms import AbilityScoresChoice, CCRace, CCClass, CCPersonality, CCBackground, CCEquipment
+from .forms import AbilityScoresChoice, CCRace, CCClass, CCPersonality, CCBackground, CCEquipment, NCResolve
 
 # Model Imports:
 from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, DamageType, Feature, Skill, Background,
@@ -332,7 +332,7 @@ class CharacterCreationName(CreateView):
 
     model = Character
     fields = ['char_name',]
-    success_url = reverse_lazy('cc_race')
+    success_url = reverse_lazy('nc_race')
     template_name = 'characters/char_creation_name.html'
 
     def form_valid(self, form):
@@ -341,7 +341,7 @@ class CharacterCreationName(CreateView):
 
 
 @login_required()
-def cc_race(request):
+def nc_race(request):
     """Choose a race and subclass if available."""
 
     if request.method == "GET":
@@ -351,7 +351,7 @@ def cc_race(request):
 
         context = {'race_form': form, 'character': character}
 
-        return render(request, 'characters/cc_race.html', context)
+        return render(request, 'characters/nc_race.html', context)
 
     elif request.method == "POST":
         character = Character.objects.get(pk=request.session['character'])
@@ -367,13 +367,13 @@ def cc_race(request):
 
             request.session['character'] = character.pk
 
-            return redirect('cc_class')
+            return redirect('nc_class')
 
-        return render(request, 'characters/cc_race.html', context)
+        return render(request, 'characters/nc_race.html', context)
 
 
 @login_required()
-def cc_class(request):
+def nc_class(request):
     """Choose a class for new character."""
 
     if request.method == "GET":
@@ -382,7 +382,7 @@ def cc_class(request):
 
         context = {'character': character, 'class_form': form}
 
-        return render(request, 'characters/cc_class.html', context)
+        return render(request, 'characters/nc_class.html', context)
 
     elif request.method == "POST":
         character = Character.objects.get(pk=request.session['character'])
@@ -414,13 +414,13 @@ def cc_class(request):
 
             request.session['character'] = character.pk
 
-            return redirect('cc_ability_scores')
+            return redirect('nc_ability_scores')
 
-        return render(request, 'characters/cc_class.html', context)
+        return render(request, 'characters/nc_class.html', context)
 
 
 @login_required()
-def cc_ability_scores(request):
+def nc_ability_scores(request):
     """
     Help with character creation?
     """
@@ -434,7 +434,7 @@ def cc_ability_scores(request):
 
         context = {'character': character, 'class_level': class_level, 'choice_form': choice_form, 'roll_form': roll_form, 'buy_form': buy_form}
 
-        return render(request, 'characters/ability_score_creation.html', context)
+        return render(request, 'characters/nc_ability_scores.html', context)
 
     elif request.method == "POST":
         form = AbilityScoresChoice(data=request.POST)
@@ -457,20 +457,143 @@ def cc_ability_scores(request):
 
             request.session['character'] = character.pk
 
-            return redirect('cc_personality')
+            return redirect('nc_personality')
 
-        return render(request, 'characters/ability_score_creation.html', context)
+        return render(request, 'characters/nc_ability_scores.html', context)
 
 
 @login_required()
-def cc_personality(request):
+def nc_personality(request):
     """Get information about the character's personality."""
 
-    form = CCPersonality()
-    class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
-    character = Character.objects.get(pk=request.session['character'])
+    if request.method == "GET":
 
-    context = {'character': character, 'class_level': class_level, 'form': form}
+        form = CCPersonality()
+        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+        character = Character.objects.get(pk=request.session['character'])
 
-    return render(request, 'characters/cc_personality.html', context)
+        context = {'character': character, 'class_level': class_level, 'form': form}
 
+        return render(request, 'characters/nc_personality.html', context)
+
+    elif request.method == "POST":
+        form = CCPersonality(data=request.POST)
+        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+        character = Character.objects.get(pk=request.session['character'])
+
+        context = {'character': character, 'class_level': class_level, 'form': form}
+
+        if form.is_valid():
+
+            character.alignment = form.cleaned_data['alignment']
+
+            if form.cleaned_data['ideals'] != "":
+                character.ideals = form.cleaned_data['ideals']
+
+            if form.cleaned_data['bonds'] != "":
+                character.ideals = form.cleaned_data['bonds']
+
+            if form.cleaned_data['flaws'] != "":
+                character.ideals = form.cleaned_data['flaws']
+
+            character.save()
+
+            return redirect('nc_background')
+
+        return render(request, 'characters/nc_personality.html', context)
+
+
+@login_required()
+def nc_background(request):
+    """Assign the character's background."""
+
+    if request.method == "GET":
+        form = CCBackground()
+        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+        character = Character.objects.get(pk=request.session['character'])
+
+        context = {'character': character, 'class_level': class_level, 'form': form}
+
+        return render(request, 'characters/nc_background.html', context)
+
+    elif request.method == "POST":
+        form = CCBackground(data=request.POST)
+        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+        character = Character.objects.get(pk=request.session['character'])
+
+        context = {'character': character, 'class_level': class_level, 'form': form}
+
+        if form.is_valid():
+            character.char_background = form.cleaned_data['background']
+
+            character.save()
+
+            return redirect('nc_equipment')
+
+        return render(request, 'characters/nc_background.html', context)
+
+
+@login_required()
+def nc_equipment(request):
+    """Assigning starting equipment"""
+
+    if request.method == "GET":
+        form = CCEquipment()
+        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+        character = Character.objects.get(pk=request.session['character'])
+
+        context = {'character': character, 'class_level': class_level, 'form': form}
+
+        return render(request, 'characters/nc_equipment.html', context)
+
+    elif request.method == "POST":
+        form = CCEquipment(data=request.POST)
+        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+        character = Character.objects.get(pk=request.session['character'])
+
+        context = {'character': character, 'class_level': class_level, 'form': form}
+
+        if form.is_valid():
+            character.weapons_inv = form.cleaned_data['weapons']
+            character.tools_inv = form.cleaned_data['tools']
+            character.items_inv = form.cleaned_data['items']
+            character.armor_inv = form.cleaned_data['armor']
+
+            character.save()
+
+            return redirect('nc_resolve')
+
+        return render(request, "characters/nc_resolve.html", context)
+
+
+@login_required()
+def nc_resolve(request):
+    """Final screen for character. Show all information and as where they want to go next."""
+
+    if request.method == "GET":
+        form = NCResolve()
+        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+        character = Character.objects.get(pk=request.session['character'])
+
+        context = {'character': character, 'class_level': class_level, 'form': form}
+
+        return render(request, "characters/nc_resolve.html", context)
+
+    elif request.method == "POST":
+        form = NCResolve(data=request.POST)
+        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
+        character = Character.objects.get(pk=request.session['character'])
+
+        context = {'character': character, 'class_level': class_level, 'form': form}
+
+        if form.is_valid():
+            request.session['character'] = ''
+
+            next_page = form.cleaned_data['next_page']
+
+            if next_page == "":
+                next_page = "home"
+
+            return redirect(next_page)
+
+        return render(request, "characters/nc_resolve.html", context)
