@@ -1,4 +1,5 @@
 {% load static %}
+{% load character_tags %}
 
 <!DOCTYPE html>
 
@@ -27,7 +28,7 @@
                 <div class="panel panel-default" id="name_box">
                     <div class="panel-body">
                         <p>Character Name: {{ character.char_name }}</p>
-                        <p>Username: {{ character.username }}</p>
+                        <p>Username: {{ character.username }} {{ character.get_char_level }}</p>
                     </div>
                 </div>
 
@@ -50,22 +51,22 @@
                             <p>Ability Scores:</p>
                             <p>Strength:</p>
                             <p>Strength Score: {{ character.STR_score }}</p>
-                            <p>Strength Modifier:</p>
+                            <p>Strength Modifier: {% ab_bonus character 'STR' %}</p>
                             <p>Dexterity:</p>
                             <p>Dexterity Score: {{ character.DEX_score }}</p>
-                            <p>Dexterity Modifier:</p>
+                            <p>Dexterity Modifier: {% ab_bonus character 'DEX' %}</p>
                             <p>Constitution:</p>
                             <p>Constitution Score: {{ character.CON_score }}</p>
-                            <p>Constitution Modifier:</p>
+                            <p>Constitution Modifier: {% ab_bonus character 'CON' %}</p>
                             <p>Intelligence:</p>
                             <p>Intelligence Score: {{ character.INT_score }}</p>
-                            <p>Intelligence Modifier:</p>
+                            <p>Intelligence Modifier: {% ab_bonus character 'INT' %}</p>
                             <p>Wisdom:</p>
                             <p>Wisdom Score: {{ character.WIS_score }}</p>
-                            <p>Wisdom Modifier:</p>
+                            <p>Wisdom Modifier: {% ab_bonus character 'WIS' %}</p>
                             <p>Charisma:</p>
                             <p>Charisma Score: {{ character.CHA_score }}</p>
-                            <p>Charisma Modifier:</p>
+                            <p>Charisma Modifier: {% ab_bonus character 'CHA' %}</p>
                         </div>
                     </section>
 
@@ -78,7 +79,7 @@
 
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p>Proficiency Bonus:</p>
+                                <p>Proficiency Bonus: {{ character.get_prof_bonus }}</p>
                             </div>
                         </div>
 
@@ -122,7 +123,7 @@
                     <section class="sortable" id="left-bottom">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <p>Passive Wisdom (Perception): <span id="passive_wis"></span></p>
+                                <p>Passive Wisdom (Perception): {% passive_bonus character "WIS" %}</p>
                             </div>
                         </div>
 

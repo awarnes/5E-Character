@@ -1,6 +1,6 @@
 .sortable {
     min-height: 100px;
-    min-width: 10px;
+    min-width: 100px;
     background: aliceblue;
     border: 1px solid black;
 }

@@ -140,12 +140,12 @@ class Character(models.Model):
         """
 
         score_conversion = {
-            'Strength': self.STR_score,
-            'Dexterity': self.DEX_score,
-            'Constitution': self.CON_score,
-            'Intelligence': self.INT_score,
-            'Wisdom': self.WIS_score,
-            'Charisma': self.CHA_score,
+            'STR': self.STR_score,
+            'DEX': self.DEX_score,
+            'CON': self.CON_score,
+            'INT': self.INT_score,
+            'WIS': self.WIS_score,
+            'CHA': self.CHA_score,
         }
 
         return (score_conversion[ability] - 10) // 2
@@ -156,16 +156,7 @@ class Character(models.Model):
         :return: int()
         """
 
-        score_conversion = {
-            'Strength': self.STR_score,
-            'Dexterity': self.DEX_score,
-            'Constitution': self.CON_score,
-            'Intelligence': self.INT_score,
-            'Wisdom': self.WIS_score,
-            'Charisma': self.CHA_score,
-        }
-
-        return self.get_ability_bonus(score_conversion[ability]) + 10
+        return self.get_ability_bonus(ability) + 10
 
     def get_char_level(self):
         """
@@ -174,11 +165,14 @@ class Character(models.Model):
         :return: an int()
         """
 
-        levels = self.char_classes.all().values_list('class_level', flat=True)
+        class_levels = self.classlevels.all()
 
-        result = sum(**levels)
+        level = 0
 
-        return result
+        for class_level in class_levels:
+            level += class_level.class_level
+
+        return level
 
     def get_initiative_bonus(self):
         """
