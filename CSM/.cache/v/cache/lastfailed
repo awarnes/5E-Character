@@ -1,1 +1,4 @@
-{}
+{
+  "accounts/tests/test_views.py": true,
+  "pages/tests/test_forms.py": true
+}

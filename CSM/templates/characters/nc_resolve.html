@@ -1,15 +1,280 @@
-{% extends 'base.html' %}
 {% load static %}
 
-{% block main %}
-    <main>
-        <section>
-            
-        </section>
+<!DOCTYPE html>
 
-    </main>
-{% endblock %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta author="Alexander B Warnes">
 
-{% block extra_scripts %}
+        <link rel="stylesheet" type="text/css" href="{% static 'pages/css/nc_resolve.css' %}"
+        <link rel="icon" type="image/jpg" href="{% static 'pages/img/logo_favicon.jpg' %}">
+
+        {% include 'includes/jquery.html' %}
+
+        <title>
+        Character Sheet
+        </title>
+
+        {% include 'includes/bootstrap.html' %}
+
+    </head>
+
+    <body>
+    {% include 'includes/header.html' %}
+        <main class="sortable">
+            <section class="sortable" id="top-section">
+                <div class="panel panel-default" id="name_box">
+                    <div class="panel-body">
+                        <p>Character Name: {{ character.char_name }}</p>
+                        <p>Username: {{ character.username }}</p>
+                    </div>
+                </div>
+
+                <div class="panel panel-default" id="base_info_box">
+                    <div class="panel-body">
+                        <p>Class and Level: {% for class in class_level.all %} {{ class.char_class }} ({{ class.class_level }}) {% endfor %}</p>
+                        <p>Background: {{ character.char_background }}</p>
+                        <p>Race and Subrace: {{ character.char_race }} ({{ character.char_subrace }})</p>
+                        <p>Alignment: {{ character.alignment }}</p>
+                        <p>Experience Points: {{ character.char_xp }}</p>
+                    </div>
+                </div>
+            </section> <!-- end top-section -->
+
+            <section class="sortable" id="bottom-section">
+
+                <section class="sortable" id="bottom-left">
+                    <section class="sortable" id="left-left">
+                        <div class="panel panel-default" id="ability_scores">
+                            <p>Ability Scores:</p>
+                            <p>Strength:</p>
+                            <p>Strength Score: {{ character.STR_score }}</p>
+                            <p>Strength Modifier:</p>
+                            <p>Dexterity:</p>
+                            <p>Dexterity Score: {{ character.DEX_score }}</p>
+                            <p>Dexterity Modifier:</p>
+                            <p>Constitution:</p>
+                            <p>Constitution Score: {{ character.CON_score }}</p>
+                            <p>Constitution Modifier:</p>
+                            <p>Intelligence:</p>
+                            <p>Intelligence Score: {{ character.INT_score }}</p>
+                            <p>Intelligence Modifier:</p>
+                            <p>Wisdom:</p>
+                            <p>Wisdom Score: {{ character.WIS_score }}</p>
+                            <p>Wisdom Modifier:</p>
+                            <p>Charisma:</p>
+                            <p>Charisma Score: {{ character.CHA_score }}</p>
+                            <p>Charisma Modifier:</p>
+                        </div>
+                    </section>
+
+                    <section class="sortable" id="left-right">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Inspiration Points: {{ character.inspiration }}</p>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Proficiency Bonus:</p>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Saving Throws:</p>
+                                <p>Strength: {{ character.STR_saving_throw }}</p>
+                                <p>Dexterity: {{ character.DEX_saving_throw }}</p>
+                                <p>Constitution: {{ character.CON_saving_throw }}</p>
+                                <p>Intelligence: {{ character.INT_saving_throw }}</p>
+                                <p>Wisdom: {{ character.WIS_saving_throw }}</p>
+                                <p>Charisma: {{ character.CHA_saving_throw }}</p>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Skills:</p>
+                                <p>Acrobatics:</p>
+                                <p>Animal Handling:</p>
+                                <p>Arcana:</p>
+                                <p>Athletics:</p>
+                                <p>Deception:</p>
+                                <p>History:</p>
+                                <p>Insight:</p>
+                                <p>Intimidation:</p>
+                                <p>Investigation:</p>
+                                <p>Medicine:</p>
+                                <p>Nature:</p>
+                                <p>Perception:</p>
+                                <p>Performance:</p>
+                                <p>Persuasion:</p>
+                                <p>Religion:</p>
+                                <p>Sleight of Hand:</p>
+                                <p>Stealth:</p>
+                                <p>Survival:</p>
+                            </div>
+                        </div>
+
+                    </section>
+                    <section class="sortable" id="left-bottom">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Passive Wisdom (Perception): <span id="passive_wis"></span></p>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Languages and Other Proficiencies:</p>
+                            </div>
+                        </div>
+                    </section>
+                </section> <!-- end bottom-left -->
+
+                <section class="sortable" id="bottom-middle">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <section class="col-xs-4">
+                                <p>Armor Class</p>
+                            </section>
+                            <section class="col-xs-4">
+                                <p>Initiative</p>
+                            </section>
+                            <section class="col-xs-4">
+                                <p>Speed {{ character.char_race.speed }}</p>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Hit Point Maximum: {{ character.max_health }}</p>
+                            <p>Current Hit Points: {{ character.current_health }}</p>
+                        </div>
+                        <div class="panel-body">
+                            <p>Temporary Hit Points: {{ character.temp_addtl_hp }}</p>
+
+                            <section class="col-xs-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <p>Hit Dice: {% for class in class_level.all %} 1d{{ class.char_class.hit_die_size }} {% endfor %}</p>
+                                </div>
+                            </div>
+                            </section>
+                            <section class="col-xs-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <p>Death Saves:</p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Attacks and Spells</p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Armor and Gold</p>
+                        </div>
+                    </div>
+                </section> <!-- end bottom-middle -->
+
+                <section class="sortable" id="bottom-right">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Personality Traits</p>
+                            <p>{{ character.personality }}</p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Ideals</p>
+                            <p>{{ character.ideals }}</p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Bonds</p>
+                            <p>{{ character.bonds }}</p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Flaws:</p>
+                            <p>{{ character.flaws }}</p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Features:</p>
+                            <hr>
+                            <p>Race:</p>
+                            {% for feature in character.char_race.features.all %}<p>{{ feature }}</p>{% endfor %}
+                            <hr>
+                            {% if character.char_subrace %}
+                                <p>Sub Race:</p>
+                                {% for feature in character.char_subrace.features.all %}<p>{{ feature }}</p>{% endfor %}
+                            {% endif %}
+                            <hr>
+                            <p>Class:</p>
+                            {% for feature in class_level.all.features.all %}<p>{{ feature }}</p>{% endfor %}
+                            <hr>
+                            {% if character.char_prestige_classes %}
+                                <p>Prestige Class:</p>
+                                {% for feature in character.char_prestige_classes.features.all %}<p>{{ feature }}</p>{% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </section> <!-- end bottom-right -->
+            </section> <!-- end bottom-section -->
+
+            <section id="buttons">
+                <form action="" method="POST">{% csrf_token %}
+                    <button id="accept" type="submit" class="btn btn-primary">Accept Character</button>
+                    <button id="delete" type="button" class="btn btn-danger">Delete Character</button>
+                </form>
+            </section>
+        </main>
+
+    {% include 'includes/footer.html' %}
+
+        <div class="modal fade" id="delete_check">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Are you sure you want to delete this character?</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="" method="POST">{% csrf_token %}
+                            <p hidden="true">{{ form.next_page }}</p>
+                            <button type="submit" class="btn btn-danger" id="delete_yes">Delete</button>
+                            <button type="button" class="btn btn-primary" id="delete_no">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+    <script
+      src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+      integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+      crossorigin="anonymous">
+    </script>
+
     <script src="{% static 'pages/js/nc_resolve.js' %}"></script>
-{% endblock %}
+
+</html>

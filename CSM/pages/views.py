@@ -580,19 +580,25 @@ def nc_resolve(request):
         return render(request, "characters/nc_resolve.html", context)
 
     elif request.method == "POST":
-        form = NCResolve(data=request.POST)
-        class_level = ClassLevel.objects.filter(character__pk=request.session['character'])
-        character = Character.objects.get(pk=request.session['character'])
 
-        context = {'character': character, 'class_level': class_level, 'form': form}
+        form = NCResolve(data=request.POST)
+
+        context = {'form': form}
 
         if form.is_valid():
-            request.session['character'] = ''
 
             next_page = form.cleaned_data['next_page']
 
-            if next_page == "":
+            if next_page == "delete":
+                Character.objects.get(pk=request.session['character']).delete()
                 next_page = "home"
+
+            elif next_page == "":
+                next_page = "home"
+
+            request.session['character'] = ''
+
+            # context = dict()
 
             return redirect(next_page)
 
