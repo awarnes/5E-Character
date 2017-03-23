@@ -20,12 +20,12 @@ class SearchDatabase(forms.Form):
 class AbilityScoresChoice(forms.Form):
     """Setting ability scores."""
 
-    Strength = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable'}))
-    Dexterity = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable'}))
-    Constitution = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable'}))
-    Intelligence = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable'}))
-    Wisdom = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable'}))
-    Charisma = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable'}))
+    Strength = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable', 'readonly': 'true'}))
+    Dexterity = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable', 'readonly': 'true'}))
+    Constitution = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable', 'readonly': 'true'}))
+    Intelligence = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable', 'readonly': 'true'}))
+    Wisdom = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable', 'readonly': 'true'}))
+    Charisma = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'droppable', 'readonly': 'true'}))
 
 
 class CCRace(forms.Form):

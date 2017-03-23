@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     '_private',
     'formtools',
+    'searchableselect',
 ]
 
 MIDDLEWARE = [

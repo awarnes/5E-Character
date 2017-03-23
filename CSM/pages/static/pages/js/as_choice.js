@@ -48,4 +48,24 @@ $(document).ready(function(){
     //
     // })
 
+    $('#roll').on('click', function(evt){
+        evt.preventDefault();
+
+        for (var i=1; i<7; i++){
+            var die_1 = Math.floor((Math.random() * 6) + 1);
+            var die_2 = Math.floor((Math.random() * 6) + 1);
+            var die_3 = Math.floor((Math.random() * 6) + 1);
+            var die_4 = Math.floor((Math.random() * 6) + 1);
+
+            var min = Math.min(die_1, die_2, die_3, die_4);
+
+            var total = (die_1 + die_2 + die_3 + die_4) - min;
+
+            $('[data-roll='+i+']').data('roll', total);
+            $('[data-roll='+i+']').data('score', total);
+            $('[data-roll='+i+']').text(total);
+        }
+
+    })
+
 });

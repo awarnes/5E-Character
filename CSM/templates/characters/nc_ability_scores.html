@@ -1,8 +1,11 @@
 {% extends 'characters/base_creation.html' %}
 {% load static %}
 
-{% block main %}
+{% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'pages/css/as_choice.css' %}">
+{% endblock %}
+
+{% block main %}
 
     <div>{{ character }}</div>
 
@@ -17,18 +20,147 @@
             <section class="panel panel-default">
                 <form action="" method='POST' class="panel-body" autocomplete="off"> {% csrf_token %}
                     <section class="panel-body col-md-6">
-                        <div>Strength:</div>
-                        <p disabled="true">{{ choice_form.Strength }}</p>
-                        <div>Dexterity:</div>
-                        <p disabled="true">{{ choice_form.Dexterity }}</p>
-                        <div>Constitution:</div>
-                        <p disabled="true">{{ choice_form.Constitution }}</p>
-                        <div>Intelligence:</div>
-                        <p disabled="true">{{ choice_form.Intelligence }}</p>
-                        <div>Wisdom:</div>
-                        <p disabled="true">{{ choice_form.Wisdom }}</p>
-                        <div>Charisma:</div>
-                        <p disabled="true">{{ choice_form.Charisma }}</p>
+                        <table style="width: 100%;" class="score_table">
+                            <tr>
+                                <th>Ability</th>
+                                <th>Race Bonus</th>
+                                <th>Subrace Bonus</th>
+                            </tr>
+
+                            <tr>
+                                <td>Strength</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td><p disabled="true">{{ choice_form.Strength }}</p></td>
+                                <td>{% if character.char_race.ability_score_1 == 'Strength' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Strength' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Strength' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Strength' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Dexterity</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td disabled="true">{{ choice_form.Dexterity }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Dexterity' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Dexterity' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Dexterity' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Dexterity' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Constitution</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td disabled="true">{{ choice_form.Constitution }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Constitution' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Constitution' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Constitution' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Constitution' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Intelligence</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td disabled="true">{{ choice_form.Intelligence }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Intelligence' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Intelligence' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Intelligence' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Intelligence' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Wisdom</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td disabled="true">{{ choice_form.Wisdom }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Wisdom' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Wisdom' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Wisdom' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Wisdom' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Charisma</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td disabled="true">{{ choice_form.Charisma }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Charisma' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Charisma' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Charisma' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Charisma' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+
+                        </table>
                     </section>
                     <section class="panel-body col-md-2">
                         <div>
@@ -47,11 +179,370 @@
         </section>
 
         <section id="tabs-2">
-            <p>ROLL SCORES HERE!</p>
+              <section class="panel panel-default">
+                <form action="" method='POST' class="panel-body" autocomplete="off"> {% csrf_token %}
+                    <section class="panel-body col-md-6">
+                        <table style="width: 100%;" class="score_table">
+                            <tr>
+                                <th>Ability</th>
+                                <th>Race Bonus</th>
+                                <th>Subrace Bonus</th>
+                            </tr>
+
+                            <tr>
+                                <td>Strength</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td><p disabled="true">{{ roll_form.Strength }}</p></td>
+                                <td>{% if character.char_race.ability_score_1 == 'Strength' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Strength' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Strength' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Strength' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Dexterity</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td disabled="true">{{ roll_form.Dexterity }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Dexterity' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Dexterity' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Dexterity' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Dexterity' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Constitution</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td disabled="true">{{ roll_form.Constitution }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Constitution' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Constitution' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Constitution' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Constitution' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Intelligence</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td disabled="true">{{ roll_form.Intelligence }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Intelligence' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Intelligence' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Intelligence' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Intelligence' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Wisdom</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td disabled="true">{{ roll_form.Wisdom }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Wisdom' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Wisdom' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Wisdom' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Wisdom' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Charisma</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td disabled="true">{{ roll_form.Charisma }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Charisma' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Charisma' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Charisma' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Charisma' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+
+                        </table>
+                    </section>
+                    <section class="panel-body col-md-2">
+                        <div>
+                            <div class="score" data-score="" data-roll="1"></div>
+                            <div class="score" data-score="" data-roll="2"></div>
+                            <div class="score" data-score="" data-roll="3"></div>
+                            <div class="score" data-score="" data-roll="4"></div>
+                            <div class="score" data-score="" data-roll="5"></div>
+                            <div class="score" data-score="" data-roll="6"></div>
+                            <button id="roll" class="btn btn-primary">Roll!</button>
+                        </div>
+                    </section>
+                    <button id="choice_next" class="btn btn-primary">Next</button>
+                </form>
+            </section>
         </section>
 
         <section id="tabs-3">
-            <p>BUY SCORES HERE!</p>
+              <section class="panel panel-default">
+                <form action="" method='POST' class="panel-body" autocomplete="off"> {% csrf_token %}
+                    <section class="panel-body col-md-6">
+                        <table style="width: 100%;" class="score_table">
+                            <tr>
+                                <th>Ability</th>
+                                <th>Race Bonus</th>
+                                <th>Subrace Bonus</th>
+                            </tr>
+
+                            <tr>
+                                <td>Strength</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td><p>{{ buy_form.Strength }}</p></td>
+                                <td>{% if character.char_race.ability_score_1 == 'Strength' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Strength' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Strength' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Strength' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Dexterity</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td>{{ buy_form.Dexterity }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Dexterity' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Dexterity' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Dexterity' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Dexterity' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Constitution</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td>{{ buy_form.Constitution }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Constitution' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Constitution' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Constitution' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Constitution' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Intelligence</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td>{{ buy_form.Intelligence }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Intelligence' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Intelligence' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Intelligence' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Intelligence' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Wisdom</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td>{{ buy_form.Wisdom }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Wisdom' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Wisdom' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Wisdom' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Wisdom' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Charisma</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+                                <td>{{ buy_form.Charisma }}</td>
+                                <td>{% if character.char_race.ability_score_1 == 'Charisma' %}
+                                        +{{ character.char_race.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_race.ability_score_2 == 'Charisma' %}
+                                        +{{ character.char_race.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                                <td>{% if character.char_subrace.ability_score_1 == 'Charisma' %}
+                                        +{{ character.char_subrace.ability_score_1_bonus }}
+                                    {% endif %}
+                                    {% if character.char_subrace.ability_score_2 == 'Charisma' %}
+                                        +{{ character.char_subrace.ability_score_2_bonus }}
+                                    {% endif %}</td>
+                            </tr>
+
+
+                        </table>
+                    </section>
+                    <section class="panel-body col-md-2">
+                        <table style="width: 100%;" id="point_buy">
+                            <tr>
+                                <th colspan="2">Ability Costs</th>
+                                <th>Points Left</th>
+                            </tr>
+
+                            <tr>
+                                <th>Score</th>
+                                <th>Cost</th>
+                                <th id="points_left">27</th>
+                            </tr>
+
+                            <tr>
+                                <td><div class="score" data-score="8" data-cost="0">8</div></td>
+                                <td>0</td>
+                            </tr>
+
+                            <tr>
+                                <td><div class="score" data-score="9" data-cost="1">9</div></td>
+                                <td>1</td>
+                            </tr>
+
+                            <tr>
+                                <td><div class="score" data-score="10" data-cost="2">10</div></td>
+                                <td>2</td>
+                            </tr>
+
+                            <tr>
+                                <td><div class="score" data-score="11" data-cost="3">11</div></td>
+                                <td>3</td>
+                            </tr>
+
+                            <tr>
+                                <td><div class="score" data-score="12" data-cost="4">12</div></td>
+                                <td>4</td>
+                            </tr>
+
+                            <tr>
+                                <td><div class="score" data-score="13" data-cost="5">13</div></td>
+                                <td>5</td>
+                            </tr>
+
+                            <tr>
+                                <td><div class="score" data-score="14" data-cost="7">14</div></td>
+                                <td>7</td>
+                            </tr>
+
+                            <tr>
+                                <td><div class="score" data-score="15" data-cost="9">15</div></td>
+                                <td>9</td>
+                            </tr>
+                        </table>
+                    </section>
+                    <button id="choice_next" class="btn btn-primary">Next</button>
+                </form>
+            </section>
         </section>
 
     </section>

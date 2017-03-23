@@ -26,6 +26,8 @@ from django.contrib.auth import views as auth_views
 from rest_framework import routers
 from django.conf.urls import include
 
+import searchableselect.urls as ss_urls
+
 # Imported General Views:
 from pages.views import landing
 from pages.views import about_us, report_issue
@@ -130,5 +132,7 @@ urlpatterns = [
     # DRF configuration
     url(r'^api/v1/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    url(r'^searchableselect/', include(ss_urls)),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
