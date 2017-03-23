@@ -15,20 +15,20 @@
 
         <section id="tabs-1">
             <section class="panel panel-default">
-                <form action="" method='POST' class="panel-body"> {% csrf_token %}
+                <form action="" method='POST' class="panel-body" autocomplete="off"> {% csrf_token %}
                     <section class="panel-body col-md-6">
                         <div>Strength:</div>
-                        {{ choice_form.Strength }}
+                        <p disabled="true">{{ choice_form.Strength }}</p>
                         <div>Dexterity:</div>
-                        {{ choice_form.Dexterity }}
+                        <p disabled="true">{{ choice_form.Dexterity }}</p>
                         <div>Constitution:</div>
-                        {{ choice_form.Constitution }}
+                        <p disabled="true">{{ choice_form.Constitution }}</p>
                         <div>Intelligence:</div>
-                        {{ choice_form.Intelligence }}
+                        <p disabled="true">{{ choice_form.Intelligence }}</p>
                         <div>Wisdom:</div>
-                        {{ choice_form.Wisdom }}
+                        <p disabled="true">{{ choice_form.Wisdom }}</p>
                         <div>Charisma:</div>
-                        {{ choice_form.Charisma }}
+                        <p disabled="true">{{ choice_form.Charisma }}</p>
                     </section>
                     <section class="panel-body col-md-2">
                         <div>

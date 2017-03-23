@@ -23,17 +23,18 @@
 
     <body>
     {% include 'includes/header.html' %}
-        <main class="sortable">
+        <main>
             <section class="sortable" id="top-section">
                 <div class="panel panel-default" id="name_box">
                     <div class="panel-body">
                         <p>Character Name: {{ character.char_name }}</p>
-                        <p>Username: {{ character.username }} {{ character.get_char_level }}</p>
+                        <p>Username: {{ character.username }}</p>
                     </div>
                 </div>
 
                 <div class="panel panel-default" id="base_info_box">
                     <div class="panel-body">
+                        <p>Character Level: {{ character.get_char_level }}</p>
                         <p>Class and Level: {% for class in class_level.all %} {{ class.char_class }} ({{ class.class_level }}) {% endfor %}</p>
                         <p>Background: {{ character.char_background }}</p>
                         <p>Race and Subrace: {{ character.char_race }} ({{ character.char_subrace }})</p>
@@ -47,26 +48,73 @@
 
                 <section class="sortable" id="bottom-left">
                     <section class="sortable" id="left-left">
-                        <div class="panel panel-default" id="ability_scores">
-                            <p>Ability Scores:</p>
-                            <p>Strength:</p>
-                            <p>Strength Score: {{ character.STR_score }}</p>
-                            <p>Strength Modifier: {% ab_bonus character 'STR' %}</p>
-                            <p>Dexterity:</p>
-                            <p>Dexterity Score: {{ character.DEX_score }}</p>
-                            <p>Dexterity Modifier: {% ab_bonus character 'DEX' %}</p>
-                            <p>Constitution:</p>
-                            <p>Constitution Score: {{ character.CON_score }}</p>
-                            <p>Constitution Modifier: {% ab_bonus character 'CON' %}</p>
-                            <p>Intelligence:</p>
-                            <p>Intelligence Score: {{ character.INT_score }}</p>
-                            <p>Intelligence Modifier: {% ab_bonus character 'INT' %}</p>
-                            <p>Wisdom:</p>
-                            <p>Wisdom Score: {{ character.WIS_score }}</p>
-                            <p>Wisdom Modifier: {% ab_bonus character 'WIS' %}</p>
-                            <p>Charisma:</p>
-                            <p>Charisma Score: {{ character.CHA_score }}</p>
-                            <p>Charisma Modifier: {% ab_bonus character 'CHA' %}</p>
+                        <div class="panel panel-default" id="ability_scores" style="padding-top: 15px;">
+                            <div class="panel panel-default">
+                                <div class="panel-title text-center">
+                                    Strength
+                                </div>
+                                <div class="panel-body text-center">
+                                    <strong>{{ character.STR_score }}</strong>
+                                </div>
+                                <div class="panel-footer text-center">
+                                    <strong>{% if character.STR_score >= 10 %}+{% endif %}{% ab_bonus character 'STR' %}</strong>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-title text-center">
+                                    Dexterity
+                                </div>
+                                <div class="panel-body text-center">
+                                    <strong>{{ character.DEX_score }}</strong>
+                                </div>
+                                <div class="panel-footer text-center">
+                                    <strong>{% if character.DEX_score >= 10 %}+{% endif %}{% ab_bonus character 'DEX' %}</strong>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-title text-center">
+                                    Constitution
+                                </div>
+                                <div class="panel-body text-center">
+                                    <strong>{{ character.CON_score }}</strong>
+                                </div>
+                                <div class="panel-footer text-center">
+                                    <strong>{% if character.CON_score >= 10 %}+{% endif %}{% ab_bonus character 'CON' %}</strong>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-title text-center">
+                                    Intelligence
+                                </div>
+                                <div class="panel-body text-center">
+                                    <strong>{{ character.INT_score }}</strong>
+                                </div>
+                                <div class="panel-footer text-center">
+                                    <strong>{% if character.INT_score >= 10 %}+{% endif %}{% ab_bonus character 'INT' %}</strong>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-title text-center">
+                                    Wisdom
+                                </div>
+                                <div class="panel-body text-center">
+                                    <strong>{{ character.WIS_score }}</strong>
+                                </div>
+                                <div class="panel-footer text-center">
+                                    <strong>{% if character.WIS_score >= 10 %}+{% endif %}{% ab_bonus character 'WIS' %}</strong>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-title text-center">
+                                    Charisma
+                                </div>
+                                <div class="panel-body text-center">
+                                    <strong>{{ character.CHA_score }}</strong>
+                                </div>
+                                <div class="panel-footer text-center">
+                                    <strong>{% if character.CHA_score >= 10 %}+{% endif %}{% ab_bonus character 'CHA' %}</strong>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -83,19 +131,61 @@
                             </div>
                         </div>
 
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" id="saving_throws">
                             <div class="panel-body">
                                 <p>Saving Throws:</p>
-                                <p>Strength: {{ character.STR_saving_throw }}</p>
-                                <p>Dexterity: {{ character.DEX_saving_throw }}</p>
-                                <p>Constitution: {{ character.CON_saving_throw }}</p>
-                                <p>Intelligence: {{ character.INT_saving_throw }}</p>
-                                <p>Wisdom: {{ character.WIS_saving_throw }}</p>
-                                <p>Charisma: {{ character.CHA_saving_throw }}</p>
+
+                                <p>{% if character.STR_saving_throw %}
+                                    <input type="radio" checked disabled>
+                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'STR' %}
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% ab_bonus character 'STR' as STR %}
+                                    <u>{% if STR >= 0 %}+{% endif %}{{ STR }}{% endif %}</u> Strength</p>
+
+                                <p>{% if character.DEX_saving_throw %}
+                                    <input type="radio" checked disabled>
+                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'DEX' %}
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% ab_bonus character 'DEX' as DEX %}
+                                    <u>{% if DEX >= 0 %}+{% endif %}{{ DEX }}{% endif %}</u> Dexterity</p>
+
+                                <p>{% if character.CON_saving_throw %}
+                                    <input type="radio" checked disabled>
+                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'CON' %}
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% ab_bonus character 'CON' as CON %}
+                                    <u>{% if CON >= 0 %}+{% endif %}{{ CON }}{% endif %}</u> Constitution</p>
+
+                                <p>{% if character.INT_saving_throw %}
+                                    <input type="radio" checked disabled>
+                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'INT' %}
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% ab_bonus character 'INT' as INT %}
+                                    <u>{% if INT >= 0 %}+{% endif %}{{ INT }}{% endif %}</u> Intelligence</p>
+
+                                <p>{% if character.WIS_saving_throw %}
+                                    <input type="radio" checked disabled>
+                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'WIS' %}
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% ab_bonus character 'WIS' as WIS %}
+                                    <u>{% if WIS >= 0 %}+{% endif %}{{ WIS }}{% endif %}</u> Wisdom</p>
+
+                                <p>{% if character.CHA_saving_throw %}
+                                    <input type="radio" checked disabled>
+                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'CHA' %}
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% ab_bonus character 'CHA' as CHA %}
+                                    <u>{% if CHA >= 0 %}+{% endif %}{{ CHA }}{% endif %}</u> Charisma</p>
                             </div>
                         </div>
 
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" id="skills">
                             <div class="panel-body">
                                 <p>Skills:</p>
                                 <p>Acrobatics:</p>
@@ -139,10 +229,10 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <section class="col-xs-4">
-                                <p>Armor Class</p>
+                                <p>Armor Class: {{ character.get_armor_class }}</p>
                             </section>
                             <section class="col-xs-4">
-                                <p>Initiative</p>
+                                <p>Initiative: +{% ab_bonus character 'DEX' %}</p>
                             </section>
                             <section class="col-xs-4">
                                 <p>Speed {{ character.char_race.speed }}</p>
@@ -161,7 +251,7 @@
                             <section class="col-xs-6">
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    <p>Hit Dice: {% for class in class_level.all %} 1d{{ class.char_class.hit_die_size }} {% endfor %}</p>
+                                    <p>Hit Dice: {% for class in class_level.all %} 1d{{ class.char_class.hit_die_size }}{% endfor %}</p>
                                 </div>
                             </div>
                             </section>
@@ -169,6 +259,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <p>Death Saves:</p>
+                                        <p></p>
                                     </div>
                                 </div>
                             </section>
@@ -184,6 +275,9 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <p>Armor and Gold</p>
+                            {% for armor in character.armor_inv.all %}
+                            <p>{{ armor.name }}</p>
+                            {% endfor %}
                         </div>
                     </div>
                 </section> <!-- end bottom-middle -->

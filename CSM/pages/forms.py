@@ -43,6 +43,7 @@ class CCClass(forms.Form):
     cleric_prestige = forms.ModelChoiceField(queryset=Class.objects.get(name='Cleric').prestige_classes.all(), required=False)
     sorcerer_prestige = forms.ModelChoiceField(queryset=Class.objects.get(name='Sorcerer').prestige_classes.all(), required=False)
     warlock_prestige = forms.ModelChoiceField(queryset=Class.objects.get(name='Warlock').prestige_classes.all(), required=False)
+    hp = forms.IntegerField()
 
 
 class CCPersonality(forms.Form):

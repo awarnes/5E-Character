@@ -5,12 +5,13 @@
     <section class="panel panel-default">
         <section class="panel-body">
             <section class="col-md-4">
-                <form action="" method="POST">{% csrf_token %}
+                <form action="" method="POST" autocomplete="off">{% csrf_token %}
                     {{ class_form.errors }}
                     <p>Class: {{ class_form.klass }}</p>
                     <p id="cleric">Prestige Class: {{ class_form.cleric_prestige }}</p>
                     <p id="sorcerer">Prestige Class: {{ class_form.sorcerer_prestige }}</p>
                     <p id="warlock">Prestige Class: {{ class_form.warlock_prestige }}</p>
+                    <p> Hit Points: {{ class_form.hp }}</p>
                     <button type="submit" class="btn btn-primary">Next!</button>
                 </form>
             </section>

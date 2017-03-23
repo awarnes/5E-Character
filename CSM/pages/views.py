@@ -410,6 +410,9 @@ def nc_class(request):
             else:
                 character.char_prestige = PrestigeClass.objects.get(name='None')
 
+            character.max_health = form.cleaned_data['hp']
+            character.current_health = form.cleaned_data['hp']
+
             character.save()
 
             request.session['character'] = character.pk

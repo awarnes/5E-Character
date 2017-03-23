@@ -181,6 +181,7 @@ class Character(models.Model):
         """
 
         # TODO: interact with features, current dexterity to total initiative bonus.
+        # Only with alert feat.
 
     def get_armor_class(self):
         """
@@ -188,7 +189,21 @@ class Character(models.Model):
         :return: int()
         """
 
-        # TODO: interact with inventory, current dexterity to get total AC.
+        armors = self.armor_inv.all()
+
+        armor_class = 0
+
+        for armor in armors:
+            armor_class += armor.base_armor_class
+            if armor.dexterity_modifier is True and armor.dexterity_modifier_max == -1:
+                    armor_class += self.get_ability_bonus('DEX')
+            elif armor.dexterity_modifier == True:
+                if self.get_ability_bonus('DEX') >= 2:
+                    armor_class += 2
+                else:
+                    armor_class += self.get_ability_bonus('DEX')
+
+        return armor_class
 
     def __str__(self):
         return self.char_name
