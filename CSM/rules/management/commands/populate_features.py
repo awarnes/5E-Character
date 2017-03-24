@@ -19,7 +19,10 @@ class Command(BaseCommand):
         with open('/Users/alexanderwarnes/Documents/5E Rules CSVs/Features-Table 1.csv') as f:
             features = pd.read_csv(f, delimiter=',')
 
-        features = features.ix[:,'name':'description']
+        features_1 = features.ix[:, 'name':'ability_level']
+        features_2 = features.ix[:, 'prereq_proficiency':'prereq_prestige_class']
+
+        features = pd.concat([features_1, features_2], axis=1)
 
         features = features.dropna()
 
@@ -28,6 +31,33 @@ class Command(BaseCommand):
             feature_entry = Feature(
                 name=feature[1][0],
                 description=feature[1][1],
+
+                is_proficiency=feature[1][2],
+                is_choice=feature[1][3],
+                changes_at_level=feature[1][4],
+                ability_level=feature[1][5],
+
+                prereq_character_level = feature[1][7],
+                prereq_class_level = feature[1][9],
+
+
             )
+            try:
+                feature_entry.prereq_proficiency = feature[1][6],
+
+            except:
+                pass
+
+            try:
+                feature_entry.prereq_class = feature[1][8],
+
+            except:
+                pass
+
+            try:
+                feature_entry.prereq_prestige_class = feature[1][10]
+
+            except:
+                pass
 
             feature_entry.save()

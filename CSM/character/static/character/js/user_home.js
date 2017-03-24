@@ -16,7 +16,7 @@ $(document).ready(function(evt){
         }
     });
 
-    function get_char ($text){
+    function get_char($text) {
         var $query = $text.text();
 
         $('#output').modal('toggle');

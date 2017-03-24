@@ -281,6 +281,7 @@ class ItemViewSet(viewsets.ReadOnlyModelViewSet):
         else:
             return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
+
 class ToolViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows tools to be viewed.

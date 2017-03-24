@@ -6,17 +6,52 @@
 
 
         {% block main %}
-            {% include 'includes/navbar.html' %}
-            {% include 'includes/recent_news.html' %}
-
-            <p>Recent Characters</p>
-            <section>
-                <ul id="characters">
-                    <!--Characters Populate Here-->
-                </ul>
+            <section class="panel panel-default">
+                <div class="panel-title">
+                    <h1>Recent Characters</h1>
+                </div>
+                <div class="panel-body">
+                    <ul id="characters">
+                        <!--Characters Populate Here-->
+                    </ul>
+                </div>
             </section>
 
             <button><a href="{% url 'logout' %}">Logout!</a></button>
+
+
+            <div class="modal fade" id="output">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title" id="name"></h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Level: <span id="level"></span></p>
+                            <p>Class: <span id="class"></span></p>
+                            <p>Race: <span id="race"></span></p>
+                            <hr>
+                            <p>Strength: <span id="STR"></span></p>
+                            <p>Dexterity: <span id="DEX"></span></p>
+                            <p>Constitution: <span id="CON"></span></p>
+                            <p>Intelligence: <span id="INT"></span></p>
+                            <p>Wisdom: <span id="WIS"></span></p>
+                            <p>Charisma: <span id="CHA"></span></p>
+                            <hr>
+                            <p>Description:</p>
+                            <p id="description"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <p class="pull-left">Features: <span id="features"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
         {% endblock %}
 
@@ -24,42 +59,9 @@
             {% include 'includes/footer.html' %}
         {% endblock %}
 
-        <div class="modal fade" id="output">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title" id="name"></h1>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Level: <span id="level"></span></p>
-                        <p>Class: <span id="class"></span></p>
-                        <p>Race: <span id="race"></span></p>
-                        <hr>
-                        <p>Strength: <span id="STR"></span></p>
-                        <p>Dexterity: <span id="DEX"></span></p>
-                        <p>Constitution: <span id="CON"></span></p>
-                        <p>Intelligence: <span id="INT"></span></p>
-                        <p>Wisdom: <span id="WIS"></span></p>
-                        <p>Charisma: <span id="CHA"></span></p>
-                        <hr>
-                        <p>Description:</p>
-                        <p id="description"></p>
-                    </div>
-                    <div class="modal-footer">
-                    <p class="pull-left">Features: <span id="features"></span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-    </body>
 
-    {% block final_js %}
+    {% block extra_scripts %}
         <script type="text/javascript" src="{% static 'character/js/user_home.js' %}"></script>
     {% endblock %}
-
-</html>
 

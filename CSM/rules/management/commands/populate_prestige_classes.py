@@ -33,6 +33,7 @@ class Command(BaseCommand):
             klass_features = prestige[1][2].split(', ')
 
             for feature_name in klass_features:
+                print(feature_name)
                 feature = Feature.objects.get(name=feature_name)
 
                 prestige_entry.features.add(feature)

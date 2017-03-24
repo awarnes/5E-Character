@@ -232,7 +232,7 @@
                                 <p>Armor Class: {{ character.get_armor_class }}</p>
                             </section>
                             <section class="col-xs-4">
-                                <p>Initiative: +{% ab_bonus character 'DEX' %}</p>
+                                <p>Initiative: +{{ character.get_initiative_bonus }}</p>
                             </section>
                             <section class="col-xs-4">
                                 <p>Speed {{ character.char_race.speed }}</p>

@@ -446,22 +446,28 @@ def nc_ability_scores(request):
 
         context = {'character': character, 'class_level': class_level, 'form': form}
 
-
         if form.is_valid():
-            form.cleaned_data['None'] = 0
-
-            form.cleaned_data[character.char_race.ability_score_1] += character.char_race.ability_score_1_bonus
-            form.cleaned_data[character.char_race.ability_score_2] += character.char_race.ability_score_2_bonus
-            form.cleaned_data[character.char_subrace.ability_score_1] += character.char_subrace.ability_score_1_bonus
-            form.cleaned_data[character.char_subrace.ability_score_2] += character.char_subrace.ability_score_2_bonus
+            form.cleaned_data['None'] = 0  # Catch all if race or subrace doesn't have an ability modifier.
+            # TODO: allow humans to add one to two separate choices.
+            # For humans to add one to each score:
+            if character.char_race.ability_score_1 == 'All':
+                form.cleaned_data['All'] = 0
+                all_add = 1
+            else:
+                form.cleaned_data[character.char_race.ability_score_1] += character.char_race.ability_score_1_bonus
+                form.cleaned_data[character.char_race.ability_score_2] += character.char_race.ability_score_2_bonus
+                form.cleaned_data[character.char_subrace.ability_score_1] += character.char_subrace.ability_score_1_bonus
+                form.cleaned_data[character.char_subrace.ability_score_2] += character.char_subrace.ability_score_2_bonus
+                all_add = 0
 
             character = Character.objects.get(pk=request.session['character'])
-            character.STR_score = form.cleaned_data['Strength']
-            character.DEX_score = form.cleaned_data['Dexterity']
-            character.CON_score = form.cleaned_data['Constitution']
-            character.INT_score = form.cleaned_data['Intelligence']
-            character.WIS_score = form.cleaned_data['Wisdom']
-            character.CHA_score = form.cleaned_data['Charisma']
+
+            character.STR_score = form.cleaned_data['Strength'] + all_add
+            character.DEX_score = form.cleaned_data['Dexterity'] + all_add
+            character.CON_score = form.cleaned_data['Constitution'] + all_add
+            character.INT_score = form.cleaned_data['Intelligence'] + all_add
+            character.WIS_score = form.cleaned_data['Wisdom'] + all_add
+            character.CHA_score = form.cleaned_data['Charisma'] + all_add
 
             character.save()
 

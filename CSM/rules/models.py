@@ -256,6 +256,7 @@ class Feature(models.Model):
     is_proficiency = models.BooleanField(default=False,)
     is_choice = models.BooleanField(default=False,)
     changes_at_level = models.BooleanField(default=False,)
+    ability_level = models.SmallIntegerField(blank=True, null=True,)
     grants_advantage = models.BooleanField(default=False,)
 
     # Feature Actions

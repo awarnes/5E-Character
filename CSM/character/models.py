@@ -43,8 +43,6 @@ class Character(models.Model):
     ***NOTE: This is the specific model a Member will be interacting with the most.***
     """
 
-    # TODO: change to member, not username.
-
     username = models.ForeignKey('accounts.Member', related_name='characters', editable=False)
 
     accessed = models.DateTimeField(auto_now=True,)
@@ -180,8 +178,14 @@ class Character(models.Model):
         :return: int()
         """
 
-        # TODO: interact with features, current dexterity to total initiative bonus.
-        # Only with alert feat.
+        initiative = 0
+        if 'Alert' in self.features.all():  # TODO: May not work with feats once they're added in...
+            initiative += 4 + self.get_ability_bonus('DEX')
+
+        else:
+            initiative += self.get_ability_bonus('DEX')
+
+        return initiative
 
     def get_armor_class(self):
         """
