@@ -11,6 +11,8 @@ $(document).ready(function(){
 
     });
 
+
+
     $('.droppable').droppable({
         drop: function (event, ui) {
             $(this).val(ui.draggable.data('score'));
@@ -18,6 +20,36 @@ $(document).ready(function(){
         accept: ".score"
     });
 
+
+    $('#ability_buy .droppable').droppable({
+        drop: function (event, ui) {
+
+            if ($(this).val() === ui.draggable.data('score')){
+
+            } else {
+
+                if ($(this).val() !== ''){
+                    var points = Number($('#points_left').text());
+                    var cost = Number($("[data-buy='" + $(this).val() + "']").data('cost'));
+                    $('#points_left').text(points + cost);
+                }
+
+                $(this).val(ui.draggable.data('score'));
+                var points = Number($('#points_left').text());
+                var cost = Number($("[data-buy='" + $(this).val() + "']").data('cost'));
+
+                if (points - cost < 0) {
+                    alert('Not enough points left for that!');
+                    $(this).val('');
+                    $('#points_left').text(0);
+                } else {
+                    $('#points_left').text(points - cost);
+                }
+
+            }
+        },
+        accept: ".score"
+    });
 
     // $('#choice_next').on('click', function(evt){
     //     var empty_keys = Array();
@@ -67,5 +99,15 @@ $(document).ready(function(){
         }
 
     })
+
+    $('#ability_buy #id_Strength').val('').on('change', function() {
+        var points = Number($('#points_left').text());
+        var cost = Number($("[data-buy='" + $('#ability_buy #id_Strength').val() + "']").data('cost'))
+        $('#points_left').text(points - cost);
+
+    });
+
+
+
 
 });
