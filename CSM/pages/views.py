@@ -448,6 +448,13 @@ def nc_ability_scores(request):
 
 
         if form.is_valid():
+            form.cleaned_data['None'] = 0
+
+            form.cleaned_data[character.char_race.ability_score_1] += character.char_race.ability_score_1_bonus
+            form.cleaned_data[character.char_race.ability_score_2] += character.char_race.ability_score_2_bonus
+            form.cleaned_data[character.char_subrace.ability_score_1] += character.char_subrace.ability_score_1_bonus
+            form.cleaned_data[character.char_subrace.ability_score_2] += character.char_subrace.ability_score_2_bonus
+
             character = Character.objects.get(pk=request.session['character'])
             character.STR_score = form.cleaned_data['Strength']
             character.DEX_score = form.cleaned_data['Dexterity']
