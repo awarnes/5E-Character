@@ -315,21 +315,27 @@
                         <div class="panel-body">
                             <p>Features:</p>
                             <hr>
-                            <p>Race:</p>
-                            {% for feature in character.char_race.features.all %}<p>{{ feature }}</p>{% endfor %}
+                            <p class="search_type" data-type="race">Race:</p>
+                            <ul>
+                                {% for feature in character.char_race.features.all %}
+                                    <li class="list-group-item search_query" data-search_type="race" data-type="features"data-slug="{{ feature.slug }}">{{ feature }}</li>
+                                {% endfor %}
+                            </ul>
                             <hr>
                             {% if character.char_subrace %}
-                                <p>Sub Race:</p>
-                                {% for feature in character.char_subrace.features.all %}<p>{{ feature }}</p>{% endfor %}
+                                <p class="search_type" data-type="subrace">Sub Race:</p>
+                                {% for feature in character.char_subrace.features.all %}
+                                    <li class="list-group-item search_query" data-search_type="subrace" data-type="features" data-slug="{{ feature.slug }}">{{ feature }}</li>
+                                {% endfor %}
                             {% endif %}
                             <hr>
                             <p>Class:</p>
                             {% get_class_features character as features_dict %}
                             {% for class, features in features_dict.items %}
-                                <p>{{ class }}</p>
+                                <p class="search_type" data-type="classes">{{ class }}</p>
                                 <ul>
                                     {% for feature in features %}
-                                        <li class="list-group-item">({{ feature.prereq_class_level }}) {{ feature }}</li>
+                                        <li class="list-group-item search_query" data-search_type="classes" data-type="features" data-slug="{{ feature.slug }}">({{ feature.prereq_class_level }}) {{ feature }}</li>
                                     {% endfor %}
                                 </ul>
                             {% endfor %}
@@ -339,10 +345,10 @@
                                 <p>Prestige Class:</p>
                                 {% get_prestige_features character as features_dict %}
                                 {% for prestige, features in features_dict.items %}
-                                    <p>{{ prestige }}</p>
+                                    <p class="search_type" data-type="prestige">{{ prestige }}</p>
                                     <ul>
                                         {% for feature in features %}
-                                            <li class="list-group-item">({{ feature.prereq_class_level }}) {{ feature }}</li>
+                                            <li class="list-group-item search_query" data-search_type="prestige" data-type="features" data-slug="{{ feature.slug }}">({{ feature.prereq_class_level }}) {{ feature }}</li>
                                         {% endfor %}
                                     </ul>
                                 {% endfor %}
@@ -374,6 +380,26 @@
                             <button type="submit" class="btn btn-danger" id="delete_yes">Delete</button>
                             <button type="button" class="btn btn-primary" id="delete_no">Cancel</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="output">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title" data-slug='' data-type='' id="name"></h1>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Description:</p>
+                        <p id="description"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="open_details">Open</button>
                     </div>
                 </div>
             </div>
