@@ -137,7 +137,7 @@
 
                                 <p>{% if character.STR_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'STR' %}
+                                    +{% saving_throw_bonus character 'STR' %}
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'STR' as STR %}
@@ -145,7 +145,7 @@
 
                                 <p>{% if character.DEX_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'DEX' %}
+                                    +{% saving_throw_bonus character 'DEX' %}
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'DEX' as DEX %}
@@ -153,7 +153,7 @@
 
                                 <p>{% if character.CON_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'CON' %}
+                                    +{% saving_throw_bonus character 'CON' %}
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'CON' as CON %}
@@ -161,7 +161,7 @@
 
                                 <p>{% if character.INT_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'INT' %}
+                                    +{% saving_throw_bonus character 'INT' %}
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'INT' as INT %}
@@ -169,7 +169,7 @@
 
                                 <p>{% if character.WIS_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'WIS' %}
+                                    +{% saving_throw_bonus character 'WIS' %}
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'WIS' as WIS %}
@@ -177,7 +177,7 @@
 
                                 <p>{% if character.CHA_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{{ character.get_prof_bonus }} + {% ab_bonus character 'CHA' %}
+                                    +{% saving_throw_bonus character 'CHA' %}
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'CHA' as CHA %}
@@ -324,11 +324,28 @@
                             {% endif %}
                             <hr>
                             <p>Class:</p>
-                            {% for feature in class_level.all.features.all %}<p>{{ feature }}</p>{% endfor %}
+                            {% get_class_features character as features_dict %}
+                            {% for class, features in features_dict.items %}
+                                <p>{{ class }}</p>
+                                <ul>
+                                    {% for feature in features %}
+                                        <li class="list-group-item">({{ feature.prereq_class_level }}) {{ feature }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endfor %}
                             <hr>
-                            {% if character.char_prestige_classes %}
+                            {% prestige_check character as p %}
+                            {% if p %}
                                 <p>Prestige Class:</p>
-                                {% for feature in character.char_prestige_classes.features.all %}<p>{{ feature }}</p>{% endfor %}
+                                {% get_prestige_features character as features_dict %}
+                                {% for prestige, features in features_dict.items %}
+                                    <p>{{ prestige }}</p>
+                                    <ul>
+                                        {% for feature in features %}
+                                            <li class="list-group-item">({{ feature.prereq_class_level }}) {{ feature }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endfor %}
                             {% endif %}
                         </div>
                     </div>

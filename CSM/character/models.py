@@ -172,6 +172,31 @@ class Character(models.Model):
 
         return level
 
+    def get_saving_throw_bonus(self, ability):
+        """
+        Checks if character is proficient in saving throw and returns amount of bonus either way.
+        :return: int()
+        """
+
+        bonus = 0
+
+        score_conversion = {
+            'STR': self.STR_saving_throw,
+            'DEX': self.DEX_saving_throw,
+            'CON': self.CON_saving_throw,
+            'INT': self.INT_saving_throw,
+            'WIS': self.WIS_saving_throw,
+            'CHA': self.CHA_saving_throw,
+        }
+
+        if score_conversion[ability]:
+            bonus += self.get_prof_bonus()
+            bonus += self.get_ability_bonus(ability)
+        else:
+            bonus += self.get_ability_bonus(ability)
+
+        return bonus
+
     def get_initiative_bonus(self):
         """
         Returns the total initiative bonus for a character.

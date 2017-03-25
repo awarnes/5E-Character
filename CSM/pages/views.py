@@ -392,26 +392,60 @@ def nc_class(request):
 
         if form.is_valid():
 
-            ClassLevel.objects.create(
-                character=character,
-                char_class=form.cleaned_data['klass'],
-                class_level=1
-            )
+            # check if a character already has levels in a class, if so, don't create another association.
+            klass = form.cleaned_data['klass']
 
-            if form.cleaned_data['klass'] == Class.objects.get(name='Cleric'):
-                character.char_prestige = form.cleaned_data['cleric_prestige']
-
-            elif form.cleaned_data['klass'] == Class.objects.get(name='Sorcerer'):
-                character.char_prestige = form.cleaned_data['sorcerer_prestige']
-
-            elif form.cleaned_data['klass'] == Class.objects.get(name='Warlock'):
-                character.char_prestige = form.cleaned_data['warlock_prestige']
-
+            current_class_levels = ClassLevel.objects.filter(character__pk=request.session['character'])
+            if len(current_class_levels) != 0:
+                for char in current_class_levels:
+                    if char.char_class == klass:
+                        pass
+                    else:
+                        ClassLevel.objects.create(
+                            character=character,
+                            char_class=klass,
+                            class_level=1
+                        )
             else:
-                character.char_prestige = PrestigeClass.objects.get(name='None')
+                ClassLevel.objects.create(
+                    character=character,
+                    char_class=klass,
+                    class_level=1
+                )
+
+            if klass == Class.objects.get(name='Cleric'):
+                character.char_prestige_classes.add(form.cleaned_data['cleric_prestige'])
+
+            elif klass == Class.objects.get(name='Sorcerer'):
+                character.char_prestige_classes.add(form.cleaned_data['sorcerer_prestige'])
+
+            elif klass == Class.objects.get(name='Warlock'):
+                character.char_prestige_classes.add(form.cleaned_data['warlock_prestige'])
+
+            # else:
+            #     character.char_prestige = PrestigeClass.objects.get(name='None')
 
             character.max_health = form.cleaned_data['hp']
             character.current_health = form.cleaned_data['hp']
+
+            if klass.saving_throw_1 == 'Strength' or klass.saving_throw_2 == 'Strength':
+                character.STR_saving_throw = True
+
+            if klass.saving_throw_1 == 'Dexterity' or klass.saving_throw_2 == 'Dexterity':
+                character.DEX_saving_throw = True
+
+            if klass.saving_throw_1 == 'Constitution' or klass.saving_throw_2 == 'Constitution':
+                character.CON_saving_throw = True
+
+            if klass.saving_throw_1 == 'Intelligence' or klass.saving_throw_2 == 'Intelligence':
+                character.INT_saving_throw = True
+
+            if klass.saving_throw_1 == 'Wisdom' or klass.saving_throw_2 == 'Wisdom':
+                character.WIS_saving_throw = True
+
+            if klass.saving_throw_1 == 'Charisma' or klass.saving_throw_2 == 'Charisma':
+                character.CHA_saving_throw = True
+
 
             character.save()
 
