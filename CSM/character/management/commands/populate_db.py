@@ -18,9 +18,9 @@ class Command(BaseCommand):
 
         COMMANDS = [
             "populate_skills", "populate_languages", "populate_tools", "populate_items", "populate_damage_types",
-            "populate_weapon_properties", "populate_weapons", "populate_armor", "populate_features", "populate_alignments",
+            "populate_weapon_properties", "populate_weapons", "populate_armor", "populate_features_part_1", "populate_alignments",
             "populate_prestige_classes", "populate_subraces", "populate_classes", "populate_races", "populate_backgrounds",
-            "populate_spells", "populate_conditions", "populate_mounts_and_vehicles",
+            "populate_spells", "populate_conditions", "populate_mounts_and_vehicles", "populate_features_part_2",
             # "populate_personality_traits", "populate_ideals", "populate_bonds", "populate_flaws",
         ]
 

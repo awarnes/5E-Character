@@ -42,22 +42,5 @@ class Command(BaseCommand):
 
 
             )
-            try:
-                feature_entry.prereq_proficiency = feature[1][6],
-
-            except:
-                pass
-
-            try:
-                feature_entry.prereq_class = feature[1][8],
-
-            except:
-                pass
-
-            try:
-                feature_entry.prereq_prestige_class = feature[1][10]
-
-            except:
-                pass
 
             feature_entry.save()
