@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        with open('/Users/alexanderwarnes/Documents/5E Rules CSVs/Land Types-Table 1.csv') as f:
+        with open('/Users/alexanderwarnes/Documents/abw_codes/Git/5E Rules CSVs/5E Rules CSVs/Land Types-Table 1.csv') as f:
             types = pd.read_csv(f, delimiter=',')
 
         types = types.dropna()

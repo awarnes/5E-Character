@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        with open('/Users/alexanderwarnes/Documents/5E Rules CSVs/Conditions-Table 1.csv') as f:
+        with open('/Users/alexanderwarnes/Documents/abw_codes/Git/5E Rules CSVs/5E Rules CSVs/Conditions-Table 1.csv') as f:
             conditions = pd.read_csv(f, delimiter=',')
 
         # features = features.ix[:,'name':'description':'associated_ability':'example_tasks']

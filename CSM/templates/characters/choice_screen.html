@@ -1,0 +1,30 @@
+{% extends 'characters/base_creation.html' %}
+{% load static %}
+
+{% block css %}
+{#    <link rel="stylesheet" type="text/css" href="{% static 'pages/css/as_choice.css' %}">#}
+{% endblock %}
+
+{% block main %}
+    {{ k }}
+    {{ form }}
+
+    {% for type, features in feature_search.items %}
+        {{ type }}
+        <ul>
+        {% for feature in features %}
+            <li class="list-group-item draggable">{{ feature }}</li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}
+
+{% block extra_scripts %}
+    <script
+      src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+      integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+      crossorigin="anonymous">
+    </script>
+
+    <script src="{% static 'pages/js/choice_screen.js' %}"></script>
+{% endblock %}

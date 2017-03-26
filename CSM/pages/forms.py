@@ -40,9 +40,9 @@ class CCClass(forms.Form):
     """Choose a class."""
 
     klass = forms.ModelChoiceField(queryset=Class.objects.all())
-    # cleric_prestige = forms.ModelChoiceField(queryset=Class.objects.get(name='Cleric').prestige_classes.all(), required=False)
-    # sorcerer_prestige = forms.ModelChoiceField(queryset=Class.objects.get(name='Sorcerer').prestige_classes.all(), required=False)
-    # warlock_prestige = forms.ModelChoiceField(queryset=Class.objects.get(name='Warlock').prestige_classes.all(), required=False)
+    cleric_prestige = forms.ModelChoiceField(queryset=Class.objects.get(name='Cleric').prestige_classes.all(), required=False)
+    sorcerer_prestige = forms.ModelChoiceField(queryset=Class.objects.get(name='Sorcerer').prestige_classes.all(), required=False)
+    warlock_prestige = forms.ModelChoiceField(queryset=Class.objects.get(name='Warlock').prestige_classes.all(), required=False)
     hp = forms.IntegerField()
 
 
@@ -75,3 +75,13 @@ class NCResolve(forms.Form):
 
     next_page = forms.CharField(max_length=128, widget=forms.TextInput, required=False)
 
+
+class CharacterFeatureChoice(forms.Form):
+    """Allows user to assign features with the is_choice=True field to their character."""
+
+    to_add = forms.CharField(max_length=1024, widget=forms.Textarea(attrs={'class': 'droppable', 'readonly': 'true'}))
+
+
+class RedirectTest(forms.Form):
+
+    redir = forms.CharField(max_length=256)

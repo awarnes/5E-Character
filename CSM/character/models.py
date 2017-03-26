@@ -67,7 +67,7 @@ class Character(models.Model):
     allies = models.CharField(max_length=512, blank=True, null=True,)
     organizations = models.CharField(max_length=512, blank=True, null=True,)
 
-    # languages = models.ManyToManyField('rules.Language', related_name='characters')
+    languages = models.ManyToManyField('rules.Language', related_name='character_languages', blank=True,)
 
     # Basics
     char_classes = models.ManyToManyField('rules.Class', related_name='character_classes', through='ClassLevel', blank=True,)

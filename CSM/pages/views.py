@@ -23,7 +23,8 @@ from django.contrib import messages
 
 # Module and Form Imports:
 from .forms import SearchDatabase
-from .forms import AbilityScoresChoice, CCRace, CCClass, CCPersonality, CCBackground, CCEquipment, NCResolve
+from .forms import (AbilityScoresChoice, CCRace, CCClass, CCPersonality, CCBackground, CCEquipment, NCResolve,
+                    CharacterFeatureChoice, RedirectTest)
 
 # Model Imports:
 from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, DamageType, Feature, Skill, Background,
@@ -381,13 +382,50 @@ def nc_race(request):
 
             request.session['character'] = character.pk
 
-            return redirect('nc_class')
+            return redirect('choice_screen')
 
         return render(request, 'characters/nc_race.html', context)
 
 @login_required()
 def nc_choice(request):
     """This is a general purpose screen for choosing when a feature has is_choice set to True."""
+
+
+    if request.method == "GET":
+        form = CharacterFeatureChoice()
+        character = Character.objects.get(pk=request.session['character'])
+
+        redirected_from = request.META['HTTP_REFERER']
+        redirected_from = re.findall('(?:\w*_)(\w*)', redirected_from)
+
+        feature_search = dict()
+
+        if redirected_from[0] == 'race':
+            features = character.char_race.features.all()
+            feature_search[character.char_race.name] = list()
+
+            for feature in features:
+                if feature.is_choice and feature.choice_amount != -1:
+                    feature_search[character.char_race.name].append(feature)
+
+            if len(feature_search[character.char_race.name]) == 0:
+                del feature_search[character.char_race.name]
+
+            features = character.char_subrace.features.all()
+            feature_search[character.char_subrace.name] = list()
+
+            for feature in features:
+                if feature.is_choice and feature.choice_amount != -1:
+                    feature_search[character.char_subrace.name].append(feature)
+
+            if len(feature_search[character.char_subrace.name]) == 0:
+                del feature_search[character.char_subrace.name]
+
+        # import pdb; pdb.set_trace()
+        context = {'form': form, 'feature_search': feature_search}
+
+        return render(request, 'characters/choice_screen.html', context)
+
 
     """
     
@@ -411,6 +449,23 @@ def nc_choice(request):
             
             
     """
+
+@login_required()
+def test_screen(request):
+
+    if request.method == "GET":
+        form = RedirectTest()
+
+        context = {'form': form}
+
+        return render(request, 'characters/test_redirect.html', context)
+
+    if request.method == "POST":
+        form = RedirectTest(data=request.POST)
+
+        context = {'form': form}
+
+        return redirect('choice_screen')
 
 
 @login_required()
