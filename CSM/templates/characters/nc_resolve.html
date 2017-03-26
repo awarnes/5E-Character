@@ -274,9 +274,9 @@
 
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <p>Armor and Gold</p>
+                            <p class="search_type" data-type="armors">Armor and Gold</p>
                             {% for armor in character.armor_inv.all %}
-                            <p>{{ armor.name }}</p>
+                            <li class="list-group-item search_query" data-type="armors" data-slug="{{ armor.slug }}">{{ armor.name }}</li>
                             {% endfor %}
                         </div>
                     </div>
@@ -311,7 +311,7 @@
                         </div>
                     </div>
 
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="features">
                         <div class="panel-body">
                             <p>Features:</p>
                             <hr>

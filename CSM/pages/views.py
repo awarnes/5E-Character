@@ -31,6 +31,10 @@ from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, Damage
 from spells.models import Spell
 from character.models import Character, ClassLevel
 from equipment.models import (Weapon, Armor, Tool, Item, MountAndVehicle)
+
+from spells import models as spell_models
+from rules import models as rule_models
+
 from accounts.models import Member
 
 
@@ -294,7 +298,17 @@ def armor_details(request, slug):
     if armor.don_time != '1 action':
         minute = True
 
-    context = {'result': armor, 'max': maximum, 'minute': minute}
+    if armor.don_time != '1':
+        don_s = 's'
+    else:
+        don_s = ''
+
+    if armor.doff_time != '1':
+        doff_s = 's'
+    else:
+        doff_s = ''
+
+    context = {'result': armor, 'max': maximum, 'minute': minute, 'don_s': don_s, 'doff_s': doff_s}
 
     return render(request, 'database_view/detail_pages/armor_details.html', context)
 
@@ -370,6 +384,33 @@ def nc_race(request):
             return redirect('nc_class')
 
         return render(request, 'characters/nc_race.html', context)
+
+@login_required()
+def nc_choice(request):
+    """This is a general purpose screen for choosing when a feature has is_choice set to True."""
+
+    """
+    
+    all_choices = dict()
+    
+    for feature in ?xxxxxxxxx?.features.all():
+    
+        if feature.is_choice: (==True)
+            try:
+                choices = getattr(rule_models, feature.choice_type).objects.filter(name__in=feature.choices)
+            else:
+                choices = getattr(spell_models, feature.choice_type).objects.filter(name__in=feature.choices)
+            except:
+                pass
+             
+            choice_amount = feature.choice_amount
+            
+            all_choices[feature.name] = (choices, choice_amount)
+            
+    context = {'choices': all_choices}
+            
+            
+    """
 
 
 @login_required()

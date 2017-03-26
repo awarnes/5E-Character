@@ -29,8 +29,8 @@
     </section>
     <p></p>
     <p>Special: {{ result.special }}</p>
-    <p>Don Time: {{ result.don_time }} {% if minute %} minute(s){% endif %}</p>
-    <p>Doff Time: {{ result.doff_time }} {% if minute %} minute(s){% endif %}</p>
+    <p>Don Time: {{ result.don_time }} {% if minute %} minute{{ don_s }}{% endif %}</p>
+    <p>Doff Time: {{ result.doff_time }} {% if minute %} minute{{ doff_s }}{% endif %}</p>
     <hr>
     <p>Description: {{ result.description }}</p>
 {% endblock %}

@@ -55,7 +55,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         for spell in SPELLS:
-            spell_entry = Spell(
+            spell_entry = Spell.objects.create(
                 name=spell['name'],
                 distance=spell['range'],
                 ritual=spell['ritual'],

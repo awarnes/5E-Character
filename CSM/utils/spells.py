@@ -1,7 +1,35 @@
-"""JSON Repository of all spells in 5th Edition"""
+"""JSON Repository of all (mostly...) spells in 5th Edition"""
 
 
 SPELLS = [
+    {
+        "casting_time": "1 action",
+        "classes": [
+            "wizard"
+        ],
+        "components": {
+            "material": True,
+            "materials_needed": [
+                "powdered rhubarb leaf and an adder's stomach"
+            ],
+            "raw": "V, S, M",
+            "somatic": True,
+            "verbal": True
+        },
+        "description": """A shimmering green arrow streaks toward a target within range and bursts in a spray of acid. Make a ranged spell attack against the target. On a hit, the target takes 4d4 acid damage immediately and 2d4 acid damage at the end of its next turn. On a miss, the arrow splashes the target with acid for half as much initial damage and no damage at the end of its next turn.
+        At Higher Levels: When you cast this spell using a spell slot of 3rd level or higher, the damage (both initial and later) increases by 1d4 for each slot level above 2nd""",
+        "duration": "Instantaneous",
+        "level": "2",
+        "name": "Melf's Acid Arrow",
+        "range": "90 feet",
+        "ritual": False,
+        "school": "Evocation",
+        "tags": [
+            "wizard",
+            "level2"
+        ],
+        "type": "2nd-level evocation"
+    },
     {
         "casting_time": "1 action",
         "classes": [
@@ -3868,7 +3896,7 @@ SPELLS = [
             "somatic": True,
             "verbal": True
         },
-        "description": "You step into a stone object or surface large enough tofully contain your body, melding yourself and all the equipment you carry with the stone for the duration. Using your movement, you step into the stone at a point you can touch. Nothing of your presence remains visible or otherwise detectable by nonmagical senses.\n\nWhile merged with the stone, you can\u2019t see what occurs outside it, and any Wisdom (Perception) checks you make to hear sounds outside it are made with disadvantage. You remain aware of the passage of time and can cast spells on yourself while merged in the stone. You can use your movement to leave the stone where you entered it, which ends the spell. You otherwise can\u2019t move.\n\nMinor physical damage to the stone doesn\u2019t harm you, but its partial destruction or a change in its shape (to the extent that you no longer fit w ithin it) expels you and deals 6d6 bludgeoning damage to you. The stone\u2019s complete destruction (or transmutation into a different substance) expels you and deals 50 bludgeoning damage to you. If expelled, you fall prone in an unoccupied space closest to where you first entered.",
+        "description": """You step into a stone object or surface large enough to fully contain your body, melding yourself and all the equipment you carry with the stone for the duration. Using your movement, you step into the stone at a point you can touch. Nothing of your presence remains visible or otherwise detectable by nonmagical senses.\n\nWhile merged with the stone, you can\u2019t see what occurs outside it, and any Wisdom (Perception) checks you make to hear sounds outside it are made with disadvantage. You remain aware of the passage of time and can cast spells on yourself while merged in the stone. You can use your movement to leave the stone where you entered it, which ends the spell. You otherwise can\u2019t move.\n\nMinor physical damage to the stone doesn\u2019t harm you, but its partial destruction or a change in its shape (to the extent that you no longer fit w ithin it) expels you and deals 6d6 bludgeoning damage to you. The stone's complete destruction (or transmutation into a different substance) expels you and deals 50 bludgeoning damage to you. If expelled, you fall prone in an unoccupied space closest to where you first entered.""",
         "duration": "8 hours",
         "level": "3",
         "name": "Meld Into Stone",

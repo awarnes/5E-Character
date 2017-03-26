@@ -258,6 +258,9 @@ class Feature(models.Model):
     changes_at_level = models.BooleanField(default=False,)
     ability_level = models.SmallIntegerField(blank=True, null=True,)
     grants_advantage = models.BooleanField(default=False,)
+    choice_type = models.CharField(max_length=128, blank=True, null=True,)
+    choices = models.CharField(max_length=1024, blank=True, null=True,)
+    choice_amount = models.SmallIntegerField(blank=True, null=True,)
 
     # Feature Actions
     action_type = models.CharField(max_length=64, choices=ACTIONS, blank=True, null=True)
@@ -529,6 +532,77 @@ class Flaw(models.Model):
 
     name = models.CharField(max_length=128, blank=True, null=True,)
     description = models.CharField(max_length=1024,)
+
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+class DragonAncestry(models.Model):
+    """Model for dragon ancestries for both Sorcerer and Dragonborn."""
+
+    name = models.CharField(max_length=64, blank=True, null=True)
+    description = models.CharField(max_length=1024,)
+
+    damage_type = models.ForeignKey('rules.DamageType', related_name='dragon_damage_type', blank=True, null=True,)
+    breath_weapon_size = models.CharField(max_length=128, blank=True, null=True,)
+    breath_weapon_save = models.CharField(max_length=8, blank=True, null=True,)
+
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Dragon Ancestry"
+        verbose_name_plural = "Dragon Ancestries"
+
+
+class EnemyRace(models.Model):
+    """Model for enemy race types as used by the Ranger's Favored Enemy feature."""
+
+    name = models.CharField(max_length=64, blank=True, null=True)
+    description = models.CharField(max_length=1024, blank=True, null=True)
+    usual_location = models.CharField(max_length=1024, blank=True, null=True)
+
+    srd = models.BooleanField(default=False, blank=True,)
+
+    slug = models.SlugField(editable=False, blank=True, null=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+class LandType(models.Model):
+    """Model for land types as used by the Circle of the Land prestige class (Druid) and by Rangers for favored land type."""
+
+    name = models.CharField(max_length=64, blank=True, null=True)
+    description = models.CharField(max_length=1024, blank=True, null=True)
+
+    circle_spells_3 = models.ManyToManyField('spells.Spell', related_name='land_spells_3', blank=True,)
+    circle_spells_5 = models.ManyToManyField('spells.Spell', related_name='land_spells_5', blank=True,)
+    circle_spells_7 = models.ManyToManyField('spells.Spell', related_name='land_spells_7', blank=True,)
+    circle_spells_9 = models.ManyToManyField('spells.Spell', related_name='land_spells_9', blank=True,)
 
     srd = models.BooleanField(default=False, blank=True,)
 
