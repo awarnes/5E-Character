@@ -54,6 +54,18 @@ $(document).ready(function(){
             var choices = $($features[k]).children().children('.feature_choice').children().val();
             var redirect = $($features[k]).children().children('.redirected_from').children().val();
 
+            if (choices.length > Number(max)){
+                var too_many_error = "Too many choices! Please select only " + max;
+                var $error = $('<p>').text(too_many_error)
+                $($features[k]).children('.panel-title').append($error)
+                return
+            } else if (choices.length < Number(min)){
+                var too_few_error = "Too few choices! Please select at least " + min;
+                var $error = $('<p>').text(too_few_error)
+                $($features[k]).children('.panel-title').append($error)
+                return
+            }
+
             $feature_data[k.toString()] = [type, choices.toString(), redirect]
 
 

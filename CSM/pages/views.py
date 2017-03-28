@@ -485,14 +485,17 @@ def nc_choice(request):
 
                 redirect_page = redirect_to
                 max_choices = feature.choice_amount
-                min_choices = 1
+                min_choices = feature.choice_amount
                 feature_name = feature.name
 
                 choice_type = feature.choice_type.split(', ')
 
                 if choice_type[0] in single_search:
                     feature_choices = feature.choices.split(', ')
-                    queryset = getattr(rules_models, choice_type[0]).objects.filter(name__in=feature_choices)
+                    if feature_choices[0] == 'Skill':
+                        queryset = getattr(rules_models, choice_type[0]).objects.filter(name__iregex=r'Skill:')
+                    else:
+                        queryset = getattr(rules_models, choice_type[0]).objects.filter(name__in=feature_choices)
 
                 elif choice_type[0] in multi_search:
                     feature_choices = feature.choices.split(', ')
@@ -546,28 +549,33 @@ def nc_choice_set(request):
 
         for data in feature_info.values():
             search_type = data[0]
-            item_pk = data[1]
+            item_pk = data[1].split(',')
             redirect_to = data[2]
 
             if search_type == 'Spell':
-                new_spell = Spell.objects.get(pk=item_pk)
-                ready = False
-                if new_spell.level == 'Cantrip':
-                    ready = True
+                new_spell = Spell.objects.filter(pk__in=item_pk)
 
-                SpellsReady.objects.create(
-                    character=character,
-                    spells=new_spell,
-                    spell_ready=ready,
-                )
+                for spell in new_spell:
+                    ready = False
+
+                    if spell.level == 'Cantrip':
+                        ready = True
+
+                    SpellsReady.objects.create(
+                        character=character,
+                        spells=spell,
+                        spell_ready=ready,
+                    )
 
             elif search_type == 'Feature':
-                new_feature = getattr(rule_models, search_type).objects.get(pk=item_pk)
-                character.features.add(new_feature)
+                new_feature = getattr(rule_models, search_type).objects.filter(pk__in=item_pk)
+                for feature in new_feature:
+                    character.features.add(feature)
 
             else:
-                new_feature = getattr(rule_models, search_type).objects.get(pk=item_pk)
-                character.char_traits.add(new_feature)
+                new_feature = getattr(rule_models, search_type).objects.get(pk__in=item_pk)
+                for feature in new_feature:
+                    character.char_traits.add(feature)
 
         return HttpResponse(redirect_to)
 
