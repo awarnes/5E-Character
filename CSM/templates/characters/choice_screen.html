@@ -10,9 +10,12 @@
     <form action="" method="POST">{% csrf_token %}
         {{ formset.management_form }}
         {% for form in formset %}
-            <section class="panel panel-default">
+            <section class="panel panel-default feature">
                 <div class="panel-title">
-                    {{ form.feature_name }}
+                    <h5 class="feature_name">{{ form.feature_name }}</h5>
+                    <p class="redirected_from">{{ form.redirect_page }}</p>
+                    <p class="max_choices">{{ form.max_choices }}</p>
+                    <p class="min_choices">{{ form.min_choices }}</p>
                     <p class="feature_type">{{ form.feature_type }}</p>
                 </div>
                 <section class="panel-body">

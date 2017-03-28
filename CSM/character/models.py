@@ -11,6 +11,7 @@ import math
 # Django Imports
 from django.db import models
 from django.utils.text import slugify
+from gm2m import GM2MField
 
 
 class IntegerMinMaxField(models.IntegerField):
@@ -67,7 +68,8 @@ class Character(models.Model):
     allies = models.CharField(max_length=512, blank=True, null=True,)
     organizations = models.CharField(max_length=512, blank=True, null=True,)
 
-    languages = models.ManyToManyField('rules.Language', related_name='character_languages', blank=True,)
+    # General traits such as languages.
+    char_traits = GM2MField()
 
     # Basics
     char_classes = models.ManyToManyField('rules.Class', related_name='character_classes', through='ClassLevel', blank=True,)

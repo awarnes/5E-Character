@@ -4,7 +4,7 @@ All the views that a user will see on the site.
 import pdb
 
 # Python Imports:
-import re
+import re, json
 
 
 # Django Imports:
@@ -32,7 +32,7 @@ from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, Damage
 from rules import models as rules_models
 
 from spells.models import Spell
-from character.models import Character, ClassLevel
+from character.models import Character, ClassLevel, SpellsReady
 from equipment.models import (Weapon, Armor, Tool, Item, MountAndVehicle)
 
 from spells import models as spell_models
@@ -383,7 +383,7 @@ def nc_race(request):
             character.save()
 
             request.session['character'] = character.pk
-            request.session['current_screen'] = 'race'
+            request.session['next_screen'] = 'nc_class'
 
             for feature in character.char_race.features.all():
                 if feature.is_choice:
@@ -407,11 +407,11 @@ def nc_choice(request):
 
         character = Character.objects.get(pk=request.session['character'])
 
-        redirected_from = request.session['current_screen']
+        redirect_to = request.session['next_screen']
 
         feature_search = dict()
 
-        if redirected_from == 'race':
+        if redirect_to == 'nc_class':
             features = character.char_race.features.all()
             feature_search[character.char_race.name] = list()
 
@@ -432,7 +432,7 @@ def nc_choice(request):
             if len(feature_search[character.char_subrace.name]) == 0:
                 del feature_search[character.char_subrace.name]
 
-        elif redirected_from == 'class':
+        elif redirect_to == 'nc_ability_scores':
             features = character.classlevels.all()[0].char_class.features.all()
             feature_search[character.classlevels.all()[0].char_class.name] = list()
 
@@ -457,7 +457,7 @@ def nc_choice(request):
             except IndexError:
                 pass
 
-        elif redirected_from == 'background':
+        elif redirect_to == 'nc_equipment':
             features = character.char_background.features.all()
             feature_search[character.char_background.name] = list()
 
@@ -483,7 +483,7 @@ def nc_choice(request):
             for index, feature in enumerate(feature_list):
                 data = dict()
 
-                redirect_page = redirected_from
+                redirect_page = redirect_to
                 max_choices = feature.choice_amount
                 min_choices = 1
                 feature_name = feature.name
@@ -538,8 +538,38 @@ def nc_choice(request):
 @login_required()
 def nc_choice_set(request):
 
+    character = Character.objects.get(pk=request.session['character'])
+
     if request.method == 'POST':
-        return HttpResponse('Yay!')
+
+        feature_info = dict(request.POST.copy())
+
+        for data in feature_info.values():
+            search_type = data[0]
+            item_pk = data[1]
+            redirect_to = data[2]
+
+            if search_type == 'Spell':
+                new_spell = Spell.objects.get(pk=item_pk)
+                ready = False
+                if new_spell.level == 'Cantrip':
+                    ready = True
+
+                SpellsReady.objects.create(
+                    character=character,
+                    spells=new_spell,
+                    spell_ready=ready,
+                )
+
+            elif search_type == 'Feature':
+                new_feature = getattr(rule_models, search_type).objects.get(pk=item_pk)
+                character.features.add(new_feature)
+
+            else:
+                new_feature = getattr(rule_models, search_type).objects.get(pk=item_pk)
+                character.char_traits.add(new_feature)
+
+        return HttpResponse(redirect_to)
 
 # @login_required()
 # def test_screen(request):
@@ -636,7 +666,7 @@ def nc_class(request):
             character.save()
 
             request.session['character'] = character.pk
-            request.session['current_screen'] = 'class'
+            request.session['next_screen'] = 'nc_ability_scores'
 
             for feature in character.char_classes.all()[0].features.all():
                 if feature.is_choice and feature.prereq_class_level == 1:
@@ -701,7 +731,7 @@ def nc_ability_scores(request):
             character.save()
 
             request.session['character'] = character.pk
-            request.session['current_screen'] = 'ability_scores'
+            request.session['next_screen'] = 'nc_personality'
 
             return redirect('nc_personality')
 
@@ -743,7 +773,7 @@ def nc_personality(request):
                 character.ideals = form.cleaned_data['flaws']
 
             character.save()
-            request.session['current_screen'] = 'personality'
+            request.session['next_screen'] = 'nc_background'
 
             return redirect('nc_background')
 
@@ -774,7 +804,7 @@ def nc_background(request):
             character.char_background = form.cleaned_data['background']
 
             character.save()
-            request.session['current_screen'] = 'background'
+            request.session['next_screen'] = 'nc_equipment'
 
             for feature in character.char_background.features.all():
                 if feature.is_choice:
@@ -812,7 +842,7 @@ def nc_equipment(request):
             character.armor_inv = form.cleaned_data['armor']
 
             character.save()
-            request.session['current_screen'] = 'equipment'
+            request.session['next_screen'] = 'nc_resolve'
 
             return redirect('nc_resolve')
 
@@ -850,10 +880,7 @@ def nc_resolve(request):
                 next_page = "home"
 
             del request.session['character']
-            del request.session['current_screen']
-
-
-            # context = dict()
+            del request.session['next_screen']
 
             return redirect(next_page)
 
