@@ -6,17 +6,25 @@
 {% endblock %}
 
 {% block main %}
-    {{ k }}
-    {{ form }}
 
-    {% for type, features in feature_search.items %}
-        {{ type }}
-        <ul>
-        {% for feature in features %}
-            <li class="list-group-item draggable">{{ feature }}</li>
+    <form action="" method="POST">{% csrf_token %}
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <section class="panel panel-default">
+                <div class="panel-title">
+                    {{ form.feature_name }}
+                    <p class="feature_type">{{ form.feature_type }}</p>
+                </div>
+                <section class="panel-body">
+
+                        <p class="feature_choice">{{ form.feature_choices }}</p>
+
+                </section>
+            </section>
         {% endfor %}
-        </ul>
-    {% endfor %}
+        <button type="submit" class="btn btn-primary" id="submit_button">Next!</button>
+    </form>
+
 {% endblock %}
 
 {% block extra_scripts %}

@@ -36,7 +36,7 @@ from pages.views import (spell_details, subrace_details, race_details, prestige_
                          background_details, skill_details, language_details, condition_details, item_details, weapon_details,
                          armor_details, tool_details, mount_details)
 from pages.views import (CharacterCreationName, nc_ability_scores, nc_race, nc_class, nc_personality, nc_equipment,
-                         nc_background, nc_resolve, nc_choice, test_screen)
+                         nc_background, nc_resolve, nc_choice, nc_choice_set)
 
 # Imported API FBVs:
 from api.views import (spell_book, specific_user_character, user_character_names)
@@ -120,9 +120,8 @@ urlpatterns = [
     url(r'^nc_background/$', nc_background, name='nc_background'),
     url(r'^nc_equipment/$', nc_equipment, name='nc_equipment'),
     url(r'^nc_resolve/$', nc_resolve, name='nc_resolve'),
-    url(r'^feature_choice/$', nc_choice, name='choice_screen'),
-    url(r'^test_screen/$', test_screen, name='test_screen'),
-
+    url(r'^choice_screen/$', nc_choice, name='choice_screen'),
+    url(r'^choice_set/$', nc_choice_set, name='choice_set'),
 
     # Search Pages:
     url(r'^search/$', search_home, name='search_home'),

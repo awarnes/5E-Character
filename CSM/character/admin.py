@@ -6,26 +6,21 @@ from searchableselect.widgets import SearchableSelect
 # Model Imports:
 from .models import Character, ClassLevel, SpellsReady
 from rules.models import Class
+from .forms import ClassesForm
 
 
-# class ClassesForm(forms.ModelForm):
-#     class Meta:
-#         model = Character
-#         exclude = ()
-#         widgets = {
-#             'char_classes': SearchableSelect(model='rules.Class', search_field='name', many=True)
-#         }
-#
-#
-# class CharacterAdmin(admin.ModelAdmin):
-#     """Custome model admin for characters."""
-#
-#     model = Character
-#     list_display = ('char_name', 'username',)
-#     form = ClassesForm
+
+class CharacterAdmin(admin.ModelAdmin):
+    """Custom model admin for characters."""
+
+    model = Character
+    exclude = ()
+    list_display = ('char_name', 'username',)
+    form = ClassesForm
+
 
 # Main Model:
-admin.site.register(Character)
+admin.site.register(Character, CharacterAdmin)
 
 # Through Tables:
 admin.site.register(ClassLevel)

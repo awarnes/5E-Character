@@ -11,6 +11,8 @@ but particular enough that the information will still be programmatically access
 # Django imports.
 from django.db import models
 from django.utils.text import slugify
+from django.core.validators import validate_comma_separated_integer_list
+
 
 
 DICE_SIZES = [
@@ -178,6 +180,7 @@ class PrestigeClass(models.Model):
 
     # Features
     features = models.ManyToManyField('Feature', related_name='prestige_class_features')
+    spell_table = models.ForeignKey('rules.SpellTable', related_name='prestige_spell_table', blank=True, null=True)
 
     srd = models.BooleanField(default=False, blank=True,)
 
@@ -222,6 +225,7 @@ class Class(models.Model):
     # Features
     features = models.ManyToManyField('Feature', related_name='class_features')
     prestige_classes = models.ManyToManyField('PrestigeClass', related_name='class_prestige_classes', blank=True,)
+    spell_table = models.ForeignKey('rules.SpellTable', related_name='class_spell_table', blank=True, null=True)
 
     srd = models.BooleanField(default=False, blank=True,)
 
@@ -615,3 +619,33 @@ class LandType(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class SpellTable(models.Model):
+    """
+    Spell tables for various spellcasting classes.
+    Will be in a CSV with the index associated with the character level - 1.
+    
+    Warlock will use level_1_slots for their spell slots, and level_2_slots for their slot level, and level_3_slots for
+    invocations known.
+    """
+
+    cantrips_known = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+
+    preparing_stat = models.CharField(max_length=16, blank=True, null=True,)
+    preparing_level_modifier = models.SmallIntegerField(blank=True, null=True)
+
+    spells_known = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+
+    level_1_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+    level_2_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+    level_3_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+    level_4_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+    level_5_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+    level_6_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+    level_7_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+    level_8_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+    level_9_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+
+
+

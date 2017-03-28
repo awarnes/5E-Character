@@ -15,20 +15,22 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView, CreateView
 from django.urls import reverse_lazy
-from django.http import HttpResponseRedirect
-from formtools.wizard.views import SessionWizardView
+from django.forms import formset_factory
+from django.http import HttpResponseRedirect, HttpResponse
 
-from django.db.models import Q
+
 from django.contrib import messages
 
 # Module and Form Imports:
 from .forms import SearchDatabase
 from .forms import (AbilityScoresChoice, CCRace, CCClass, CCPersonality, CCBackground, CCEquipment, NCResolve,
-                    CharacterFeatureChoice, RedirectTest)
+                    ChoiceForm)
 
 # Model Imports:
 from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, DamageType, Feature, Skill, Background,
                           Language, Condition, )
+from rules import models as rules_models
+
 from spells.models import Spell
 from character.models import Character, ClassLevel
 from equipment.models import (Weapon, Armor, Tool, Item, MountAndVehicle)
@@ -381,8 +383,17 @@ def nc_race(request):
             character.save()
 
             request.session['character'] = character.pk
+            request.session['current_screen'] = 'race'
 
-            return redirect('choice_screen')
+            for feature in character.char_race.features.all():
+                if feature.is_choice:
+                    return redirect('choice_screen')
+
+            for feature in character.char_subrace.features.all():
+                if feature.is_choice:
+                    return redirect('choice_screen')
+
+            return redirect('nc_class')
 
         return render(request, 'characters/nc_race.html', context)
 
@@ -390,17 +401,17 @@ def nc_race(request):
 def nc_choice(request):
     """This is a general purpose screen for choosing when a feature has is_choice set to True."""
 
+    ChoiceFormSet = formset_factory(ChoiceForm, max_num=1)
 
     if request.method == "GET":
-        form = CharacterFeatureChoice()
+
         character = Character.objects.get(pk=request.session['character'])
 
-        redirected_from = request.META['HTTP_REFERER']
-        redirected_from = re.findall('(?:\w*_)(\w*)', redirected_from)
+        redirected_from = request.session['current_screen']
 
         feature_search = dict()
 
-        if redirected_from[0] == 'race':
+        if redirected_from == 'race':
             features = character.char_race.features.all()
             feature_search[character.char_race.name] = list()
 
@@ -421,51 +432,131 @@ def nc_choice(request):
             if len(feature_search[character.char_subrace.name]) == 0:
                 del feature_search[character.char_subrace.name]
 
-        # import pdb; pdb.set_trace()
-        context = {'form': form, 'feature_search': feature_search}
+        elif redirected_from == 'class':
+            features = character.classlevels.all()[0].char_class.features.all()
+            feature_search[character.classlevels.all()[0].char_class.name] = list()
 
-        return render(request, 'characters/choice_screen.html', context)
+            for feature in features:
+                if feature.is_choice and feature.prereq_class_level <= 1:
+                    feature_search[character.classlevels.all()[0].char_class.name].append(feature)
 
+            if len(feature_search[character.classlevels.all()[0].char_class.name]) == 0:
+                del feature_search[character.classlevels.all()[0].char_class.name]
 
-    """
-    
-    all_choices = dict()
-    
-    for feature in ?xxxxxxxxx?.features.all():
-    
-        if feature.is_choice: (==True)
             try:
-                choices = getattr(rule_models, feature.choice_type).objects.filter(name__in=feature.choices)
-            else:
-                choices = getattr(spell_models, feature.choice_type).objects.filter(name__in=feature.choices)
-            except:
+                features = character.char_prestige_classes.all()[0].features.all()
+                feature_search[character.char_prestige_classes.all()[0].name] = list()
+
+                for feature in features:
+                    if feature.is_choice and feature.prereq_class_level <= 1:
+                        feature_search[character.char_prestige_classes.all()[0].name].append(feature)
+
+                if len(feature_search[character.char_prestige_classes.all[0].name]) == 0:
+                    del feature_search[character.char_prestige_classes.all[0].name]
+
+            except IndexError:
                 pass
-             
-            choice_amount = feature.choice_amount
-            
-            all_choices[feature.name] = (choices, choice_amount)
-            
-    context = {'choices': all_choices}
-            
-            
-    """
+
+        elif redirected_from == 'background':
+            features = character.char_background.features.all()
+            feature_search[character.char_background.name] = list()
+
+            for feature in features:
+                if feature.is_choice and feature.choice_amount != -1:
+                    feature_search[character.char_background.name].append(feature)
+
+            if len(feature_search[character.char_background.name]) == 0:
+                del feature_search[character.char_background.name]
+
+        spell_levels = ['Cantrip', '1st-Level', '2nd-Level', '3rd-Level', '4th-Level', '5th-Level', '6th-Level',
+                        '7th-Level', '8th-Level', '9th-Level']
+
+        multi_search = ['character', 'Spell']
+        
+        single_search = ['Feature', 'DragonAncestry', 'Language', 'EnemyRace', 'LandType']
+        
+        lvl_1_skip = ['PrestigeClass']
+
+        initial = list()
+
+        for search_type, feature_list in enumerate(feature_search.values()):
+            for index, feature in enumerate(feature_list):
+                data = dict()
+
+                redirect_page = redirected_from
+                max_choices = feature.choice_amount
+                min_choices = 1
+                feature_name = feature.name
+
+                choice_type = feature.choice_type.split(', ')
+
+                if choice_type[0] in single_search:
+                    feature_choices = feature.choices.split(', ')
+                    queryset = getattr(rules_models, choice_type[0]).objects.filter(name__in=feature_choices)
+
+                elif choice_type[0] in multi_search:
+                    feature_choices = feature.choices.split(', ')
+                    if choice_type[0] == 'Spell':
+                        if feature_choices[0] == 'Any':
+                            queryset = Spell.objects.filter(level__in=spell_levels)
+                        else:
+                            choice_class = feature_choices[0]
+                            choice_level = feature_choices[1]
+                            queryset = Spell.objects.filter(available_to__icontains=choice_class).filter(level__iexact=choice_level)
+
+                    elif choice_type[0] == 'Feature':
+                        queryset = character.features.filter(name__icontains=feature_choices[0])
+
+                elif choice_type[0] in lvl_1_skip:
+                    if len(character.classlevels.all()) == 1:
+                        if character.classlevels.all()[0].class_level == 1:
+                            continue
+                        else:
+                            """prestige_search"""
+                else:
+                    continue
+
+                data['redirect_page'] = redirect_page
+                data['max_choices'] = max_choices
+                data['min_choices'] = min_choices
+                data['feature_name'] = feature_name
+                data['feature_type'] = choice_type[0]
+                data['choices'] = queryset
+
+                initial.append(data)
+
+            formset = ChoiceFormSet(initial=initial)
+
+            context = {'formset': formset, 'feature_search': feature_search}
+
+            return render(request, 'characters/choice_screen.html', context)
+
+    if request.method == 'POST':
+        pass
+
 
 @login_required()
-def test_screen(request):
+def nc_choice_set(request):
 
-    if request.method == "GET":
-        form = RedirectTest()
+    if request.method == 'POST':
+        return HttpResponse('Yay!')
 
-        context = {'form': form}
-
-        return render(request, 'characters/test_redirect.html', context)
-
-    if request.method == "POST":
-        form = RedirectTest(data=request.POST)
-
-        context = {'form': form}
-
-        return redirect('choice_screen')
+# @login_required()
+# def test_screen(request):
+#
+#     if request.method == "GET":
+#         form = RedirectTest()
+#
+#         context = {'form': form}
+#
+#         return render(request, 'characters/test_redirect.html', context)
+#
+#     if request.method == "POST":
+#         form = RedirectTest(data=request.POST)
+#
+#         context = {'form': form}
+#
+#         return redirect('choice_screen')
 
 
 @login_required()
@@ -542,10 +633,18 @@ def nc_class(request):
             if klass.saving_throw_1 == 'Charisma' or klass.saving_throw_2 == 'Charisma':
                 character.CHA_saving_throw = True
 
-
             character.save()
 
             request.session['character'] = character.pk
+            request.session['current_screen'] = 'class'
+
+            for feature in character.char_classes.all()[0].features.all():
+                if feature.is_choice and feature.prereq_class_level == 1:
+                    return redirect('choice_screen')
+
+            for feature in character.char_prestige_classes.all()[0].features.all():
+                if feature.is_choice and feature.prereq_class_level == 1:
+                    return redirect('choice_screen')
 
             return redirect('nc_ability_scores')
 
@@ -602,6 +701,7 @@ def nc_ability_scores(request):
             character.save()
 
             request.session['character'] = character.pk
+            request.session['current_screen'] = 'ability_scores'
 
             return redirect('nc_personality')
 
@@ -643,6 +743,7 @@ def nc_personality(request):
                 character.ideals = form.cleaned_data['flaws']
 
             character.save()
+            request.session['current_screen'] = 'personality'
 
             return redirect('nc_background')
 
@@ -673,6 +774,11 @@ def nc_background(request):
             character.char_background = form.cleaned_data['background']
 
             character.save()
+            request.session['current_screen'] = 'background'
+
+            for feature in character.char_background.features.all():
+                if feature.is_choice:
+                    return redirect('choice_screen')
 
             return redirect('nc_equipment')
 
@@ -706,6 +812,7 @@ def nc_equipment(request):
             character.armor_inv = form.cleaned_data['armor']
 
             character.save()
+            request.session['current_screen'] = 'equipment'
 
             return redirect('nc_resolve')
 
@@ -742,7 +849,9 @@ def nc_resolve(request):
             elif next_page == "":
                 next_page = "home"
 
-            request.session['character'] = ''
+            del request.session['character']
+            del request.session['current_screen']
+
 
             # context = dict()
 

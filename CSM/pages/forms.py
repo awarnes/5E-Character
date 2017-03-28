@@ -76,12 +76,42 @@ class NCResolve(forms.Form):
     next_page = forms.CharField(max_length=128, widget=forms.TextInput, required=False)
 
 
-class CharacterFeatureChoice(forms.Form):
+
+
+class ChoiceForm(forms.Form):
     """Allows user to assign features with the is_choice=True field to their character."""
 
-    to_add = forms.CharField(max_length=1024, widget=forms.Textarea(attrs={'class': 'droppable', 'readonly': 'true'}))
+    feature_type = forms.CharField(max_length=1024, widget=forms.HiddenInput)
+    redirect_page = forms.CharField(max_length=256, widget=forms.HiddenInput)
+    max_choices = forms.IntegerField(min_value=1, widget=forms.HiddenInput)
+    min_choices = forms.IntegerField(min_value=1, widget=forms.HiddenInput)
+
+    feature_name = forms.CharField(max_length=128,)
+    feature_choices = forms.ModelMultipleChoiceField(queryset=None, required=True,)
+
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #
+    #     value = cleaned_data['feature_choices']
+    #
+    #     if value > cleaned_data['max_choices']:
+    #         raise forms.ValidationError(_("You cannot select more than {} items.".format(cleaned_data['max_choices'])), code='invalid')
+    #     elif value < cleaned_data['min_choices']:
+    #         raise forms.ValidationError(_("You must select at least {} items.".format(cleaned_data['min_choices'])), code='invalid')
+    #     else:
+    #         return cleaned_data
+
+    def __init__(self, *args, **kwargs):
+
+        super().__init__(*args, **kwargs)
+
+        choices = self.initial.get('choices')
+        self.fields['queryset'] = choices
+
+        self.fields['feature_choices'].queryset = choices
+
+        # models = kwargs.pop('models')
 
 
-class RedirectTest(forms.Form):
 
-    redir = forms.CharField(max_length=256)
+
