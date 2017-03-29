@@ -26,12 +26,12 @@ DICE_SIZES = [
 ]
 
 ABILITIES = [
-        ('Strength', 'Strength'),
-        ('Dexterity', 'Dexterity'),
-        ('Constitution', 'Constitution'),
-        ('Intelligence', 'Intelligence'),
-        ('Wisdom', 'Wisdom'),
-        ('Charisma', 'Charisma'),
+        ('STR', 'Strength'),
+        ('DEX', 'Dexterity'),
+        ('CON', 'Constitution'),
+        ('INT', 'Intelligence'),
+        ('WIS', 'Wisdom'),
+        ('CHA', 'Charisma'),
     ]
 
 ARMOR_TYPES = [

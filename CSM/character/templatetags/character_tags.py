@@ -5,6 +5,8 @@ Custom Template Tags for the Character Model. General use is to invoke functions
 from django import template
 from character.models import ClassLevel
 
+from rules.models import Language, Skill
+
 register = template.Library()
 
 
@@ -31,6 +33,38 @@ def prestige_check(character):
         return False
     else:
         return True
+
+
+@register.simple_tag()
+def get_languages(character):
+    """Gets all languages a character is able to understand."""
+
+    languages = [lang for lang in character.char_traits.all() if isinstance(lang, Language)]
+
+    return languages
+
+
+@register.simple_tag()
+def check_skill(character, query_skill):
+    """Checks if a character is proficient with a skill."""
+
+    char_skills = character.features.filter(name__startswith='Skill:')
+
+    for thing in char_skills:
+        if query_skill in thing.name:
+            return True
+
+    return False
+
+
+@register.simple_tag()
+def get_skill_bonus(character, query_skill):
+    """Returns the skill bonus."""
+
+    if check_skill(character, query_skill):
+        return character.get_ability_bonus(Skill.objects.get(name=query_skill).associated_ability) + character.get_prof_bonus()
+    else:
+        return character.get_ability_bonus(Skill.objects.get(name=query_skill).associated_ability)
 
 
 @register.simple_tag()

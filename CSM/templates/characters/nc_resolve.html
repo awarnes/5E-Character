@@ -132,12 +132,14 @@
                         </div>
 
                         <div class="panel panel-default" id="saving_throws">
-                            <div class="panel-body">
+                            <div class="panel-title text-center">
                                 <p>Saving Throws:</p>
+                            </div>
+                            <div class="panel-body">
 
                                 <p>{% if character.STR_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{% saving_throw_bonus character 'STR' %}
+                                    <u>+{% saving_throw_bonus character 'STR' %}</u>
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'STR' as STR %}
@@ -145,7 +147,7 @@
 
                                 <p>{% if character.DEX_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{% saving_throw_bonus character 'DEX' %}
+                                    <u>+{% saving_throw_bonus character 'DEX' %}</u>
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'DEX' as DEX %}
@@ -153,7 +155,7 @@
 
                                 <p>{% if character.CON_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{% saving_throw_bonus character 'CON' %}
+                                    <u>+{% saving_throw_bonus character 'CON' %}</u>
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'CON' as CON %}
@@ -161,7 +163,7 @@
 
                                 <p>{% if character.INT_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{% saving_throw_bonus character 'INT' %}
+                                    <u>+{% saving_throw_bonus character 'INT' %}</u>
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'INT' as INT %}
@@ -169,7 +171,7 @@
 
                                 <p>{% if character.WIS_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{% saving_throw_bonus character 'WIS' %}
+                                    <u>+{% saving_throw_bonus character 'WIS' %}</u>
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'WIS' as WIS %}
@@ -177,7 +179,7 @@
 
                                 <p>{% if character.CHA_saving_throw %}
                                     <input type="radio" checked disabled>
-                                    +{% saving_throw_bonus character 'CHA' %}
+                                    <u>+{% saving_throw_bonus character 'CHA' %}</u>
                                 {% else %}
                                     <input type="radio" disabled>
                                     {% ab_bonus character 'CHA' as CHA %}
@@ -186,26 +188,173 @@
                         </div>
 
                         <div class="panel panel-default" id="skills">
-                            <div class="panel-body">
+                            <div class="panel-title text-center">
                                 <p>Skills:</p>
-                                <p>Acrobatics:</p>
-                                <p>Animal Handling:</p>
-                                <p>Arcana:</p>
-                                <p>Athletics:</p>
-                                <p>Deception:</p>
-                                <p>History:</p>
-                                <p>Insight:</p>
-                                <p>Intimidation:</p>
-                                <p>Investigation:</p>
-                                <p>Medicine:</p>
-                                <p>Nature:</p>
-                                <p>Perception:</p>
-                                <p>Performance:</p>
-                                <p>Persuasion:</p>
-                                <p>Religion:</p>
-                                <p>Sleight of Hand:</p>
-                                <p>Stealth:</p>
-                                <p>Survival:</p>
+                            </div>
+                            <div class="panel-body">
+
+                                {% check_skill character 'Acrobatics' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Acrobatics' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Acrobatics' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Acrobatics</p>
+
+                                {% check_skill character 'Animal Handling' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Animal Handling' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Animal Handling' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Animal Handling</p>
+
+                                {% check_skill character 'Arcana' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Arcana' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Arcana' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Arcana</p>
+
+                                {% check_skill character 'Athletics' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Athletics' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Athletics' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Athletics</p>
+
+                                {% check_skill character 'Deception' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Deception' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Deception' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Deception</p>
+
+                                {% check_skill character 'History' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'History' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'History' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> History</p>
+
+                                {% check_skill character 'Insight' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Insight' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Insight' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Insight</p>
+
+                                {% check_skill character 'Intimidation' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Intimidation' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Intimidation' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Intimidation</p>
+
+                                {% check_skill character 'Investigation' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Investigation' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Investigation' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Investigation</p>
+
+                                {% check_skill character 'Medicine' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Medicine' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Medicine' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Medicine</p>
+
+                                {% check_skill character 'Nature' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Nature' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Nature' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Nature</p>
+
+                                {% check_skill character 'Perception' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Perception' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Perception' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Perception</p>
+
+                                {% check_skill character 'Performance' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Performance' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Performance' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Performance</p>
+
+                                {% check_skill character 'Persuasion' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Persuasion' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Persuasion' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Persuasion</p>
+
+                                {% check_skill character 'Religion' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Religion' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Religion' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Religion</p>
+
+                                {% check_skill character 'Sleight of Hand' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Sleight of Hand' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Sleight of Hand' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Sleight of Hand</p>
+
+                                {% check_skill character 'Stealth' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Stealth' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Stealth' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Stealth</p>
+
+                                {% check_skill character 'Survival' as prof %}
+                                <p>{% if prof %}
+                                    <input type="radio" checked disabled>
+                                    <u>+{% get_skill_bonus character 'Survival' %}</u>
+                                {% else %}
+                                    <input type="radio" disabled>
+                                    {% get_skill_bonus character 'Survival' as bon %}
+                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Survival</p>
+
                             </div>
                         </div>
 
@@ -220,6 +369,12 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <p>Languages and Other Proficiencies:</p>
+                                {% get_languages character as languagess %}
+                                <ul>
+                                {% for lang in languages %}
+                                    <li class="list-group-item">{{ lang }}</li>
+                                {% endfor %}
+                                </ul>
                             </div>
                         </div>
                     </section>
@@ -313,7 +468,12 @@
 
                     <div class="panel panel-default" id="features">
                         <div class="panel-body">
-                            <p>Features:</p>
+                            <p data-type="char_features" class="search_type">Features:</p>
+                                <ul>
+                                    {% for feature in character.features.all %}
+                                        <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature }}</li>
+                                    {% endfor %}
+                                </ul>
                             <hr>
                             <p class="search_type" data-type="race">Race:</p>
                             <ul>
