@@ -111,6 +111,20 @@ class Character(models.Model):
 
     # Spells
     spell_book = models.ManyToManyField('spells.Spell', related_name='character_spells', through='SpellsReady', blank=True,)
+    spell_slots_1 = models.SmallIntegerField(blank=True, null=True,)
+    spell_slots_2 = models.SmallIntegerField(blank=True, null=True,)
+    spell_slots_3 = models.SmallIntegerField(blank=True, null=True,)
+    spell_slots_4 = models.SmallIntegerField(blank=True, null=True,)
+    spell_slots_5 = models.SmallIntegerField(blank=True, null=True,)
+    spell_slots_6 = models.SmallIntegerField(blank=True, null=True,)
+    spell_slots_7 = models.SmallIntegerField(blank=True, null=True,)
+    spell_slots_8 = models.SmallIntegerField(blank=True, null=True,)
+    spell_slots_9 = models.SmallIntegerField(blank=True, null=True,)
+
+    # Special Point Tracking (Rage, Inspiration, Etc.): # TODO: Add field to check which feature they have for points and base tracking off of that.
+    has_point_tracking = models.BooleanField(default=False)
+    max_points = models.SmallIntegerField(blank=True, null=True)
+    current_points = models.SmallIntegerField(blank=True, null=True)
 
     # Inventory
     tools_inv = models.ManyToManyField('equipment.Tool', related_name='character_tools_inv', blank=True,)
@@ -204,9 +218,11 @@ class Character(models.Model):
         Returns the total initiative bonus for a character.
         :return: int()
         """
+        from rules.models import Feature
 
         initiative = 0
-        if 'Alert' in self.features.all():  # TODO: May not work with feats once they're added in...
+        alert = Feature.objects.get(name__iexact='Alert')
+        if alert in self.features.all():
             initiative += 4 + self.get_ability_bonus('DEX')
 
         else:

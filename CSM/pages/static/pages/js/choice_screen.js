@@ -80,13 +80,9 @@ $(document).ready(function(){
                 window.location.href= '/' + resp + '/'
             },
             error: function(err){
-                console.log(err);
+                alert(err);
             },
 
-            //
-            // "Post the data to an end point, possibly a totally different function, also need to" +
-            // "get the redirect information to decide where to redirect next." +
-            // "will also need to make sure that the min_choices and max_choices are respected (validation)"
         });
 
 

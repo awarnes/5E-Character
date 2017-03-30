@@ -28,6 +28,28 @@ from rules.models import (Subrace, Race, PrestigeClass, Class, Feature, Backgrou
                           Skill, Language, DamageType, Condition, Alignment)
 
 
+# Character API endpoints:
+# class CharacterViewSet(viewsets.ReadOnlyModelViewSet):
+#     """
+#     API endpoint that allows skills to be viewed.
+#     """
+#
+#     queryset = Character.objects.all()
+#     serializer_class = SkillModelSerializer
+#     lookup_field = 'slug'
+#
+#     @detail_route(methods=['GET'])
+#     def skill_detail(self, slug=None):
+#         character = Character.objects.filter(name__icontains=slug)
+#
+#         serializer = CharacterModelSerializer(character, many=False)
+#
+#         if bool(character):
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         else:
+#             return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+
+
 # Rule API endpoints:
 class SkillViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -463,7 +485,7 @@ def specific_user_character(request):
 
     serializer = CharacterModelSerializer(character, many=True)
 
-    if bool(character) == True:
+    if bool(character):
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)

@@ -5,7 +5,7 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 
 # module level imports
-from rules.models import Feature
+from rules.models import Feature, Action
 
 
 class Command(BaseCommand):
@@ -19,7 +19,7 @@ class Command(BaseCommand):
         with open('/Users/alexanderwarnes/Documents/abw_codes/Git/5E Rules CSVs/5E Rules CSVs/Features-Table 1.csv') as f:
             features = pd.read_csv(f, delimiter=',')
 
-        features_1 = features.ix[:, 'name':'choice_amount']
+        features_1 = features.ix[:, 'name':'action_type']
         features_2 = features.ix[:, 'prereq_proficiency':'prereq_prestige_class']
 
         features = pd.concat([features_1, features_2], axis=1)
@@ -41,12 +41,15 @@ class Command(BaseCommand):
                 choices=feature[1][7],
                 choice_amount=feature[1][8],
 
-                prereq_character_level=feature[1][10],
-                prereq_class_level=feature[1][12],
+                prereq_character_level=feature[1][11],
+                prereq_class_level=feature[1][13],
 
 
             )
+            # print(feature[1][0])
+            # print(feature[1][9])
+            action = Action.objects.get(name__iexact=feature[1][9])
 
-
+            feature_entry.action_type = action
 
             feature_entry.save()

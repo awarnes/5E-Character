@@ -36,7 +36,9 @@ class CharacterModelSerializer(serializers.ModelSerializer):
                   'STR_saving_throw', 'DEX_saving_throw', 'CON_saving_throw', 'INT_saving_throw', 'WIS_saving_throw',
                   'CHA_saving_throw', 'features', 'conditions', 'death_fails', 'death_successes', 'max_health',
                   'current_health', 'temp_addtl_hp', 'speed', 'inspiration', 'spell_book', 'tools_inv', 'items_inv',
-                  'armor_inv', 'weapons_inv', 'get_char_level', 'slug',
+                  'armor_inv', 'weapons_inv', 'get_char_level', 'slug', 'spell_slots_1', 'spell_slots_2',
+                  'spell_slots_3', 'spell_slots_4', 'spell_slots_5', 'spell_slots_6', 'spell_slots_7', 'spell_slots_8',
+                  'spell_slots_9', 'has_point_tracking', 'max_points', 'current_points'
                   # 'get_ability_bonus', 'get_passive_score',
                   # 'get_prof_bonus', 'get_initiative_bonus', 'get_armor_class',
                   )

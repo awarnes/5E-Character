@@ -2,7 +2,7 @@
 from django import forms
 
 # Model Imports:
-from rules.models import Race, Subrace, Class, Alignment, Background, PrestigeClass
+from rules.models import Race, Subrace, Class, Alignment, Background, PrestigeClass, Condition
 from equipment.models import Weapon, Armor, Item, Tool
 
 
@@ -112,6 +112,67 @@ class ChoiceForm(forms.Form):
 
         # models = kwargs.pop('models')
 
+class BattleSheet(forms.Form):
+    """Form for the battle tab of the character sheet, used to help save any updated information."""
 
 
+    # Ability Scores:
+    STR = forms.IntegerField(required=False, disabled=True)
+    DEX = forms.IntegerField(required=False, disabled=True)
+    CON = forms.IntegerField(required=False, disabled=True)
+    INT = forms.IntegerField(required=False, disabled=True)
+    WIS = forms.IntegerField(required=False, disabled=True)
+    CHA = forms.IntegerField(required=False, disabled=True)
 
+    # Saving Throws:
+    STR_ST = forms.BooleanField(required=False, disabled=True)
+    DEX_ST = forms.BooleanField(required=False, disabled=True)
+    CON_ST = forms.BooleanField(required=False, disabled=True)
+    INT_ST = forms.BooleanField(required=False, disabled=True)
+    WIS_ST = forms.BooleanField(required=False, disabled=True)
+    CHA_ST = forms.BooleanField(required=False, disabled=True)
+
+    # Skills:
+    acrobatics = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'acrobatics'}))
+    animal = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'animal'}))
+    arcana = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'arcana'}))
+    athletics = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'athletics'}))
+    deception = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'deception'}))
+    history = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'history'}))
+    insight = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'insight'}))
+    intimidation = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'intimidation'}))
+    investigation = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'investigation'}))
+    medicine = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'medicine'}))
+    nature = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'nature'}))
+    perception = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'perception'}))
+    performance = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'performance'}))
+    persuasion = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'persuasion'}))
+    religion = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'religion'}))
+    sleight = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'sleight'}))
+    stealth = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'stealth'}))
+    survival = forms.BooleanField(required=False, disabled=True, widget=forms.CheckboxInput(attrs={'data-skill': 'survival'}))
+
+    # Armor and Movement:
+    ac = forms.IntegerField(required=False, disabled=True)
+    init = forms.IntegerField(required=False, disabled=True)
+    speed = forms.IntegerField(required=False, disabled=True)
+
+    # HP and Conditions:
+    max_hp = forms.IntegerField(required=False, disabled=True)
+    cur_hp = forms.IntegerField(required=False, disabled=True)
+    temp_hp = forms.IntegerField(required=False, disabled=True)
+    conditions = forms.ModelMultipleChoiceField(queryset=Condition.objects.all(), required=False, disabled=True)
+
+    # Point Tracker:
+    current_points = forms.IntegerField(required=False, disabled=True)
+    max_points = forms.IntegerField(required=False, disabled=True)
+
+    spell_slots_1 = forms.IntegerField(required=False, disabled=True)
+    spell_slots_2 = forms.IntegerField(required=False, disabled=True)
+    spell_slots_3 = forms.IntegerField(required=False, disabled=True)
+    spell_slots_4 = forms.IntegerField(required=False, disabled=True)
+    spell_slots_5 = forms.IntegerField(required=False, disabled=True)
+    spell_slots_6 = forms.IntegerField(required=False, disabled=True)
+    spell_slots_7 = forms.IntegerField(required=False, disabled=True)
+    spell_slots_8 = forms.IntegerField(required=False, disabled=True)
+    spell_slots_9 = forms.IntegerField(required=False, disabled=True)

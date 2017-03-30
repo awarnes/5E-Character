@@ -3,7 +3,7 @@ from django.contrib import admin
 
 # Model Imports:
 from .models import Subrace, Race, PrestigeClass, Class, Background, PersonalityTrait, Ideal, Bond, Flaw, Alignment
-from .models import Feature, Skill, Language, DamageType, Condition, DragonAncestry, LandType, EnemyRace
+from .models import Feature, Skill, Language, DamageType, Condition, DragonAncestry, LandType, EnemyRace, Action
 
 
 # Main information:
@@ -31,3 +31,4 @@ admin.site.register(Condition)
 admin.site.register(DragonAncestry)
 admin.site.register(EnemyRace)
 admin.site.register(LandType)
+admin.site.register(Action)

@@ -16,15 +16,15 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import FormView, CreateView
 from django.urls import reverse_lazy
 from django.forms import formset_factory
-from django.http import HttpResponseRedirect, HttpResponse
-
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
 
 from django.contrib import messages
 
 # Module and Form Imports:
 from .forms import SearchDatabase
 from .forms import (AbilityScoresChoice, CCRace, CCClass, CCPersonality, CCBackground, CCEquipment, NCResolve,
-                    ChoiceForm)
+                    ChoiceForm, BattleSheet)
+from api.serializers import CharacterModelSerializer
 
 # Model Imports:
 from rules.models import (Alignment, Class, PrestigeClass, Race, Subrace, DamageType, Feature, Skill, Background,
@@ -106,6 +106,46 @@ def search_home(request):
     context = {'query': query, 'results': results, 'total': total}
 
     return render(request, 'database_view/search_home.html', context)
+
+@login_required()
+def character_sheet(request, username, slug):
+    """Details for a user's character."""
+
+    username = Member.objects.get(username__icontains=username)
+
+    character = Character.objects.filter(username=username).filter(slug__icontains=slug)[0]
+
+    if request.method == "GET":
+
+        exp = r'(?<=: )\w*'
+
+        skills = {re.findall(exp, feature.name)[0].lower(): True for feature in Feature.objects.filter(name__icontains='Skill: ')
+                                                                             if feature in character.features.all()}
+        battle_form = BattleSheet(initial={
+            'STR': character.STR_score, 'DEX': character.DEX_score, 'CON': character.CON_score,
+            'INT': character.INT_score, 'WIS': character.WIS_score, 'CHA': character.CHA_score,
+            'STR_ST': character.STR_saving_throw, 'DEX_ST': character.DEX_saving_throw, 'CON_ST': character.CON_saving_throw,
+            'INT_ST': character.INT_saving_throw, 'WIS_ST': character.WIS_saving_throw, 'CHA_ST': character.CHA_saving_throw,
+            'ac': character.get_armor_class, 'init': character.get_initiative_bonus, 'speed': character.speed,
+            'max_hp': character.max_health, 'cur_hp': character.current_health, 'temp_hp': character.temp_addtl_hp,
+            'conditions': character.conditions.all(), 'spell_slots_1': character.spell_slots_1, 'spell_slots_2': character.spell_slots_2,
+            'spell_slots_3': character.spell_slots_3, 'spell_slots_4': character.spell_slots_4, 'spell_slots_5': character.spell_slots_5,
+            'spell_slots_6': character.spell_slots_6, 'spell_slots_7': character.spell_slots_7, 'spell_slots_8': character.spell_slots_8,
+            'spell_slots_9': character.spell_slots_9, 'current_points': character.current_points, 'max_points': character.max_points,
+            'acrobatics': skills.get('acrobatics', False), 'animal': skills.get('animal handling', False), 'arcana': skills.get('arcana', False),
+            'athletics': skills.get('athletics', False),'deception': skills.get('deception', False), 'history': skills.get('history', False),
+            'insight': skills.get('insight', False), 'intimidation': skills.get('intimidation', False), 'investigation': skills.get('investigation', False),
+            'medicine': skills.get('medicine', False),'nature': skills.get('nature', False), 'perception': skills.get('perception', False),
+            'performance': skills.get('performance', False),'persuasion': skills.get('persuasion', False), 'religion': skills.get('religion', False),
+            'sleight': skills.get('sleight of hand', False),'stealth': skills.get('stealth', False), 'survival': skills.get('survival', False),
+        })
+
+        context = {'character': character, 'battle_form': battle_form}
+        # import pdb;pdb.set_trace()
+        if bool(character):
+            return render(request, 'character_sheet/main.html', context)
+        else:
+            return HttpResponseNotFound("Sorry, we couldn't find your character!")
 
 
 # Rule Detail Views:
@@ -574,28 +614,9 @@ def nc_choice_set(request):
 
             else:
                 new_feature = getattr(rule_models, search_type).objects.get(pk__in=item_pk)
-                for feature in new_feature:
-                    character.char_traits.add(feature)
+                character.char_traits.add(new_feature)
 
         return HttpResponse(redirect_to)
-
-# @login_required()
-# def test_screen(request):
-#
-#     if request.method == "GET":
-#         form = RedirectTest()
-#
-#         context = {'form': form}
-#
-#         return render(request, 'characters/test_redirect.html', context)
-#
-#     if request.method == "POST":
-#         form = RedirectTest(data=request.POST)
-#
-#         context = {'form': form}
-#
-#         return redirect('choice_screen')
-
 
 @login_required()
 def nc_class(request):

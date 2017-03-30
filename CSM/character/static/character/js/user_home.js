@@ -41,6 +41,23 @@ $(document).ready(function(evt){
         });
     };
 
+    $('#go').on('click', function (evt){
+
+        var $name = $('#name').text().toLowerCase();
+        var $user = $('#username').text()
+
+        $.ajax({
+            url: '/'+$user+'/characters/'+$name+'/',
+            type: 'GET',
+            success: function(resp){
+                window.location.href = '/'+$user+'/characters/'+$name+'/'
+            },
+            error: function(err){
+                alert("Sorry, we couldn't find your character!");
+            },
+        });
+
+    });
 
 });
 

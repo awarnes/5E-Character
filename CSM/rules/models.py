@@ -54,20 +54,11 @@ STATS = [
     ]
 
 ACTIONS = [
-        ('Attack', 'Attack'),
-        ('Cast', 'Cast a Spell'),
-        ('Dash', 'Dash'),
-        ('Disengage', 'Disengage'),
-        ('Dodge', 'Dodge'),
-        ('Help', 'Help'),
-        ('Hide', 'Hide'),
-        ('Ready', 'Ready'),
-        ('Search', 'Search'),
-        ('Use', 'Use an Object'),
         ('Action', 'Action'),
         ('Bonus', 'Bonus Action'),
         ('Reaction', 'Reaction'),
         ('Move', 'Move'),
+        ('Base', 'Base'),
         ('None', 'None'),
     ]
 
@@ -267,7 +258,7 @@ class Feature(models.Model):
     choice_amount = models.SmallIntegerField(blank=True, null=True,)
 
     # Feature Actions
-    action_type = models.CharField(max_length=64, choices=ACTIONS, blank=True, null=True)
+    action_type = models.ForeignKey('rules.Action', related_name='feature_actions', blank=True, null=True)
     action_constraint_start = models.CharField(max_length=128, blank=True, null=True)
     action_constraint_end = models.CharField(max_length=128, blank=True, null=True)
     action_duration = models.CharField(max_length=128, blank=True, null=True)
@@ -621,6 +612,20 @@ class LandType(models.Model):
         return self.name
 
 
+class Action(models.Model):
+    """Model for describing types of actions."""
+
+    name = models.CharField(max_length=128)
+    description = models.CharField(max_length=1024)
+
+    is_base = models.BooleanField(default=True)
+
+    base_action_type = models.CharField(max_length=128, choices=ACTIONS, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
 class SpellTable(models.Model):
     """
     Spell tables for various spellcasting classes.
@@ -646,6 +651,3 @@ class SpellTable(models.Model):
     level_7_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
     level_8_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
     level_9_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
-
-
-

@@ -87,9 +87,6 @@ def get_class_features(character):
                             
     """
 
-
-    sorted_features = list()
-    unsorted_features = list()
     character_features = dict()
 
     clevel = ClassLevel.objects.filter(character=character)
@@ -125,12 +122,7 @@ def get_prestige_features(character):
                             
     """
 
-
-    sorted_features = list()
-    unsorted_features = list()
-
     character_features = dict()
-    # import pdb;pdb.set_trace()
     prestiges = character.char_prestige_classes.all()
 
     for prestige in prestiges:
@@ -139,3 +131,20 @@ def get_prestige_features(character):
         character_features[prestige.name] = sorted_features
 
     return character_features
+
+
+@register.simple_tag()
+def get_features(character):
+    """Returns a list of all features for a character that they currently have access to."""
+
+    character_features = dict()
+
+    prestiges = character.char_prestige_classes.all()
+    classes = ClassLevel.objects.filter(character=character)
+    race = character.char_race.get()
+    subrace = character.char_subrace.get()
+    background = character.char_subrace.get()
+
+    for prestige in prestiges:
+        unsorted_features = prestige.features.filter(prereq_class_level=)
+        sorted_features = sorted(unsorted_features, key=lambda k: k.prereq_class_level)
