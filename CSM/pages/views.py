@@ -129,16 +129,16 @@ def character_sheet(request, username, slug):
         'WIS_ST': character.WIS_saving_throw, 'CHA_ST': character.CHA_saving_throw,
         'ac': character.get_armor_class(), 'init': character.get_initiative_bonus(), 'speed': character.speed,
         'max_hp': character.max_health, 'cur_hp': character.current_health, 'temp_hp': character.temp_addtl_hp,
-        'conditions': character.conditions.all(), 'spell_slots_1_current': character.spell_slots_1_current,
-        'spell_slots_2_current': character.spell_slots_2_current, 'spell_slots_3_current': character.spell_slots_3_current,
-        'spell_slots_4_current': character.spell_slots_4_current, 'spell_slots_5_current': character.spell_slots_5_current,
-        'spell_slots_6_current': character.spell_slots_6_current, 'spell_slots_7_current': character.spell_slots_7_current,
-        'spell_slots_8_current': character.spell_slots_8_current, 'spell_slots_9_current': character.spell_slots_9_current,
-        'spell_slots_1_maximum': character.spell_slots_1_maximum, 'spell_slots_2_maximum': character.spell_slots_2_maximum,
-        'spell_slots_3_maximum': character.spell_slots_3_maximum, 'spell_slots_4_maximum': character.spell_slots_4_maximum,
-        'spell_slots_5_maximum': character.spell_slots_5_maximum, 'spell_slots_6_maximum': character.spell_slots_6_maximum,
-        'spell_slots_7_maximum': character.spell_slots_7_maximum, 'spell_slots_8_maximum': character.spell_slots_8_maximum,
-        'spell_slots_9_maximum': character.spell_slots_9_maximum, 'current_points': character.current_points or 0,
+        'conditions': character.conditions.all(), 'spell_slots_1_current': character.spell_slots_1_current or 0,
+        'spell_slots_2_current': character.spell_slots_2_current or 0, 'spell_slots_3_current': character.spell_slots_3_current or 0,
+        'spell_slots_4_current': character.spell_slots_4_current or 0, 'spell_slots_5_current': character.spell_slots_5_current or 0,
+        'spell_slots_6_current': character.spell_slots_6_current or 0, 'spell_slots_7_current': character.spell_slots_7_current or 0,
+        'spell_slots_8_current': character.spell_slots_8_current or 0, 'spell_slots_9_current': character.spell_slots_9_current or 0,
+        'spell_slots_1_maximum': character.spell_slots_1_maximum or 0, 'spell_slots_2_maximum': character.spell_slots_2_maximum or 0,
+        'spell_slots_3_maximum': character.spell_slots_3_maximum or 0, 'spell_slots_4_maximum': character.spell_slots_4_maximum or 0,
+        'spell_slots_5_maximum': character.spell_slots_5_maximum or 0, 'spell_slots_6_maximum': character.spell_slots_6_maximum or 0,
+        'spell_slots_7_maximum': character.spell_slots_7_maximum or 0, 'spell_slots_8_maximum': character.spell_slots_8_maximum or 0,
+        'spell_slots_9_maximum': character.spell_slots_9_maximum or 0, 'current_points': character.current_points or 0,
         'max_points': character.max_points or 0,
         'acrobatics': skills.get('acrobatics', False), 'animal': skills.get('animal handling', False),
         'arcana': skills.get('arcana', False),
@@ -549,8 +549,8 @@ def nc_choice(request):
                     if feature.is_choice and feature.prereq_class_level <= 1:
                         feature_search[character.char_prestige_classes.all()[0].name].append(feature)
 
-                if len(feature_search[character.char_prestige_classes.all[0].name]) == 0:
-                    del feature_search[character.char_prestige_classes.all[0].name]
+                if len(feature_search[character.char_prestige_classes.all()[0].name]) == 0:
+                    del feature_search[character.char_prestige_classes.all()[0].name]
 
             except IndexError:
                 pass
@@ -800,10 +800,22 @@ def nc_ability_scores(request):
                 form.cleaned_data['All'] = 0
                 all_add = 1
             else:
-                form.cleaned_data[character.char_race.ability_score_1] += character.char_race.ability_score_1_bonus
-                form.cleaned_data[character.char_race.ability_score_2] += character.char_race.ability_score_2_bonus
-                form.cleaned_data[character.char_subrace.ability_score_1] += character.char_subrace.ability_score_1_bonus
-                form.cleaned_data[character.char_subrace.ability_score_2] += character.char_subrace.ability_score_2_bonus
+                try:
+                    form.cleaned_data[character.char_race.ability_score_1] += character.char_race.ability_score_1_bonus
+                except KeyError:
+                    pass
+                try:
+                    form.cleaned_data[character.char_race.ability_score_2] += character.char_race.ability_score_2_bonus
+                except KeyError:
+                    pass
+                try:
+                    form.cleaned_data[character.char_subrace.ability_score_1] += character.char_subrace.ability_score_1_bonus
+                except KeyError:
+                    pass
+                try:
+                    form.cleaned_data[character.char_subrace.ability_score_2] += character.char_subrace.ability_score_2_bonus
+                except KeyError:
+                    pass
                 all_add = 0
 
             character = Character.objects.get(pk=request.session['character'])

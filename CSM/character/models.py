@@ -287,7 +287,7 @@ class SpellsReady(models.Model):
     spell_ready = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.character
+        return self.spells.name
 
     class Meta:
         verbose_name = "Spell Ready"

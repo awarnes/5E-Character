@@ -41,8 +41,6 @@
                 </ul>
             {% endif %}
 
-
-
             <section class="nav nav-tabs nav-justified" id="tabs">
                 <nav aria-label="Tab Navigation">
                     <ul class="nav nav-tabs nav-justified">
@@ -759,9 +757,9 @@
                                             <div class="panel-body">
                                                 <p>Death Saves:</p>
                                                     <p>Successes:
-                                                        <span class="glyphicon glyphicon-ok" id="succ" data-succ="1" style="background-color: lightgreen; display: none;"></span>
-                                                        <span class="glyphicon glyphicon-ok" id="succ" data-succ="2" style="background-color: lightgreen; display: none;"></span>
-                                                        <span class="glyphicon glyphicon-ok" id="succ" data-succ="3" style="background-color: lightgreen; display: none;"></span>
+                                                        <span class="glyphicon glyphicon-ok" id="succ" data-succ="1" style="display: none;"></span>
+                                                        <span class="glyphicon glyphicon-ok" id="succ" data-succ="2" style="display: none;"></span>
+                                                        <span class="glyphicon glyphicon-ok" id="succ" data-succ="3" style="display: none;"></span>
                                                     </p>
                                                     <div class="btn-group" role="group">
                                                         <button type="button" class="btn btn-default" id="add_death_succ"><span class="glyphicon glyphicon-chevron-up"></span></button>
@@ -769,9 +767,9 @@
                                                     </div>
 
                                                     <p>Failures:
-                                                        <span class="glyphicon glyphicon-remove" id="fail" data-fail="1" style="background-color: lightcoral; display: none;"></span>
-                                                        <span class="glyphicon glyphicon-remove" id="fail" data-fail="2" style="background-color: lightcoral; display: none;"></span>
-                                                        <span class="glyphicon glyphicon-remove" id="fail" data-fail="3" style="background-color: lightcoral; display: none;"></span>
+                                                        <span class="glyphicon glyphicon-remove" id="fail" data-fail="1" style="display: none;"></span>
+                                                        <span class="glyphicon glyphicon-remove" id="fail" data-fail="2" style="display: none;"></span>
+                                                        <span class="glyphicon glyphicon-remove" id="fail" data-fail="3" style="display: none;"></span>
                                                     </p>
                                                     <div class="btn-group" role="group">
                                                         <button type="button" class="btn btn-default" id="add_death_fail"><span class="glyphicon glyphicon-chevron-up"></span></button>
@@ -785,85 +783,86 @@
                         </div>
 
                         <div class="panel panel-default" id="skills">
-                                    <div class="panel-title text-center">
+                            <div class="panel-title text-center">
                                         <p>Skills:</p>
-                                    </div>
-                                    <div class="panel-body">
+                            </div>
+                            <div class="panel-body">
 
-                                        <p>{{ battle_form.acrobatics }}
-                                            {% get_skill_bonus character 'Acrobatics' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Acrobatics</p>
+                                    <p>{{ battle_form.acrobatics }}
+                                        {% get_skill_bonus character 'Acrobatics' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Acrobatics</p>
 
-                                        <p>{{ battle_form.animal }}
-                                            {% get_skill_bonus character 'Animal Handling' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Animal Handling</p>
+                                    <p>{{ battle_form.animal }}
+                                        {% get_skill_bonus character 'Animal Handling' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Animal Handling</p>
 
-                                        <p>{{ battle_form.arcana }}
-                                            {% get_skill_bonus character 'Arcana' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Arcana</p>
+                                    <p>{{ battle_form.arcana }}
+                                        {% get_skill_bonus character 'Arcana' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Arcana</p>
 
-                                        <p>{{ battle_form.athletics }}
-                                            {% get_skill_bonus character 'Athletics' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Athletics</p>
+                                    <p>{{ battle_form.athletics }}
+                                        {% get_skill_bonus character 'Athletics' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Athletics</p>
 
-                                        <p>{{ battle_form.deception }}
-                                            {% get_skill_bonus character 'Deception' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Deception</p>
+                                    <p>{{ battle_form.deception }}
+                                        {% get_skill_bonus character 'Deception' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Deception</p>
 
-                                        <p>{{ battle_form.history }}
-                                            {% get_skill_bonus character 'History' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> History</p>
+                                    <p>{{ battle_form.history }}
+                                        {% get_skill_bonus character 'History' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> History</p>
 
-                                        <p>{{ battle_form.insight }}
-                                            {% get_skill_bonus character 'Insight' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Insight</p>
+                                    <p>{{ battle_form.insight }}
+                                        {% get_skill_bonus character 'Insight' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Insight</p>
 
-                                        <p>{{ battle_form.intimidation }}
-                                            {% get_skill_bonus character 'Intimidation' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Intimidation</p>
+                                    <p>{{ battle_form.intimidation }}
+                                        {% get_skill_bonus character 'Intimidation' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Intimidation</p>
 
-                                        <p>{{ battle_form.investigation }}
-                                            {% get_skill_bonus character 'Investigation' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Investigation</p>
+                                    <p>{{ battle_form.investigation }}
+                                        {% get_skill_bonus character 'Investigation' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Investigation</p>
 
-                                        <p>{{ battle_form.medicine }}
-                                            {% get_skill_bonus character 'Medicine' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Medicine</p>
+                                    <p>{{ battle_form.medicine }}
+                                        {% get_skill_bonus character 'Medicine' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Medicine</p>
 
-                                        <p>{{ battle_form.nature }}
-                                            {% get_skill_bonus character 'Nature' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Nature</p>
+                                    <p>{{ battle_form.nature }}
+                                        {% get_skill_bonus character 'Nature' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Nature</p>
 
-                                        <p>{{ battle_form.perception }}
-                                            {% get_skill_bonus character 'Perception' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Perception</p>
+                                    <p>{{ battle_form.perception }}
+                                        {% get_skill_bonus character 'Perception' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Perception</p>
 
-                                        <p>{{ battle_form.performance }}
-                                            {% get_skill_bonus character 'Performance' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Performance</p>
+                                    <p>{{ battle_form.performance }}
+                                        {% get_skill_bonus character 'Performance' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Performance</p>
 
-                                        <p>{{ battle_form.persuasion }}
-                                            {% get_skill_bonus character 'Persuasion' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Persuasion</p>
+                                    <p>{{ battle_form.persuasion }}
+                                        {% get_skill_bonus character 'Persuasion' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Persuasion</p>
 
-                                        <p>{{ battle_form.religion }}
-                                            {% get_skill_bonus character 'Religion' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Religion</p>
+                                    <p>{{ battle_form.religion }}
+                                        {% get_skill_bonus character 'Religion' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Religion</p>
 
-                                        <p>{{ battle_form.sleight }}
-                                            {% get_skill_bonus character 'Sleight of Hand' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Sleight of Hand</p>
+                                    <p>{{ battle_form.sleight }}
+                                        {% get_skill_bonus character 'Sleight of Hand' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Sleight of Hand</p>
 
-                                        <p>{{ battle_form.stealth }}
-                                            {% get_skill_bonus character 'Stealth' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Stealth</p>
+                                    <p>{{ battle_form.stealth }}
+                                        {% get_skill_bonus character 'Stealth' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Stealth</p>
 
-                                        <p>{{ battle_form.survival }}
-                                            {% get_skill_bonus character 'Survival' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Survival</p>
+                                    <p>{{ battle_form.survival }}
+                                        {% get_skill_bonus character 'Survival' as bon %}
+                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Survival</p>
 
-                                    </div>
                                 </div>
+                            </div>
+                        </div>
                     </section> <!-- end bottom-middle -->
 
                     <section id="bottom-right">
@@ -939,11 +938,155 @@
 
                                 <section class="panel panel-default" id="spells">
                                         <h5>Spells</h5>
-                                        <ul>
-                                            {% for feature in all_features.Spell %}
-                                                <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                            {% endfor %}
-                                        </ul>
+
+                                        <nav aria-label="Tab Navigation">
+                                            <ul class="nav nav-tabs nav-justified">
+                                                <li><a href="#cantrips">Cantrips<br>(Cast at Will)</a></li>
+                                                <li><a href="#first_level">1st-Level<br>({{ battle_form.spell_slots_1_current }})</a></li>
+                                                <li><a href="#second_level">2nd-Level<br>({{ battle_form.spell_slots_2_current }})</a></li>
+                                                <li><a href="#third_level">3rd-Level<br>({{ battle_form.spell_slots_3_current }})</a></li>
+                                                <li><a href="#fourth_level">4th-Level<br>({{ battle_form.spell_slots_4_current }})</a></li>
+                                                <li><a href="#fifth_level">5th-Level<br>({{ battle_form.spell_slots_5_current }})</a></li>
+                                                <li><a href="#sixth_level">6th-Level<br>({{ battle_form.spell_slots_6_current }})</a></li>
+                                                <li><a href="#seventh_level">7th-Level<br>({{ battle_form.spell_slots_7_current }})</a></li>
+                                                <li><a href="#eighth_level">8th-Level<br>({{ battle_form.spell_slots_8_current }})</a></li>
+                                                <li><a href="#ninth_level">9th-Level<br>({{ battle_form.spell_slots_9_current }})</a></li>
+                                            </ul>
+                                        </nav>
+                                        <section id="cantrips" data-level="cantrips">
+                                            <ul>
+                                                {% for feature in all_features.Spell_cantrip %}
+                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section id="first_level">
+                                            <ul>
+                                                {% for feature in all_features.Spell_1st %}
+                                                    {% check_spell_ready character feature as check %}
+                                                    {% if check %}
+                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                    {% endif %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section id="second_level">
+                                            <ul>
+                                                {% for feature in all_features.Spell_2nd %}
+                                                    {% check_spell_ready character feature as check %}
+                                                    {% if check %}
+                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                    {% endif %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section id="third_level">
+                                            <ul>
+                                                {% for feature in all_features.Spell_3rd %}
+                                                    {% check_spell_ready character feature as check %}
+                                                    {% if check %}
+                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                    {% endif %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section id="fourth_level">
+                                            <ul>
+                                                {% for feature in all_features.Spell_4th %}
+                                                    {% check_spell_ready character feature as check %}
+                                                    {% if check %}
+                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                    {% endif %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section id="fifth_level">
+                                            <ul>
+                                                {% for feature in all_features.Spell_5th %}
+                                                    {% check_spell_ready character feature as check %}
+                                                    {% if check %}
+                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                    {% endif %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section id="sixth_level">
+                                            <ul>
+                                                {% for feature in all_features.Spell_6th %}
+                                                    {% check_spell_ready character feature as check %}
+                                                    {% if check %}
+                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                    {% endif %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section id="seventh_level">
+                                            <ul>
+                                                {% for feature in all_features.Spell_7th %}
+                                                    {% check_spell_ready character feature as check %}
+                                                    {% if check %}
+                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                    {% endif %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section id="eighth_level">
+                                            <ul>
+                                                {% for feature in all_features.Spell_8th %}
+                                                    {% check_spell_ready character feature as check %}
+                                                    {% if check %}
+                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                    {% endif %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section id="ninth_level">
+                                            <ul>
+                                                {% for feature in all_features.Spell_9th %}
+                                                    {% check_spell_ready character feature as check %}
+                                                    {% if check %}
+                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                    {% endif %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
                                 </section>
 
                             </div>

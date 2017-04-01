@@ -89,18 +89,6 @@ class ChoiceForm(forms.Form):
     feature_name = forms.CharField(max_length=128,)
     feature_choices = forms.ModelMultipleChoiceField(queryset=None, required=True,)
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #
-    #     value = cleaned_data['feature_choices']
-    #
-    #     if value > cleaned_data['max_choices']:
-    #         raise forms.ValidationError(_("You cannot select more than {} items.".format(cleaned_data['max_choices'])), code='invalid')
-    #     elif value < cleaned_data['min_choices']:
-    #         raise forms.ValidationError(_("You must select at least {} items.".format(cleaned_data['min_choices'])), code='invalid')
-    #     else:
-    #         return cleaned_data
-
     def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
@@ -110,7 +98,6 @@ class ChoiceForm(forms.Form):
 
         self.fields['feature_choices'].queryset = choices
 
-        # models = kwargs.pop('models')
 
 class BattleSheet(forms.Form):
     """Form for the battle tab of the character sheet, used to help save any updated information."""
@@ -167,12 +154,22 @@ class BattleSheet(forms.Form):
     current_points = forms.IntegerField(required=False, disabled=True)
     max_points = forms.IntegerField(required=False, disabled=True)
 
-    spell_slots_1 = forms.IntegerField(required=False, disabled=True)
-    spell_slots_2 = forms.IntegerField(required=False, disabled=True)
-    spell_slots_3 = forms.IntegerField(required=False, disabled=True)
-    spell_slots_4 = forms.IntegerField(required=False, disabled=True)
-    spell_slots_5 = forms.IntegerField(required=False, disabled=True)
-    spell_slots_6 = forms.IntegerField(required=False, disabled=True)
-    spell_slots_7 = forms.IntegerField(required=False, disabled=True)
-    spell_slots_8 = forms.IntegerField(required=False, disabled=True)
-    spell_slots_9 = forms.IntegerField(required=False, disabled=True)
+    spell_slots_1_current = forms.IntegerField(required=False, disabled=True)
+    spell_slots_2_current = forms.IntegerField(required=False, disabled=True)
+    spell_slots_3_current = forms.IntegerField(required=False, disabled=True)
+    spell_slots_4_current = forms.IntegerField(required=False, disabled=True)
+    spell_slots_5_current = forms.IntegerField(required=False, disabled=True)
+    spell_slots_6_current = forms.IntegerField(required=False, disabled=True)
+    spell_slots_7_current = forms.IntegerField(required=False, disabled=True)
+    spell_slots_8_current = forms.IntegerField(required=False, disabled=True)
+    spell_slots_9_current = forms.IntegerField(required=False, disabled=True)
+
+    spell_slots_1_maximum = forms.IntegerField(required=False, disabled=True)
+    spell_slots_2_maximum = forms.IntegerField(required=False, disabled=True)
+    spell_slots_3_maximum = forms.IntegerField(required=False, disabled=True)
+    spell_slots_4_maximum = forms.IntegerField(required=False, disabled=True)
+    spell_slots_5_maximum = forms.IntegerField(required=False, disabled=True)
+    spell_slots_6_maximum = forms.IntegerField(required=False, disabled=True)
+    spell_slots_7_maximum = forms.IntegerField(required=False, disabled=True)
+    spell_slots_8_maximum = forms.IntegerField(required=False, disabled=True)
+    spell_slots_9_maximum = forms.IntegerField(required=False, disabled=True)

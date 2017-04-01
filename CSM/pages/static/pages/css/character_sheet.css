@@ -152,11 +152,21 @@
 
 #battle_tab #spells_attacks {
     order: 3;
-    display: flex;
+    display: block;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around;
     width: 100%;
+}
+
+#battle_tab #spells_attacks #spells {
+    width: 100%;
+}
+
+#battle_tab #spells_attacks #spells input {
+    border: 0px !important;
+    background: transparent;
+    text-align: center!important;
 }
 
 #battle_tab input {
@@ -175,4 +185,12 @@ nav>ul>li {
 nav>ul>li :hover,
 nav>ul>li :focus {
     background: rgba(46, 51, 56, 0.2)!important;
+}
+
+.glyphicon-ok {
+    color: lightgreen;
+}
+
+.glyphicon-remove {
+    color: lightcoral;
 }

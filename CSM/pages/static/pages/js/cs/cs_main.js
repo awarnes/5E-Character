@@ -3,6 +3,8 @@ $(document).ready(function(){
 
     $('#tabs').tabs();
 
+    $('#spells').tabs();
+
     $('.search_query').on('click', function (evt){
 
         var $query = $(this).data('slug');
@@ -270,6 +272,14 @@ $(document).ready(function(){
 
     $('#delete_no').on('click', function(){
         $('#delete_check').modal('toggle');
+    });
+
+    $('.cast_spell_notready').on('click', function(evt){
+        alert('That spell is not ready!');
+    });
+
+    $('.cast_spell_ready').on('click', function(){
+        console.log($(this).parent().parent().data('level') + $(this).next().text());
     });
 
 });

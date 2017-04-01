@@ -36,9 +36,12 @@ class CharacterModelSerializer(serializers.ModelSerializer):
                   'STR_saving_throw', 'DEX_saving_throw', 'CON_saving_throw', 'INT_saving_throw', 'WIS_saving_throw',
                   'CHA_saving_throw', 'features', 'conditions', 'death_fails', 'death_successes', 'max_health',
                   'current_health', 'temp_addtl_hp', 'speed', 'inspiration', 'spell_book', 'tools_inv', 'items_inv',
-                  'armor_inv', 'weapons_inv', 'get_char_level', 'slug', 'spell_slots_1', 'spell_slots_2',
-                  'spell_slots_3', 'spell_slots_4', 'spell_slots_5', 'spell_slots_6', 'spell_slots_7', 'spell_slots_8',
-                  'spell_slots_9', 'has_point_tracking', 'max_points', 'current_points'
+                  'armor_inv', 'weapons_inv', 'get_char_level', 'slug', 'spell_slots_1_current', 'spell_slots_2_current',
+                  'spell_slots_3_current', 'spell_slots_4_current', 'spell_slots_5_current', 'spell_slots_6_current',
+                  'spell_slots_7_current', 'spell_slots_8_current', 'spell_slots_9_current', 'spell_slots_1_maximum',
+                  'spell_slots_2_maximum', 'spell_slots_3_maximum', 'spell_slots_4_maximum', 'spell_slots_5_maximum',
+                  'spell_slots_6_maximum', 'spell_slots_7_maximum', 'spell_slots_8_maximum', 'spell_slots_9_maximum',
+                  'has_point_tracking', 'max_points', 'current_points'
                   # 'get_ability_bonus', 'get_passive_score',
                   # 'get_prof_bonus', 'get_initiative_bonus', 'get_armor_class',
                   )

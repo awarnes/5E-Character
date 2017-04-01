@@ -184,8 +184,22 @@ def get_features(character):
             elif feature.action_type.name == 'Cast a Spell':
                 character_features['CastSpell'].append(feature)
 
-    character_features['Spell'] = character.spellsready.all()
+    character_features['Spell_cantrip'] = character.spell_book.filter(level='Cantrip')
+    character_features['Spell_1st'] = character.spell_book.filter(level='1st-level')
+    character_features['Spell_2nd'] = character.spell_book.filter(level='2nd-level')
+    character_features['Spell_3rd'] = character.spell_book.filter(level='3rd-level')
+    character_features['Spell_4th'] = character.spell_book.filter(level='4th-level')
+    character_features['Spell_5th'] = character.spell_book.filter(level='5th-level')
+    character_features['Spell_6th'] = character.spell_book.filter(level='6th-level')
+    character_features['Spell_7th'] = character.spell_book.filter(level='7th-level')
+    character_features['Spell_8th'] = character.spell_book.filter(level='8th-level')
+    character_features['Spell_9th'] = character.spell_book.filter(level='9th-level')
 
     return character_features
 
 
+@register.simple_tag()
+def check_spell_ready(character, spell):
+    """Used for checking if a spell is ready."""
+
+    return character.spellsready.get(spells=spell).spell_ready
