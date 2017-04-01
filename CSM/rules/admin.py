@@ -3,7 +3,7 @@ from django.contrib import admin
 
 # Model Imports:
 from .models import Subrace, Race, PrestigeClass, Class, Background, PersonalityTrait, Ideal, Bond, Flaw, Alignment
-from .models import Feature, Skill, Language, DamageType, Condition, DragonAncestry, LandType, EnemyRace, Action
+from .models import Feature, Skill, Language, DamageType, Condition, DragonAncestry, LandType, EnemyRace, Action, SpellTable
 
 
 # Main information:
@@ -12,6 +12,7 @@ admin.site.register(Race)
 admin.site.register(PrestigeClass)
 admin.site.register(Class)
 admin.site.register(Background)
+admin.site.register(SpellTable)
 
 # Flair
 admin.site.register(PersonalityTrait)

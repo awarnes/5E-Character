@@ -167,8 +167,6 @@ class PrestigeClass(models.Model):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=10000)
 
-    # number_of_skills = models.SmallIntegerField(blank=True, null=True,)
-
     # Features
     features = models.ManyToManyField('Feature', related_name='prestige_class_features')
     spell_table = models.ForeignKey('rules.SpellTable', related_name='prestige_spell_table', blank=True, null=True)
@@ -635,6 +633,7 @@ class SpellTable(models.Model):
     invocations known.
     """
 
+    name = models.CharField(max_length=128)
     cantrips_known = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
 
     preparing_stat = models.CharField(max_length=16, blank=True, null=True,)
@@ -651,3 +650,6 @@ class SpellTable(models.Model):
     level_7_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
     level_8_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
     level_9_slots = models.CharField(max_length=128, blank=True, null=True, validators=[validate_comma_separated_integer_list])
+
+    def __str__(self):
+        return self.name

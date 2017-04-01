@@ -279,7 +279,13 @@ $(document).ready(function(){
     });
 
     $('.cast_spell_ready').on('click', function(){
-        console.log($(this).parent().parent().data('level') + $(this).next().text());
-    });
+        var spell_level = $(this).parent().parent().data('level');
+        var $spell_input = $('#id_spell_slots_'+spell_level+'_current');
+        if (($spell_input - 1) < 0){
+            alert("You don't have enough slots left to cast " + $(this).next().text() + "!");
+        } else {
+            $spell_input.val(Number($spell_input.val())-1);
+        }
+    })
 
 });

@@ -106,6 +106,7 @@ class Character(models.Model):
     max_health = models.SmallIntegerField(default=0)
     current_health = models.SmallIntegerField(default=0)
     temp_addtl_hp = models.SmallIntegerField(default=0)
+    hit_dice_current = models.SmallIntegerField(default=1)
     speed = models.SmallIntegerField(default=30)
     inspiration = models.SmallIntegerField(blank=True, null=True,)
 

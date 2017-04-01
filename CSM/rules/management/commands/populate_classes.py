@@ -5,7 +5,7 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 
 # module level imports
-from rules.models import Class, PrestigeClass, Feature
+from rules.models import Class, PrestigeClass, Feature, SpellTable
 from equipment.models import Weapon, Item, Tool, Armor
 
 
@@ -82,3 +82,11 @@ class Command(BaseCommand):
                 prestige = PrestigeClass.objects.get(name=prestige_name)
 
                 class_entry.prestige_classes.add(prestige)
+            try:
+                spell_table = SpellTable.objects.get(name__icontains=class_entry.name)
+
+                class_entry.spell_table = spell_table
+
+                class_entry.save()
+            except:
+                pass

@@ -17,9 +17,10 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         COMMANDS = [
-            "populate_skills", "populate_languages", "populate_tools", "populate_items", "populate_damage_types", "populate_actions",
-            "populate_weapon_properties", "populate_weapons", "populate_armor", "populate_features_part_1", "populate_alignments",
-            "populate_prestige_classes", "populate_subraces", "populate_classes", "populate_races", "populate_backgrounds",
+            "populate_skills", "populate_spell_tables", "populate_languages", "populate_tools", "populate_items",
+            "populate_damage_types", "populate_actions", "populate_weapon_properties", "populate_weapons",
+            "populate_armor", "populate_features_part_1", "populate_alignments", "populate_prestige_classes",
+            "populate_subraces", "populate_classes", "populate_races", "populate_backgrounds",
             "populate_spells", "populate_conditions", "populate_mounts_and_vehicles", "populate_features_part_2",
             "populate_dragon_ancestries", "populate_land_types", "populate_enemy_races",
             # "populate_personality_traits", "populate_ideals", "populate_bonds", "populate_flaws",

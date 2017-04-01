@@ -656,7 +656,12 @@ def nc_choice_set(request):
                 for spell in new_spell:
                     ready = False
 
-                    if spell.level == 'Cantrip':
+                    all_ready_classes = Class.objects.filter(name__in=['Bard', 'Range', 'Sorcerer', 'Warlock'])
+                    all_ready_prestige = PrestigeClass.objects.filter(name__in=['Arcane Trickster', 'Eldritch Knight'])
+
+                    # TODO: Doesn't work for multi-class characters...
+                    if (spell.level == 'Cantrip') or (character.char_classes.all()[0] in all_ready_classes) or\
+                            (character.char_prestige_classes.all()[0] in all_ready_prestige):
                         ready = True
 
                     SpellsReady.objects.create(
@@ -726,8 +731,11 @@ def nc_class(request):
             elif klass == Class.objects.get(name='Warlock'):
                 character.char_prestige_classes.add(form.cleaned_data['warlock_prestige'])
 
-            # else:
-            #     character.char_prestige = PrestigeClass.objects.get(name='None')
+            try:
+                character.spell_slots_1_current = character.char_classes.get().spell_table.level_1_slots.split(',')[character.classlevels.get().class_level-1]
+                character.spell_slots_1_maximum = character.char_classes.get().spell_table.level_1_slots.split(',')[character.classlevels.get().class_level-1]
+            except:
+                pass
 
             character.max_health = form.cleaned_data['hp']
             character.current_health = form.cleaned_data['hp']
