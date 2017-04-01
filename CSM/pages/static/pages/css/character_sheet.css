@@ -1,0 +1,178 @@
+#main_tab .sortable {
+    min-height: 100px;
+    min-width: 100px;
+}
+
+#top-section {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#name_box {
+    width: 45%;
+    height: 100%;
+}
+
+#base_info_box {
+    width: 45%;
+    height: 100%;
+}
+
+#main_tab #bottom-section {
+    width: 100%;
+    height: 85%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#main_tab #bottom-section #bottom-left {
+    width: 33%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#main_tab #bottom-section #bottom-middle {
+    width: 33%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#main_tab #bottom-section #bottom-right {
+    width: 33%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#main_tab #bottom-section #buttons {
+    width: 100%;
+    height: 5%;
+    display: flex;
+    justify-content: center;
+}
+
+#battle_tab {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#battle_tab #bottom-left {
+    order: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    width: 30%;
+}
+
+#battle_tab #bottom-left #left-left {
+    order: 0;
+    width: 30%;
+}
+
+#battle_tab #bottom-left #left-right {
+    order: 1;
+    width: 70%;
+}
+#battle_tab #bottom-left #left-bottom {
+    order: 2;
+    width: 100%;
+}
+
+#battle_tab #bottom-middle {
+    order: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    width: 20%;
+}
+#battle_tab #bottom-middle #middle-top {
+    order: 0;
+    width: 100%;
+    height: 25%;
+}
+#battle_tab #bottom-middle #middle-middle {
+    order: 1;
+    width: 100%;
+    height: 35%
+}
+#battle_tab #bottom-middle #skills {
+    order: 3;
+    width: 100%;
+    height: 40%;
+}
+
+#battle_tab #bottom-right {
+    order: 2;
+    width: 50%;
+}
+#battle_tab #bottom-right #features {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#battle_tab #bottom-right #features #actions {
+    order: 1;
+    width: 40%;
+    height: 40%
+}
+#battle_tab #bottom-right #features #bonus_actions {
+    order: 2;
+    width: 40%;
+    height: 40%
+}
+#battle_tab #bottom-right #features #reactions {
+    order: 3;
+    width: 40%;
+    height: 40%
+}
+#battle_tab #bottom-right #features #rest_long {
+    order: 4;
+    width: 40%;
+    height: 40%
+}
+
+#battle_tab #spells_attacks {
+    order: 3;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+
+#battle_tab input {
+    width: 35px;
+    text-align: center;
+}
+
+.panel, .panel-default, .panel-body {
+    background: rgba(122, 130, 136, 0.2)!important;
+}
+
+nav>ul>li {
+    background: rgba(122, 130, 136, 0.2)!important;
+}
+
+nav>ul>li :hover,
+nav>ul>li :focus {
+    background: rgba(46, 51, 56, 0.2)!important;
+}

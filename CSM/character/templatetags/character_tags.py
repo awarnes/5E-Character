@@ -137,14 +137,55 @@ def get_prestige_features(character):
 def get_features(character):
     """Returns a list of all features for a character that they currently have access to."""
 
-    character_features = dict()
+    character_features = {'Action': [], 'BonusAction': [], 'Reaction': [], 'RestLong': [], 'Attack': [], 'CastSpell': [], 'Spell': []}
+    features = list()
 
     prestiges = character.char_prestige_classes.all()
-    classes = ClassLevel.objects.filter(character=character)
-    race = character.char_race.get()
-    subrace = character.char_subrace.get()
-    background = character.char_subrace.get()
+    clevel = ClassLevel.objects.filter(character=character)
+    race = character.char_race
+    subrace = character.char_subrace
+    background = character.char_subrace
 
     for prestige in prestiges:
-        unsorted_features = prestige.features.filter(prereq_class_level=)
+        unsorted_features = prestige.features.filter(prereq_class_level__lte=clevel[0].class_level) # TODO: Need to make this work for multi class characters
         sorted_features = sorted(unsorted_features, key=lambda k: k.prereq_class_level)
+        features.append(sorted_features)
+
+    for klass in clevel:
+        unsorted_features = klass.char_class.features.filter(prereq_class_level__lte=clevel[0].class_level)
+        sorted_features = sorted(unsorted_features, key=lambda k: k.prereq_class_level)
+        features.append(sorted_features)
+
+    unsorted_features = character.features.filter(prereq_class_level__lte=clevel[0].class_level)
+    sorted_features = sorted(unsorted_features, key=lambda k: k.prereq_class_level)
+    features.append(sorted_features)
+
+    unsorted_features = race.features.filter(prereq_character_level__lte=character.get_char_level())
+    sorted_features = sorted(unsorted_features, key=lambda k: k.prereq_character_level)
+    features.append(sorted_features)
+
+    features.append(subrace.features.all())
+
+    features.append(background.features.all())
+    # import pdb;pdb.set_trace()
+
+    for feature_list in features:
+        for feature in feature_list:
+            if feature.action_type.name == 'Action':
+                character_features['Action'].append(feature)
+            elif feature.action_type.name == 'Bonus Action':
+                character_features['BonusAction'].append(feature)
+            elif feature.action_type.name == 'Reaction':
+                character_features['Reaction'].append(feature)
+            elif feature.action_type.name == 'Rest' or feature.action_type.name == 'Long Action':
+                character_features['RestLong'].append(feature)
+            elif feature.action_type.name == 'Attack':
+                character_features['Attack'].append(feature)
+            elif feature.action_type.name == 'Cast a Spell':
+                character_features['CastSpell'].append(feature)
+
+    character_features['Spell'] = character.spellsready.all()
+
+    return character_features
+
+

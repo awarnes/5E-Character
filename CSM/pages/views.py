@@ -115,37 +115,95 @@ def character_sheet(request, username, slug):
 
     character = Character.objects.filter(username=username).filter(slug__icontains=slug)[0]
 
+    exp = r'(?<=: )\w*'
+
+    skills = {re.findall(exp, feature.name)[0].lower(): True for feature in
+              Feature.objects.filter(name__icontains='Skill: ')
+              if feature in character.features.all()}
+
+    initial = {
+        'STR': character.STR_score, 'DEX': character.DEX_score, 'CON': character.CON_score,
+        'INT': character.INT_score, 'WIS': character.WIS_score, 'CHA': character.CHA_score,
+        'STR_ST': character.STR_saving_throw, 'DEX_ST': character.DEX_saving_throw,
+        'CON_ST': character.CON_saving_throw, 'INT_ST': character.INT_saving_throw,
+        'WIS_ST': character.WIS_saving_throw, 'CHA_ST': character.CHA_saving_throw,
+        'ac': character.get_armor_class(), 'init': character.get_initiative_bonus(), 'speed': character.speed,
+        'max_hp': character.max_health, 'cur_hp': character.current_health, 'temp_hp': character.temp_addtl_hp,
+        'conditions': character.conditions.all(), 'spell_slots_1_current': character.spell_slots_1_current,
+        'spell_slots_2_current': character.spell_slots_2_current, 'spell_slots_3_current': character.spell_slots_3_current,
+        'spell_slots_4_current': character.spell_slots_4_current, 'spell_slots_5_current': character.spell_slots_5_current,
+        'spell_slots_6_current': character.spell_slots_6_current, 'spell_slots_7_current': character.spell_slots_7_current,
+        'spell_slots_8_current': character.spell_slots_8_current, 'spell_slots_9_current': character.spell_slots_9_current,
+        'spell_slots_1_maximum': character.spell_slots_1_maximum, 'spell_slots_2_maximum': character.spell_slots_2_maximum,
+        'spell_slots_3_maximum': character.spell_slots_3_maximum, 'spell_slots_4_maximum': character.spell_slots_4_maximum,
+        'spell_slots_5_maximum': character.spell_slots_5_maximum, 'spell_slots_6_maximum': character.spell_slots_6_maximum,
+        'spell_slots_7_maximum': character.spell_slots_7_maximum, 'spell_slots_8_maximum': character.spell_slots_8_maximum,
+        'spell_slots_9_maximum': character.spell_slots_9_maximum, 'current_points': character.current_points or 0,
+        'max_points': character.max_points or 0,
+        'acrobatics': skills.get('acrobatics', False), 'animal': skills.get('animal handling', False),
+        'arcana': skills.get('arcana', False),
+        'athletics': skills.get('athletics', False), 'deception': skills.get('deception', False),
+        'history': skills.get('history', False),
+        'insight': skills.get('insight', False), 'intimidation': skills.get('intimidation', False),
+        'investigation': skills.get('investigation', False),
+        'medicine': skills.get('medicine', False), 'nature': skills.get('nature', False),
+        'perception': skills.get('perception', False),
+        'performance': skills.get('performance', False), 'persuasion': skills.get('persuasion', False),
+        'religion': skills.get('religion', False),
+        'sleight': skills.get('sleight of hand', False), 'stealth': skills.get('stealth', False),
+        'survival': skills.get('survival', False),
+    }
+
     if request.method == "GET":
 
-        exp = r'(?<=: )\w*'
-
-        skills = {re.findall(exp, feature.name)[0].lower(): True for feature in Feature.objects.filter(name__icontains='Skill: ')
-                                                                             if feature in character.features.all()}
-        battle_form = BattleSheet(initial={
-            'STR': character.STR_score, 'DEX': character.DEX_score, 'CON': character.CON_score,
-            'INT': character.INT_score, 'WIS': character.WIS_score, 'CHA': character.CHA_score,
-            'STR_ST': character.STR_saving_throw, 'DEX_ST': character.DEX_saving_throw, 'CON_ST': character.CON_saving_throw,
-            'INT_ST': character.INT_saving_throw, 'WIS_ST': character.WIS_saving_throw, 'CHA_ST': character.CHA_saving_throw,
-            'ac': character.get_armor_class, 'init': character.get_initiative_bonus, 'speed': character.speed,
-            'max_hp': character.max_health, 'cur_hp': character.current_health, 'temp_hp': character.temp_addtl_hp,
-            'conditions': character.conditions.all(), 'spell_slots_1': character.spell_slots_1, 'spell_slots_2': character.spell_slots_2,
-            'spell_slots_3': character.spell_slots_3, 'spell_slots_4': character.spell_slots_4, 'spell_slots_5': character.spell_slots_5,
-            'spell_slots_6': character.spell_slots_6, 'spell_slots_7': character.spell_slots_7, 'spell_slots_8': character.spell_slots_8,
-            'spell_slots_9': character.spell_slots_9, 'current_points': character.current_points, 'max_points': character.max_points,
-            'acrobatics': skills.get('acrobatics', False), 'animal': skills.get('animal handling', False), 'arcana': skills.get('arcana', False),
-            'athletics': skills.get('athletics', False),'deception': skills.get('deception', False), 'history': skills.get('history', False),
-            'insight': skills.get('insight', False), 'intimidation': skills.get('intimidation', False), 'investigation': skills.get('investigation', False),
-            'medicine': skills.get('medicine', False),'nature': skills.get('nature', False), 'perception': skills.get('perception', False),
-            'performance': skills.get('performance', False),'persuasion': skills.get('persuasion', False), 'religion': skills.get('religion', False),
-            'sleight': skills.get('sleight of hand', False),'stealth': skills.get('stealth', False), 'survival': skills.get('survival', False),
-        })
+        battle_form = BattleSheet(initial=initial)
 
         context = {'character': character, 'battle_form': battle_form}
-        # import pdb;pdb.set_trace()
         if bool(character):
             return render(request, 'character_sheet/main.html', context)
         else:
             return HttpResponseNotFound("Sorry, we couldn't find your character!")
+
+    elif request.method == 'POST':
+
+        form_translation = {
+            'STR': 'STR_score', 'DEX': 'DEX_score', 'CON': 'CON_score', 'INT': 'INT_score', 'WIS': 'WIS_score',
+            'CHA': 'CHA_score', 'STR_ST': 'STR_saving_throw', 'DEX_ST': 'DEX_saving_throw', 'CON_ST': 'CON_saving_throw',
+            'INT_ST': 'INT_saving_throw', 'WIS_ST': 'WIS_saving_throw', 'CHA_ST': 'CHA_saving_throw', 'speed': 'speed',
+            'max_hp': 'max_health', 'cur_hp': 'current_health', 'temp_hp': 'temp_addtl_hp',
+            'spell_slots_1_current': 'spell_slots_1_current', 'spell_slots_2_current': 'spell_slots_2_current',
+            'spell_slots_3_current': 'spell_slots_3_current', 'spell_slots_4_current': 'spell_slots_4_current',
+            'spell_slots_5_current': 'spell_slots_5_current', 'spell_slots_6_current': 'spell_slots_6_current',
+            'spell_slots_7_current': 'spell_slots_7_current', 'spell_slots_8_current': 'spell_slots_8_current',
+            'spell_slots_9_current': 'spell_slots_9_current', 'spell_slots_1_maximum': 'spell_slots_1_maximum',
+            'spell_slots_2_maximum': 'spell_slots_2_maximum', 'spell_slots_3_maximum': 'spell_slots_3_maximum',
+            'spell_slots_4_maximum': 'spell_slots_4_maximum', 'spell_slots_5_maximum': 'spell_slots_5_maximum',
+            'spell_slots_6_maximum': 'spell_slots_6_maximum', 'spell_slots_7_maximum': 'spell_slots_7_maximum',
+            'spell_slots_8_maximum': 'spell_slots_8_maximum', 'spell_slots_9_maximum': 'spell_slots_9_maximum',
+            'current_points': 'current_points', 'max_points': 'max_points'
+        }
+
+        battle_form = BattleSheet(data=request.POST, initial=initial)
+
+        if battle_form.has_changed():
+            if battle_form.is_valid():
+                for delta in battle_form.changed_data:
+                    setattr(character, form_translation[delta], request.POST.get(delta)) # TODO: initial seems to be over writing the POST data...
+                # import pdb;pdb.set_trace()
+
+                if 'conditions' in battle_form.changed_data:
+                    for condition in battle_form.cleaned_data['conditions']:
+                        character.conditions.add(condition)
+
+                character.save()
+                messages.success(request, 'Saved Successfully!')
+                return redirect(request.path)
+            else:
+                messages.error(request, 'Could not save the form!')
+                return redirect(request.path)
+        else:
+            messages.info(request, "Nothing to save...")
+            return redirect(request.path)
 
 
 # Rule Detail Views:
