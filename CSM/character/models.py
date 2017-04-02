@@ -111,6 +111,7 @@ class Character(models.Model):
     inspiration = models.SmallIntegerField(blank=True, null=True,)
 
     # Spells
+    spell_casting = models.BooleanField(default=False)
     spell_book = models.ManyToManyField('spells.Spell', related_name='character_spells', through='SpellsReady', blank=True,)
     spell_slots_1_current = models.SmallIntegerField(blank=True, null=True,)
     spell_slots_2_current = models.SmallIntegerField(blank=True, null=True,)

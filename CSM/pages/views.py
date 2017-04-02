@@ -161,6 +161,7 @@ def character_sheet(request, username, slug):
         battle_form = BattleSheet(initial=initial)
 
         context = {'character': character, 'battle_form': battle_form}
+
         if bool(character):
             return render(request, 'character_sheet/main.html', context)
         else:
@@ -274,7 +275,55 @@ def level_up(request, klass):
         class_choices = True
         prestige_choices = True
 
+        point_using_features = Feature.objects.filter(name__in=['Font of Magic', 'Ki', 'Rage', 'Bardic Inspiration',
+                                                                'Channel Divinity', 'Wild Shape', 'Combat Superiority',
+                                                                'Lay on Hands',])
+        # Update Character's Ability Uses:
         for feature in features:
+            if feature in point_using_features and feature.prereq_class_level <= cl.class_level:
+                character.has_point_tracking = True
+                if feature.name in ['Font of Magic', 'Ki']:
+                    character.max_points = cl.class_level
+                    character.current_points = character.max_points
+                elif feature.name == 'Lay on Hands':
+                    character.max_points = cl.class_level * 5
+                    character.current_points = character.max_points
+                elif feature.name == 'Bardic Inspiration':
+                    character.max_points = character.get_ability_bonus('CHA')
+                    character.current_points = character.max_points
+                elif feature.name == 'Wild Shape':
+                    if cl.class_level == 20:
+                        character.max_points = 1000000
+                        character.current_points = character.max_points
+                    else:
+                        character.max_points = 2
+                        character.current_points = character.max_points
+                elif 'Channel Divinity' in feature.name:
+                    if 1 <= cl.class_level < 6:
+                        character.max_points = 1
+                        character.current_points = character.max_points
+                    elif 6 <= cl.class_level < 18:
+                        character.max_points = 2
+                        character.current_points = character.max_points
+                    else:
+                        character.max_points = 3
+                        character.current_points = character.max_points
+                elif feature.name == 'Combat Superiority':
+                    if 1 <= cl.class_level < 7:
+                        character.max_points = 4
+                        character.current_points = character.max_points
+                    elif 7 <= cl.class_level < 15:
+                        character.max_points = 5
+                        character.current_points = character.max_points
+                    else:
+                        character.max_points = 6
+                        character.current_points = character.max_points
+                elif 'Rage' in feature.name:
+                    rage_points = [2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 6, 6, 6, 1000000]
+                    character.max_points = rage_points[cl.class_level]
+                    character.current_points = character.max_points
+
+                character.save()
             if feature.is_choice and feature.prereq_class_level == character.classlevels.all()[0].class_level:
                 feature_search[character.classlevels.all()[0].char_class.name].append(feature)
 
@@ -308,7 +357,46 @@ def level_up(request, klass):
 
         initial = list()
 
-        if class_choices and prestige_choices:
+        # Update Character Health:
+        character.max_health += cl.char_class.hit_die_size + character.get_ability_bonus('CON')
+
+        # Update Character Spell Slots:
+        try:
+            character.spell_slots_1_current = cl.char_class.spell_table.level_1_slots.split(',')[cl.class_level - 1]
+            character.spell_slots_1_maximum = cl.char_class.spell_table.level_1_slots.split(',')[cl.class_level - 1]
+
+            character.spell_slots_2_current = cl.char_class.spell_table.level_2_slots.split(',')[cl.class_level - 1]
+            character.spell_slots_2_maximum = cl.char_class.spell_table.level_2_slots.split(',')[cl.class_level - 1]
+
+            character.spell_slots_3_current = cl.char_class.spell_table.level_3_slots.split(',')[cl.class_level - 1]
+            character.spell_slots_3_maximum = cl.char_class.spell_table.level_3_slots.split(',')[cl.class_level - 1]
+
+            character.spell_slots_4_current = cl.char_class.spell_table.level_4_slots.split(',')[cl.class_level - 1]
+            character.spell_slots_4_maximum = cl.char_class.spell_table.level_4_slots.split(',')[cl.class_level - 1]
+
+            character.spell_slots_5_current = cl.char_class.spell_table.level_5_slots.split(',')[cl.class_level - 1]
+            character.spell_slots_5_maximum = cl.char_class.spell_table.level_5_slots.split(',')[cl.class_level - 1]
+
+            character.spell_slots_6_current = cl.char_class.spell_table.level_6_slots.split(',')[cl.class_level - 1]
+            character.spell_slots_6_maximum = cl.char_class.spell_table.level_6_slots.split(',')[cl.class_level - 1]
+
+            character.spell_slots_7_current = cl.char_class.spell_table.level_7_slots.split(',')[cl.class_level - 1]
+            character.spell_slots_7_maximum = cl.char_class.spell_table.level_7_slots.split(',')[cl.class_level - 1]
+
+            character.spell_slots_8_current = cl.char_class.spell_table.level_8_slots.split(',')[cl.class_level - 1]
+            character.spell_slots_8_maximum = cl.char_class.spell_table.level_8_slots.split(',')[cl.class_level - 1]
+
+            character.spell_slots_9_current = cl.char_class.spell_table.level_9_slots.split(',')[cl.class_level - 1]
+            character.spell_slots_9_maximum = cl.char_class.spell_table.level_9_slots.split(',')[cl.class_level - 1]
+        except:
+            pass
+
+        # TODO: multi classing will need to be able to update this later.
+        # if len(character.char_classes.all()[0].features.filter(name__icontains='Spellcasting')) > 0:
+        #     character.spell_casting = True
+
+        # Create the list of choices for a user to choose from:
+        if class_choices or prestige_choices or character.spell_casting:
             for search_type, feature_list in enumerate(feature_search.values()):
                 for index, feature in enumerate(feature_list):
                     data = dict()
@@ -357,13 +445,19 @@ def level_up(request, klass):
 
                     initial.append(data)
 
-                formset = ChoiceFormSet(initial=initial)
+            if character.spell_casting:
+                spell_table = character.char_classes.all()[0].spell_table
+                
 
-                context = {'formset': formset, 'feature_search': feature_search}
+            formset = ChoiceFormSet(initial=initial)
 
-                return render(request, 'characters/choice_screen.html', context)
+            context = {'formset': formset, 'feature_search': feature_search}
+
+            return render(request, 'characters/choice_screen.html', context)
 
         else:
+
+            character.save()
             return redirect('lu_resolve')
 
     elif request.method == 'POST':
@@ -376,12 +470,12 @@ def lu_resolve(request):
 
     character = Character.objects.get(pk=request.session['character'])
 
-    context = {'character': character}
+    context = {'character': character, 'user': request.user}
 
     return render(request, 'character_sheet/lu_resolve.html', context)
 
 @login_required()
-def nc_choice_set(request):
+def lu_choice_set(request):
 
     character = Character.objects.get(pk=request.session['character'])
 
@@ -392,7 +486,6 @@ def nc_choice_set(request):
         for data in feature_info.values():
             search_type = data[0]
             item_pk = data[1].split(',')
-            redirect_to = data[2]
 
             if search_type == 'Spell':
                 new_spell = Spell.objects.filter(pk__in=item_pk)
@@ -400,7 +493,7 @@ def nc_choice_set(request):
                 for spell in new_spell:
                     ready = False
 
-                    all_ready_classes = Class.objects.filter(name__in=['Bard', 'Range', 'Sorcerer', 'Warlock'])
+                    all_ready_classes = Class.objects.filter(name__in=['Bard', 'Ranger', 'Sorcerer', 'Warlock'])
                     all_ready_prestige = PrestigeClass.objects.filter(
                         name__in=['Arcane Trickster', 'Eldritch Knight'])
 
@@ -424,7 +517,7 @@ def nc_choice_set(request):
                 new_feature = getattr(rule_models, search_type).objects.get(pk__in=item_pk)
                 character.char_traits.add(new_feature)
 
-        return HttpResponse(redirect_to)
+        return redirect('lu_resolve')
 
 
 # Rule Detail Views:
@@ -877,7 +970,7 @@ def nc_choice_set(request):
                 for spell in new_spell:
                     ready = False
 
-                    all_ready_classes = Class.objects.filter(name__in=['Bard', 'Range', 'Sorcerer', 'Warlock'])
+                    all_ready_classes = Class.objects.filter(name__in=['Bard', 'Ranger', 'Sorcerer', 'Warlock'])
                     all_ready_prestige = PrestigeClass.objects.filter(name__in=['Arcane Trickster', 'Eldritch Knight'])
 
                     # TODO: Doesn't work for multi-class characters...
@@ -978,6 +1071,9 @@ def nc_class(request):
 
             if klass.saving_throw_1 == 'Charisma' or klass.saving_throw_2 == 'Charisma':
                 character.CHA_saving_throw = True
+
+            if len(character.char_classes.all()[0].features.filter(name__icontains='Spellcasting')) > 0:
+                character.spell_casting = True
 
             character.save()
 

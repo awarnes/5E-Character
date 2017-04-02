@@ -671,7 +671,7 @@
                                         {% ab_bonus character 'WIS' as WIS %}
                                         <u>{% if WIS >= 0 %}+{% endif %}{{ WIS }}{% endif %}</u> Wisdom</p>
 
-                                    <p>{% if battle_form.initial.CHA_ST == true %} <!-- TODO: This is not displaying correctly for some reason -->
+                                    <p>{% if battle_form.initial.CHA_ST.value == true %}
                                         {{ battle_form.CHA_ST }}
                                         <u>+{% saving_throw_bonus character 'CHA' %}</u>
                                     {% else %}

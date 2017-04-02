@@ -15,4 +15,16 @@
         {% endfor %}
     {% endfor %}
     </ul>
+
+    <button type="button" class="btn btn-primary" id="back">Back to Character Sheet</button>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script type="text/javascript">
+
+        $('#back').on('click', function(){
+            window.location.href='/' + '{{ user }}' + '/characters/'+ '{{ character.slug }}' + '/'
+        })
+
+    </script>
 {% endblock %}

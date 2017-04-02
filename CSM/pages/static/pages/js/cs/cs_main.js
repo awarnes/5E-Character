@@ -341,7 +341,11 @@ $(document).ready(function(){
 
         $('#rest #description').append($('<br>')).append($list);
 
-        $('#id_hit_dice_current').val(Number($('#id_hit_dice_current').val()) + (Math.floor(char_level/2) + 1));
+        $('#id_hit_dice_current').val(Number($('#id_hit_dice_current').val()) + (Math.floor(char_level / 2) + 1));
+
+        if ($('#id_hit_dice_current').val() > char_level){
+            $('#id_hit_dice_current').val(char_level)
+        }
 
         $('#id_cur_hp').val($('#id_max_hp').val());
 
