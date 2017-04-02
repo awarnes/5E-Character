@@ -8,7 +8,7 @@
         <section class="col-md-12">
             <p>Race: {{ character.char_race }}</p>
             <p>Subrace: {{ character.char_subrace }}</p>
-            <p>Class: {% for class in class_level.all %} {{ class.char_class }} ({{ class.class_level }}) {% endfor %}</p>
+            <p>Class: {% for class in character.classlevels.all %} {{ class.char_class }} ({{ class.class_level }}) {% endfor %}</p>
             <hr>
         </section>
     </section>

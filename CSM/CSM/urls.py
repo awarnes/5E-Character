@@ -34,7 +34,7 @@ from pages.views import about_us, report_issue
 from pages.views import search_home
 from pages.views import (spell_details, subrace_details, race_details, prestige_details, class_details, feature_details,
                          background_details, skill_details, language_details, condition_details, item_details, weapon_details,
-                         armor_details, tool_details, mount_details, character_sheet)
+                         armor_details, tool_details, mount_details, character_sheet, lu_open)
 from pages.views import (CharacterCreationName, nc_ability_scores, nc_race, nc_class, nc_personality, nc_equipment,
                          nc_background, nc_resolve, nc_choice, nc_choice_set)
 
@@ -125,6 +125,8 @@ urlpatterns = [
 
     # Character Sheet:
     url(r'^(?P<username>(\w+[a-z\-]+))/characters/(?P<slug>(\w+[a-z\-]+))', character_sheet, name='cs_main'),
+    url(r'^lu_open/$', lu_open, name='lu_open'),
+
 
     # Search Pages:
     url(r'^search/$', search_home, name='search_home'),

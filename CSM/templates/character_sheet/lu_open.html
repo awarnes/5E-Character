@@ -1,0 +1,40 @@
+{% extends 'characters/base_creation.html' %}
+{% load static %}
+
+{% block title %}Level up {{ character.char_name }}!{% endblock %}
+
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="{% static 'pages/css/lu_open.css' %}">
+{% endblock %}
+
+{% block main %}
+
+
+    <section id="class_buttons" class="text-center">
+        <h1>Congratulations! You are now level {{ new_level }}!</h1>
+
+        <button id="Barbarian" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/barbarian.png' %})">Barbarian</button>
+        <button id="Bard" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/bard.png' %})">Bard</button>
+        <button id="Cleric" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/cleric.png' %})">Cleric</button>
+        <button id="Druid" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/druid.png' %})">Druid</button>
+        <button id="Fighter" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/fighter.png' %})">Fighter</button>
+        <button id="Monk" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/monk.png' %})">Monk</button>
+        <button id="Paladin" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/paladin.png' %})">Paladin</button>
+        <button id="Ranger" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/ranger.png' %})">Ranger</button>
+        <button id="Rogue" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/rogue.png' %})">Rogue</button>
+        <button id="Sorcerer" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/sorcerer.png' %})">Sorcerer</button>
+        <button id="Warlock" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/warlock.png' %})">Warlock</button>
+        <button id="Wizard" type="button" class="btn btn-default" style="background-image: url({% static 'pages/img/class_pictures/wizard.png' %})">Wizard</button>
+    </section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script type="text/javascript">
+        var $char_classes = { {% for class in character.classlevels.all %}'{{ class.char_class }}': {{ class.class_level }},{% endfor %} }
+        var $class_buttons = $('#class_buttons button');
+        $.each($class_buttons, function(){
+            $(this).css('order', $char_classes[$(this).prop('id')] * -1)
+        })
+    </script>
+{% endblock %}

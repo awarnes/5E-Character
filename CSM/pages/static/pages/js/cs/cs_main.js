@@ -352,4 +352,22 @@ $(document).ready(function(){
         }
     });
 
+    $('#level_up').on('click', function(){
+
+        if ((Number($('#id_char_level').val()) + 1) > 20){
+            alert('Sorry, level 20 is the highest!')
+        } else {
+            $('#id_char_level').val(Number($('#id_char_level').val()) + 1);
+
+            var $inputs = $('#battle_tab :input');
+
+            $.each($inputs, function(){
+                $(this).prop('disabled', false);
+            });
+
+            $('#battle_tab').submit();
+        }
+
+
+    })
 });

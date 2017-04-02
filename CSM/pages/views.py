@@ -152,6 +152,7 @@ def character_sheet(request, username, slug):
         'religion': skills.get('religion', False),
         'sleight': skills.get('sleight of hand', False), 'stealth': skills.get('stealth', False),
         'survival': skills.get('survival', False), 'hit_dice_current': character.hit_dice_current,
+        'char_level': character.get_char_level(),
     }
 
     if request.method == "GET":
@@ -184,18 +185,25 @@ def character_sheet(request, username, slug):
         }
 
         battle_form = BattleSheet(data=request.POST, initial=initial)
-
+        level_up = False
         if battle_form.has_changed():
             if battle_form.is_valid():
+                if 'char_level' in battle_form.changed_data:
+                    battle_form.changed_data.remove('char_level')
+                    level_up = True
+
                 for delta in battle_form.changed_data:
                     setattr(character, form_translation[delta], request.POST.get(delta)) # TODO: initial seems to be over writing the POST data...
-                # import pdb;pdb.set_trace()
 
                 if 'conditions' in battle_form.changed_data:
                     for condition in battle_form.cleaned_data['conditions']:
                         character.conditions.add(condition)
 
                 character.save()
+
+                if level_up:
+                    request.session
+                    return redirect('lu_open')
                 messages.success(request, 'Saved Successfully!')
                 return redirect(request.path)
             else:
@@ -204,6 +212,16 @@ def character_sheet(request, username, slug):
         else:
             messages.info(request, "Nothing to save...")
             return redirect(request.path)
+
+
+@login_required()
+def lu_open(request):
+    """Screen for starting the levelup process."""
+    character = request.user.characters.latest('accessed')  # TODO: may have issues if accessed is not updated.
+
+    context = {'new_level': character.get_char_level() + 1, 'character': character}
+
+    return render(request, 'character_sheet/lu_open.html', context)
 
 
 # Rule Detail Views:

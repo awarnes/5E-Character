@@ -102,6 +102,7 @@ class ChoiceForm(forms.Form):
 class BattleSheet(forms.Form):
     """Form for the battle tab of the character sheet, used to help save any updated information."""
 
+    char_level = forms.IntegerField(required=False, disabled=True)
 
     # Ability Scores:
     STR = forms.IntegerField(required=False, disabled=True)

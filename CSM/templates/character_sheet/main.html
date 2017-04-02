@@ -65,10 +65,12 @@
                                 <p>Race and Subrace: {{ character.char_race }} ({{ character.char_subrace }})</p>
                                 <p>Alignment: {{ character.alignment }}</p>
                                 <p>Experience Points: {{ character.char_xp }}</p>
-                                <button type="button" id="level_up" class="btn btn-warning pull-right">Level Up!</button>
+                                <form action="" method="POST">{% csrf_token %}
+                                    <button type="button" id="level_up" class="btn btn-warning pull-right">Level Up!</button>
+                                </form>
                             </div>
                         </div>
-                    </section> <!-- end top-section -->
+                </section> <!-- end top-section -->
 
                 <section id="main_tab">
 
@@ -548,6 +550,7 @@
                 </section>
 
                 <form action="" method="POST" id="battle_tab"> {% csrf_token %}
+                    <p hidden>{{ battle_form.char_level }}</p>
                     <section class="sortable" id="bottom-left">
                         <section class="sortable" id="left-left">
                             <div class="panel panel-default" id="ability_scores" style="padding-top: 15px;">
