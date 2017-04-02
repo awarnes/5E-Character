@@ -148,6 +148,7 @@ class BattleSheet(forms.Form):
     max_hp = forms.IntegerField(required=False, disabled=True)
     cur_hp = forms.IntegerField(required=False, disabled=True)
     temp_hp = forms.IntegerField(required=False, disabled=True)
+    hit_dice_current = forms.IntegerField(required=False, disabled=True)
     conditions = forms.ModelMultipleChoiceField(queryset=Condition.objects.all(), required=False, disabled=True)
 
     # Point Tracker:

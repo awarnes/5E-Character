@@ -163,15 +163,11 @@
     width: 100%;
 }
 
-#battle_tab #spells_attacks #spells input {
-    border: 0px !important;
-    background: transparent;
-    text-align: center!important;
-}
-
 #battle_tab input {
     width: 35px;
     text-align: center;
+    border: 0px !important;
+    background: transparent;
 }
 
 .panel, .panel-default, .panel-body {

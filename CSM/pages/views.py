@@ -151,7 +151,7 @@ def character_sheet(request, username, slug):
         'performance': skills.get('performance', False), 'persuasion': skills.get('persuasion', False),
         'religion': skills.get('religion', False),
         'sleight': skills.get('sleight of hand', False), 'stealth': skills.get('stealth', False),
-        'survival': skills.get('survival', False),
+        'survival': skills.get('survival', False), 'hit_dice_current': character.hit_dice_current,
     }
 
     if request.method == "GET":
@@ -180,7 +180,7 @@ def character_sheet(request, username, slug):
             'spell_slots_4_maximum': 'spell_slots_4_maximum', 'spell_slots_5_maximum': 'spell_slots_5_maximum',
             'spell_slots_6_maximum': 'spell_slots_6_maximum', 'spell_slots_7_maximum': 'spell_slots_7_maximum',
             'spell_slots_8_maximum': 'spell_slots_8_maximum', 'spell_slots_9_maximum': 'spell_slots_9_maximum',
-            'current_points': 'current_points', 'max_points': 'max_points'
+            'current_points': 'current_points', 'max_points': 'max_points', 'hit_dice_current': 'hit_dice_current',
         }
 
         battle_form = BattleSheet(data=request.POST, initial=initial)

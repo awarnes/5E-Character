@@ -752,6 +752,10 @@
                                         <button type="button" class="btn btn-default" id="add_temp_hp"><span class="glyphicon glyphicon-chevron-up"></span></button>
                                         <button type="button" class="btn btn-default" id="sub_temp_hp"><span class="glyphicon glyphicon-chevron-down"></span></button>
                                     </div>
+                                    <section class="panel panel-default">
+                                        <p>Hit Dice: {{ battle_form.hit_dice_current }}/{{ character.get_char_level }}</p>
+                                        <p>Hit Die Size: d{{ character.char_classes.get.hit_die_size }}</p>
+                                    </section>
                                     <section id="death_saves" data-succs="0" data-fails="0" hidden>
                                         <div class="panel panel-default">
                                             <div class="panel-body">
@@ -784,7 +788,7 @@
 
                         <div class="panel panel-default" id="skills">
                             <div class="panel-title text-center">
-                                        <p>Skills:</p>
+                                <p>Skills:</p>
                             </div>
                             <div class="panel-body">
 
@@ -866,8 +870,8 @@
                     </section> <!-- end bottom-middle -->
 
                     <section id="bottom-right">
-{#                        <div class="panel panel-default" id="features">#}
-{#                            <div class="panel-body">#}
+                        <div class="panel panel-default" id="features">
+                            <div class="panel-body">
                                 {% get_features character as all_features %}
 
                                 <section class="panel panel-default" id="actions">
@@ -910,8 +914,8 @@
                                     </div>
                                 </section>
 
-{#                            </div>#}
-{#                        </div>#}
+                            </div>
+                        </div>
                     </section>
 
                     <section id="spells_attacks">
@@ -942,17 +946,18 @@
                                         <nav aria-label="Tab Navigation">
                                             <ul class="nav nav-tabs nav-justified">
                                                 <li><a href="#cantrips">Cantrips<br>(Cast at Will)</a></li>
-                                                <li><a href="#first_level">1st-Level<br>({{ battle_form.spell_slots_1_current }})</a></li>
-                                                <li><a href="#second_level">2nd-Level<br>({{ battle_form.spell_slots_2_current }})</a></li>
-                                                <li><a href="#third_level">3rd-Level<br>({{ battle_form.spell_slots_3_current }})</a></li>
-                                                <li><a href="#fourth_level">4th-Level<br>({{ battle_form.spell_slots_4_current }})</a></li>
-                                                <li><a href="#fifth_level">5th-Level<br>({{ battle_form.spell_slots_5_current }})</a></li>
-                                                <li><a href="#sixth_level">6th-Level<br>({{ battle_form.spell_slots_6_current }})</a></li>
-                                                <li><a href="#seventh_level">7th-Level<br>({{ battle_form.spell_slots_7_current }})</a></li>
-                                                <li><a href="#eighth_level">8th-Level<br>({{ battle_form.spell_slots_8_current }})</a></li>
-                                                <li><a href="#ninth_level">9th-Level<br>({{ battle_form.spell_slots_9_current }})</a></li>
+                                                <li><a href="#first_level">1st-Level<br>({{ battle_form.spell_slots_1_current }}/{{ battle_form.spell_slots_1_maximum }})</a></li>
+                                                <li><a href="#second_level">2nd-Level<br>({{ battle_form.spell_slots_2_current }}/{{ battle_form.spell_slots_2_maximum }})</a></li>
+                                                <li><a href="#third_level">3rd-Level<br>({{ battle_form.spell_slots_3_current }}/{{ battle_form.spell_slots_3_maximum }})</a></li>
+                                                <li><a href="#fourth_level">4th-Level<br>({{ battle_form.spell_slots_4_current }}/{{ battle_form.spell_slots_4_maximum }})</a></li>
+                                                <li><a href="#fifth_level">5th-Level<br>({{ battle_form.spell_slots_5_current }}/{{ battle_form.spell_slots_5_maximum }})</a></li>
+                                                <li><a href="#sixth_level">6th-Level<br>({{ battle_form.spell_slots_6_current }}/{{ battle_form.spell_slots_6_maximum }})</a></li>
+                                                <li><a href="#seventh_level">7th-Level<br>({{ battle_form.spell_slots_7_current }}/{{ battle_form.spell_slots_7_maximum }})</a></li>
+                                                <li><a href="#eighth_level">8th-Level<br>({{ battle_form.spell_slots_8_current }}/{{ battle_form.spell_slots_8_maximum }})</a></li>
+                                                <li><a href="#ninth_level">9th-Level<br>({{ battle_form.spell_slots_9_current }}/{{ battle_form.spell_slots_9_maximum }})</a></li>
                                             </ul>
                                         </nav>
+
                                         <section id="cantrips" data-level="cantrips">
                                             <ul>
                                                 {% for feature in all_features.Spell_cantrip %}
@@ -1150,6 +1155,23 @@
             </div>
         </div>
 
+        <div class="modal fade" id="rest">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title" data-slug='' data-type='' id="name"></h1>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="desc_title"></p>
+                        <p id="description"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </body>
 
     <script
@@ -1160,7 +1182,25 @@
 
     <script src="{% static 'pages/js/cs/cs_main.js' %}"></script>
     <script type="application/javascript">
-        const current_char = '{{ character.char_name }}'
+        const char_CON_bonus = {% ab_bonus character 'CON' %}
+        const char_level = {{ character.get_char_level }}
+
+        var $spell_ready = $('<button>').text('Toggle Readiness').on('click', function(evt){
+                    evt.preventDefault();
+                    var $the_button = $(document).find('li:contains(' + $('#name').text() + ')').prev('button');
+                    if ($the_button.hasClass('cast_spell_ready')){
+                        $the_button.addClass('cast_spell_notready');
+                        $the_button.removeClass('cast_spell_ready');
+                        $the_button.html('Cast: <span class="glyphicon glyphicon-remove"></span>');
+                        $the_button.unbind('click').bind('click', $.fn.spellNotReady);
+                    } else {
+                        $the_button.addClass('cast_spell_ready');
+                        $the_button.removeClass('cast_spell_notready');
+                        $the_button.html('Cast: <span class="glyphicon glyphicon-ok"></span>');
+                        $the_button.unbind('click').bind('click', $.fn.spellReady);
+
+                    }
+                })
     </script>
 
 </html>

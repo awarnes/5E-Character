@@ -25,6 +25,7 @@ $(document).ready(function(){
                 $('#name').data('type', $type);
                 $('#name').data('slug', $query);
                 $('#description').text(data.description);
+                $('#output').find($('div.modal-footer')).append($spell_ready);
             })
         }   else if ($equipment.indexOf($type) != -1) {
             $.get('/api/v1/equipment/' + $type + '/' + $query, function (data){
@@ -274,18 +275,81 @@ $(document).ready(function(){
         $('#delete_check').modal('toggle');
     });
 
-    $('.cast_spell_notready').on('click', function(evt){
+    $.fn.spellNotReady = function (){
         alert('That spell is not ready!');
+    }
+
+    $.fn.spellReady =  function (){
+
+            var spell_level = $(this).parent().parent().data('level');
+            var $spell_input = $('#id_spell_slots_'+spell_level+'_current');
+            if ((Number($spell_input.val()) - 1) < 0){
+                alert("You don't have enough slots left to cast " + $(this).next().text() + "!");
+            } else {
+                $spell_input.val(Number($spell_input.val())-1);
+            }
+
+    }
+    $('.cast_spell_ready').on('click', $.fn.spellReady);
+    $('.cast_spell_notready').on('click', $.fn.spellNotReady)
+
+    $('#short_rest').on('click', function(){
+        var $hit_dice = $('#id_hit_dice_current');
+        var $hp_cur = $('#id_cur_hp');
+        var $hp_max = $('#id_max_hp');
+        $('#rest').modal('toggle');
+        $('#rest #name').text('Short Rest');
+        $('#rest #desc_title').text('Roll Hit Dice:');
+        $('#rest #description').text('You can roll as many hit dice as you have to regain health. After a long rest you' +
+            ' regain a number equal to half your level (minimum 1).');
+        $('#rest #description').append($('<br>'));
+        var $short_button = $('<button>').text('Roll Die!').on('click', function(){
+            if ($hit_dice.val() > 0){
+                var $roll = $('<p>').text(Math.floor(Math.random() * 6) + 1 + (char_CON_bonus));
+                $hit_dice.val(Number($hit_dice.val())-1);
+                if (Number($roll.text()) + Number($hp_cur.val()) >= Number($hp_max.val())){
+                    $hp_cur.val($hp_max.val());
+                    $('#rest #description').append("Nice, you're at full health!");
+                } else {
+                    $hp_cur.val(Number($roll.text()) + Number($hp_cur.val()));
+                    $('#rest #description').append('You regained ' + $roll.text() + ' hit points!');
+                }
+            } else {
+                var $sorry = $('<p>').text("Sorry, you don't have enough hit dice left!");
+                $('#rest #description').append($sorry);
+            }
+        });
+
+        $('#rest #description').append($short_button);
+
     });
 
-    $('.cast_spell_ready').on('click', function(){
-        var spell_level = $(this).parent().parent().data('level');
-        var $spell_input = $('#id_spell_slots_'+spell_level+'_current');
-        if (($spell_input - 1) < 0){
-            alert("You don't have enough slots left to cast " + $(this).next().text() + "!");
-        } else {
-            $spell_input.val(Number($spell_input.val())-1);
+    $('#long_rest').on('click', function(){
+
+        $('#rest').modal('toggle');
+        $('#rest #name').text('Long Rest');
+        $('#rest #desc_title').text('');
+        $('#rest #description').text('You rest for a minimum of eight hours, during which you do not stand watch for' +
+            ' more than two hours, or spend one or more hours engaged in strenuous activity such as Spell casting, walking' +
+            ' or fighting. At the end of the long rest you gain the following benefits:');
+
+        var $list = $('<ul>');
+        var $li_1 = $('<li>').text('You regain all hit points.').appendTo($list);
+        var $li_2 = $('<li>').text('You regain all spent spell slots.').appendTo($list);
+        var $li_3 = $('<li>').text('You regain all used ability uses.').appendTo($list);
+        var $li_4 = $('<li>').text('You regain hit dice equal to half your level (minimum 1).').appendTo($list);
+
+        $('#rest #description').append($('<br>')).append($list);
+
+        $('#id_hit_dice_current').val(Number($('#id_hit_dice_current').val()) + (Math.floor(char_level/2) + 1));
+
+        $('#id_cur_hp').val($('#id_max_hp').val());
+
+        $('#id_current_points').val($('#id_max_points').val());
+
+        for (var i=0;i<10;i++){
+            $('#id_spell_slots_'+i+'_current').val($('#id_spell_slots_'+i+'_maximum').val())
         }
-    })
+    });
 
 });
