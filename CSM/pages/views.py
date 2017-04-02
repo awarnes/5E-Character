@@ -17,6 +17,7 @@ from django.views.generic.edit import FormView, CreateView
 from django.urls import reverse_lazy
 from django.forms import formset_factory
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
+from django.db.models import Q
 
 from django.contrib import messages
 
@@ -202,7 +203,7 @@ def character_sheet(request, username, slug):
                 character.save()
 
                 if level_up:
-                    request.session
+                    request.session['character'] = character.pk
                     return redirect('lu_open')
                 messages.success(request, 'Saved Successfully!')
                 return redirect(request.path)
@@ -217,7 +218,8 @@ def character_sheet(request, username, slug):
 @login_required()
 def lu_open(request):
     """Screen for starting the levelup process."""
-    character = request.user.characters.latest('accessed')  # TODO: may have issues if accessed is not updated.
+
+    character = Character.objects.get(pk=request.session['character'])
 
     context = {'new_level': character.get_char_level() + 1, 'character': character}
 
@@ -226,9 +228,204 @@ def lu_open(request):
 
 @login_required()
 def level_up(request, klass):
-    if request.method == 'GET':
-        context = {'form': klass}
-        return render(request, 'characters/test_redirect.html', context)
+    """Screen for getting new features, spells, and abilities."""
+
+    ChoiceFormSet = formset_factory(ChoiceForm, max_num=1)
+
+    # TODO: Implement experience point gaining...
+    # level_dict = {
+    #     0: 1,
+    #     300: 2,
+    #     900: 3,
+    #     2700: 4,
+    #     6500: 5,
+    #     14000: 6,
+    #     23000: 7,
+    #     34000: 8,
+    #     48000: 9,
+    #     64000: 10,
+    #     85000: 11,
+    #     100000: 12,
+    #     120000: 13,
+    #     140000: 14,
+    #     165000: 15,
+    #     195000: 16,
+    #     225000: 17,
+    #     265000: 18,
+    #     305000: 19,
+    #     355000: 20
+    # }
+
+    character = Character.objects.get(pk=request.session['character'])
+
+    cl = ClassLevel.objects.filter(Q(character=character), Q(char_class=Class.objects.get(name__iexact=klass)))[0]
+
+    cl.class_level += 1
+
+    cl.save()
+
+    if request.method == "GET":
+
+        feature_search = dict()
+
+        features = character.classlevels.all()[0].char_class.features.all()
+        feature_search[character.classlevels.all()[0].char_class.name] = list()
+
+        class_choices = True
+        prestige_choices = True
+
+        for feature in features:
+            if feature.is_choice and feature.prereq_class_level == character.classlevels.all()[0].class_level:
+                feature_search[character.classlevels.all()[0].char_class.name].append(feature)
+
+        if len(feature_search[character.classlevels.all()[0].char_class.name]) == 0:
+            del feature_search[character.classlevels.all()[0].char_class.name]
+            class_choices = False
+
+        try:
+            features = character.char_prestige_classes.all()[0].features.all()
+            feature_search[character.char_prestige_classes.all()[0].name] = list()
+
+            for feature in features:
+                if feature.is_choice and feature.prereq_class_level == character.classlevels.all()[0].class_level:
+                    feature_search[character.char_prestige_classes.all()[0].name].append(feature)
+
+            if len(feature_search[character.char_prestige_classes.all()[0].name]) == 0:
+                del feature_search[character.char_prestige_classes.all()[0].name]
+                prestige_choices = False
+
+        except IndexError:
+            pass
+
+        spell_levels = ['Cantrip', '1st-Level', '2nd-Level', '3rd-Level', '4th-Level', '5th-Level', '6th-Level',
+                        '7th-Level', '8th-Level', '9th-Level']
+
+        multi_search = ['character', 'Spell']
+
+        single_search = ['Feature', 'DragonAncestry', 'Language', 'EnemyRace', 'LandType']
+
+        lvl_1_skip = ['PrestigeClass']
+
+        initial = list()
+
+        if class_choices and prestige_choices:
+            for search_type, feature_list in enumerate(feature_search.values()):
+                for index, feature in enumerate(feature_list):
+                    data = dict()
+
+                    max_choices = feature.choice_amount
+                    min_choices = feature.choice_amount
+                    feature_name = feature.name
+
+                    choice_type = feature.choice_type.split(', ')
+
+                    if choice_type[0] in single_search:
+                        feature_choices = feature.choices.split(', ')
+                        if feature_choices[0] == 'Skill':
+                            queryset = getattr(rules_models, choice_type[0]).objects.filter(name__iregex=r'Skill:')
+                        else:
+                            queryset = getattr(rules_models, choice_type[0]).objects.filter(name__in=feature_choices)
+
+                    elif choice_type[0] in multi_search:
+                        feature_choices = feature.choices.split(', ')
+                        if choice_type[0] == 'Spell':
+                            if feature_choices[0] == 'Any':
+                                queryset = Spell.objects.filter(level__in=spell_levels)
+                            else:
+                                choice_class = feature_choices[0]
+                                choice_level = feature_choices[1]
+                                queryset = Spell.objects.filter(available_to__icontains=choice_class).filter(
+                                    level__iexact=choice_level)
+
+                        elif choice_type[0] == 'Feature':
+                            queryset = character.features.filter(name__icontains=feature_choices[0])
+
+                    elif choice_type[0] in lvl_1_skip:
+                        if len(character.classlevels.all()) == 1:
+                            if character.classlevels.all()[0].class_level == 1:
+                                continue
+                            else:
+                                """prestige_search"""
+                    else:
+                        continue
+
+                    data['max_choices'] = max_choices
+                    data['min_choices'] = min_choices
+                    data['feature_name'] = feature_name
+                    data['feature_type'] = choice_type[0]
+                    data['choices'] = queryset
+
+                    initial.append(data)
+
+                formset = ChoiceFormSet(initial=initial)
+
+                context = {'formset': formset, 'feature_search': feature_search}
+
+                return render(request, 'characters/choice_screen.html', context)
+
+        else:
+            return redirect('lu_resolve')
+
+    elif request.method == 'POST':
+        import pdb;pdb.set_trace()
+
+
+@login_required()
+def lu_resolve(request):
+    """Final screen for leveling up."""
+
+    character = Character.objects.get(pk=request.session['character'])
+
+    context = {'character': character}
+
+    return render(request, 'character_sheet/lu_resolve.html', context)
+
+@login_required()
+def nc_choice_set(request):
+
+    character = Character.objects.get(pk=request.session['character'])
+
+    if request.method == 'POST':
+
+        feature_info = dict(request.POST.copy())
+
+        for data in feature_info.values():
+            search_type = data[0]
+            item_pk = data[1].split(',')
+            redirect_to = data[2]
+
+            if search_type == 'Spell':
+                new_spell = Spell.objects.filter(pk__in=item_pk)
+
+                for spell in new_spell:
+                    ready = False
+
+                    all_ready_classes = Class.objects.filter(name__in=['Bard', 'Range', 'Sorcerer', 'Warlock'])
+                    all_ready_prestige = PrestigeClass.objects.filter(
+                        name__in=['Arcane Trickster', 'Eldritch Knight'])
+
+                    # TODO: Doesn't work for multi-class characters...
+                    if (spell.level == 'Cantrip') or (character.char_classes.all()[0] in all_ready_classes) or \
+                            (character.char_prestige_classes.all()[0] in all_ready_prestige):
+                        ready = True
+
+                    SpellsReady.objects.create(
+                        character=character,
+                        spells=spell,
+                        spell_ready=ready,
+                    )
+
+            elif search_type == 'Feature':
+                new_feature = getattr(rule_models, search_type).objects.filter(pk__in=item_pk)
+                for feature in new_feature:
+                    character.features.add(feature)
+
+            else:
+                new_feature = getattr(rule_models, search_type).objects.get(pk__in=item_pk)
+                character.char_traits.add(new_feature)
+
+        return HttpResponse(redirect_to)
+
 
 # Rule Detail Views:
 def spell_details(request, slug):
@@ -627,7 +824,7 @@ def nc_choice(request):
                         else:
                             choice_class = feature_choices[0]
                             choice_level = feature_choices[1]
-                            queryset = Spell.objects.filter(available_to__icontains=choice_class).filter(level__iexact=choice_level)
+                            queryset = Spell.objects.filter(Q(available_to__icontains=choice_class), Q(level__iexact=choice_level))
 
                     elif choice_type[0] == 'Feature':
                         queryset = character.features.filter(name__icontains=feature_choices[0])

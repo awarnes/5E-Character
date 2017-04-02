@@ -82,7 +82,7 @@ class ChoiceForm(forms.Form):
     """Allows user to assign features with the is_choice=True field to their character."""
 
     feature_type = forms.CharField(max_length=1024, widget=forms.HiddenInput)
-    redirect_page = forms.CharField(max_length=256, widget=forms.HiddenInput)
+    redirect_page = forms.CharField(max_length=256, widget=forms.HiddenInput, required=False)
     max_choices = forms.IntegerField(min_value=1, widget=forms.HiddenInput)
     min_choices = forms.IntegerField(min_value=1, widget=forms.HiddenInput)
 
@@ -175,3 +175,5 @@ class BattleSheet(forms.Form):
     spell_slots_7_maximum = forms.IntegerField(required=False, disabled=True)
     spell_slots_8_maximum = forms.IntegerField(required=False, disabled=True)
     spell_slots_9_maximum = forms.IntegerField(required=False, disabled=True)
+
+

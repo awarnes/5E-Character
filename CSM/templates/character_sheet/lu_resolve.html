@@ -1,0 +1,18 @@
+{% extends 'characters/base_creation.html' %}
+{% load static %}
+
+{% block main %}
+    <h1 class="text-center">Yay! {{ character.char_name }} is now a level
+        {% for class in character.classlevels.all %} {{ class.class_level }} {{ class.char_class }}
+            {% if character.classlevels.all.length > 1 %} and a level {% endif %}{% endfor %}!</h1>
+    <h2>Your new features are:</h2>
+    <ul>
+    {% for class in character.char_classes.all %}
+        {% for feature in class.features.all %}
+            {% if feature.prereq_class_level == character.get_char_level %}
+                <li class="list-group-item">{{ feature }}</li>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </ul>
+{% endblock %}

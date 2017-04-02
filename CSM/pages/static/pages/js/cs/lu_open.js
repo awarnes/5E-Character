@@ -28,9 +28,7 @@ $(document).ready(function(){
     $('#level_up').on('click', function(evt){
         var $slug = $('#name').data('slug');
 
-        $.get('/level_up/'+$slug+'/', function(){
-            window.location.href='/level_up/'+$slug+'/'
-        })
+        window.location.href='/level_up/'+$slug+'/'
     })
 
 });
