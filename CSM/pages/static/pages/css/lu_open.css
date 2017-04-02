@@ -11,44 +11,44 @@
     margin: 7px;
     line-height: 170px;
 }
-h1 {
+h1, h2 {
     width: 100%;
     order: -1000000;
 }
 
-#Barbarian{
-    order: 0;
-}
-#Bard{
-    order: 0;
-}
-#Cleric{
-    order: 0;
-}
-#Druid{
-    order: 0;
-}
-#Fighter{
-    order: 0;
-}
-#Monk{
-    order: 0;
-}
-#Paladin{
-    order: 0;
-}
-#Ranger{
-    order: 0;
-}
-#Rogue{
-    order: 0;
-}
-#Sorcerer{
-    order: 0;
-}
-#Warlock{
-    order: 0;
-}
-#Wizard{
-    order: 0;
-}
+/*#Barbarian{*/
+    /*order: 0;*/
+/*}*/
+/*#Bard{*/
+    /*order: 0;*/
+/*}*/
+/*#Cleric{*/
+    /*order: 0;*/
+/*}*/
+/*#Druid{*/
+    /*order: 0;*/
+/*}*/
+/*#Fighter{*/
+    /*order: 0;*/
+/*}*/
+/*#Monk{*/
+    /*order: 0;*/
+/*}*/
+/*#Paladin{*/
+    /*order: 0;*/
+/*}*/
+/*#Ranger{*/
+    /*order: 0;*/
+/*}*/
+/*#Rogue{*/
+    /*order: 0;*/
+/*}*/
+/*#Sorcerer{*/
+    /*order: 0;*/
+/*}*/
+/*#Warlock{*/
+    /*order: 0;*/
+/*}*/
+/*#Wizard{*/
+    /*order: 0;*/
+/*}*/

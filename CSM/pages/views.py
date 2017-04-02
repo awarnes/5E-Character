@@ -224,6 +224,12 @@ def lu_open(request):
     return render(request, 'character_sheet/lu_open.html', context)
 
 
+@login_required()
+def level_up(request, klass):
+    if request.method == 'GET':
+        context = {'form': klass}
+        return render(request, 'characters/test_redirect.html', context)
+
 # Rule Detail Views:
 def spell_details(request, slug):
     """
