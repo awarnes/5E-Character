@@ -346,8 +346,8 @@ def level_up(request, klass):
         except IndexError:
             pass
 
-        spell_levels = ['Cantrip', '1st-Level', '2nd-Level', '3rd-Level', '4th-Level', '5th-Level', '6th-Level',
-                        '7th-Level', '8th-Level', '9th-Level']
+        spell_levels = ['Cantrip', '1st-level', '2nd-level', '3rd-level', '4th-level', '5th-level', '6th-level',
+                        '7th-level', '8th-level', '9th-level']
 
         multi_search = ['character', 'Spell']
 
@@ -359,6 +359,8 @@ def level_up(request, klass):
 
         # Update Character Health:
         character.max_health += cl.char_class.hit_die_size + character.get_ability_bonus('CON')
+        character.current_health = character.max_health
+        character.hit_dice_current = cl.class_level
 
         # Update Character Spell Slots:
         try:
@@ -391,15 +393,17 @@ def level_up(request, klass):
         except:
             pass
 
+        character.save()
+
         # TODO: multi classing will need to be able to update this later.
         # if len(character.char_classes.all()[0].features.filter(name__icontains='Spellcasting')) > 0:
         #     character.spell_casting = True
 
         # Create the list of choices for a user to choose from:
         if class_choices or prestige_choices or character.spell_casting:
+            data = dict()
             for search_type, feature_list in enumerate(feature_search.values()):
                 for index, feature in enumerate(feature_list):
-                    data = dict()
 
                     max_choices = feature.choice_amount
                     min_choices = feature.choice_amount
@@ -445,19 +449,38 @@ def level_up(request, klass):
 
                     initial.append(data)
 
+            # Uses the spell table to allow the user to choose new spells up to their level.
+            # TODO: Split choices by level, but have max choices across all levels.
+            # TODO: Add support for reassigning a previous choice to a new spell.
             if character.spell_casting:
                 spell_table = character.char_classes.all()[0].spell_table
-                
+                levels_available = list()
+                for i in range(1, 10):
+                    slot = getattr(spell_table, 'level_{}_slots'.format(i)).split(',')[cl.class_level - 1]
+                    if slot != '0':
+                        levels_available.append(spell_levels[i])
+
+                max_choices = (int(spell_table.spells_known.split(',')[cl.class_level - 1]) -
+                               int(spell_table.spells_known.split(',')[cl.class_level - 2]))
+
+                queryset = Spell.objects.filter(Q(level__in=levels_available), Q(available_to__icontains=cl.char_class.name))
+
+                data['max_choices'] = max_choices
+                data['min_choices'] = max_choices
+                data['feature_name'] = 'Spellcasting - New Spells'
+                data['feature_type'] = 'Spell'
+                data['choices'] = queryset
+
+                initial.append(data)
 
             formset = ChoiceFormSet(initial=initial)
 
-            context = {'formset': formset, 'feature_search': feature_search}
+            context = {'formset': formset, 'feature_search': feature_search, 'choice_flow': 'lu_', 'character': character}
 
             return render(request, 'characters/choice_screen.html', context)
 
         else:
 
-            character.save()
             return redirect('lu_resolve')
 
     elif request.method == 'POST':
@@ -517,7 +540,7 @@ def lu_choice_set(request):
                 new_feature = getattr(rule_models, search_type).objects.get(pk__in=item_pk)
                 character.char_traits.add(new_feature)
 
-        return redirect('lu_resolve')
+        return HttpResponse('lu_resolve')
 
 
 # Rule Detail Views:
@@ -942,7 +965,7 @@ def nc_choice(request):
 
             formset = ChoiceFormSet(initial=initial)
 
-            context = {'formset': formset, 'feature_search': feature_search}
+            context = {'formset': formset, 'feature_search': feature_search, 'choice_flow': 'nc_', 'character': character}
 
             return render(request, 'characters/choice_screen.html', context)
 

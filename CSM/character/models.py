@@ -252,15 +252,18 @@ class Character(models.Model):
 
         armor_class = 0
 
-        for armor in armors:
-            armor_class += armor.base_armor_class
-            if armor.dexterity_modifier is True and armor.dexterity_modifier_max == -1:
-                    armor_class += self.get_ability_bonus('DEX')
-            elif armor.dexterity_modifier == True:
-                if self.get_ability_bonus('DEX') >= 2:
-                    armor_class += 2
-                else:
-                    armor_class += self.get_ability_bonus('DEX')
+        if len(armors) > 0:
+            for armor in armors:
+                armor_class += armor.base_armor_class
+                if armor.dexterity_modifier is True and armor.dexterity_modifier_max == -1:
+                        armor_class += self.get_ability_bonus('DEX')
+                elif armor.dexterity_modifier == True:
+                    if self.get_ability_bonus('DEX') >= 2:
+                        armor_class += 2
+                    else:
+                        armor_class += self.get_ability_bonus('DEX')
+        else:
+            armor_class += 10 + self.get_ability_bonus('DEX')
 
         return armor_class
 

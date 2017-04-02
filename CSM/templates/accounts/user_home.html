@@ -32,8 +32,9 @@
                         </div>
                         <div class="modal-body">
                             <p>Level: <span id="level"></span></p>
-                            <p>Class: <span id="class"></span></p>
-                            <p>Race: <span id="race"></span></p>
+                            <p>Class: {{ character.char_classes.get }}<span id="class"></span></p>
+                            <p>Race: {{ character.char_race }}</p>
+{#                            <span id="race"></span>#}
                             <hr>
                             <p>Strength: <span id="STR"></span></p>
                             <p>Dexterity: <span id="DEX"></span></p>
@@ -46,7 +47,8 @@
                             <p id="description"></p>
                         </div>
                         <div class="modal-footer">
-                            <p class="pull-left">Features: <span id="features"></span></p>
+                            <p class="pull-left">Features: <br>{% for feature in character.char_classes.get.features.all %}{{ feature }}, {% endfor %}</p>
+{#                            <span id="features"></span>#}
                             <button type="submit" class="btn btn-primary pull-right" id="go">Go!</button>
                         </div>
                     </div>

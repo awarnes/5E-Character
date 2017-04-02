@@ -72,7 +72,7 @@ $(document).ready(function(){
         }
 
         $.ajax({
-            url: '/choice_set/',
+            url: '/' + $choice_flow + 'choice_set/',
             type: 'POST',
             json: true,
             data: $feature_data,

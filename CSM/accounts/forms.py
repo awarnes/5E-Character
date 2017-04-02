@@ -10,7 +10,7 @@ class MemberCreateForm(UserCreationForm):
     """
 
     email = forms.EmailField(required=True)
-    ok_to_contact = forms.BooleanField(required=True)
+    ok_to_contact = forms.BooleanField(required=False)
 
     class Meta(UserCreationForm.Meta):
         model = Member

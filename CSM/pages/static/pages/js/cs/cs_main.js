@@ -309,7 +309,7 @@ $(document).ready(function(){
                 $hit_dice.val(Number($hit_dice.val())-1);
                 if (Number($roll.text()) + Number($hp_cur.val()) >= Number($hp_max.val())){
                     $hp_cur.val($hp_max.val());
-                    $('#rest #description').append("Nice, you're at full health!");
+                    $('#rest #description').append("Nice, you're at full health!" + ' ( +' + $roll.text() + ' hp)');
                 } else {
                     $hp_cur.val(Number($roll.text()) + Number($hp_cur.val()));
                     $('#rest #description').append('You regained ' + $roll.text() + ' hit points!');
@@ -371,7 +371,13 @@ $(document).ready(function(){
 
             $('#battle_tab').submit();
         }
+    });
 
+    $('#lock').on('click', function(){
+        var $inputs = $('#battle_tab input');
 
+        $.each($inputs, function(){
+            $(this).prop('disabled', !$(this).prop('disabled'));
+        })
     })
 });

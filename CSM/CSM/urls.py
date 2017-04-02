@@ -34,9 +34,14 @@ from pages.views import about_us, report_issue
 from pages.views import search_home
 from pages.views import (spell_details, subrace_details, race_details, prestige_details, class_details, feature_details,
                          background_details, skill_details, language_details, condition_details, item_details, weapon_details,
-                         armor_details, tool_details, mount_details, character_sheet, lu_open, level_up, lu_resolve)
+                         armor_details, tool_details, mount_details, character_sheet,)
+
+# Character Creation Flow:
 from pages.views import (CharacterCreationName, nc_ability_scores, nc_race, nc_class, nc_personality, nc_equipment,
                          nc_background, nc_resolve, nc_choice, nc_choice_set)
+
+# Level Up Flow:
+from pages.views import lu_open, level_up, lu_resolve, lu_choice_set
 
 # Imported API FBVs:
 from api.views import (spell_book, specific_user_character, user_character_names)
@@ -121,15 +126,14 @@ urlpatterns = [
     url(r'^nc_equipment/$', nc_equipment, name='nc_equipment'),
     url(r'^nc_resolve/$', nc_resolve, name='nc_resolve'),
     url(r'^choice_screen/$', nc_choice, name='choice_screen'),
-    url(r'^choice_set/$', nc_choice_set, name='choice_set'),
+    url(r'^nc_choice_set/$', nc_choice_set, name='choice_set'),
 
     # Character Sheet:
     url(r'^(?P<username>(\w+[a-z\-]+))/characters/(?P<slug>(\w+[a-z\-]+))', character_sheet, name='cs_main'),
     url(r'^lu_open/$', lu_open, name='lu_open'),
     url(r'^level_up/(?P<klass>(\w+))/$', level_up, name='level_up'),
     url(r'^lu_resolve/$', lu_resolve, name='lu_resolve'),
-
-
+    url(r'^lu_choice_set/$', lu_choice_set, name='lu_choice_set'),
 
     # Search Pages:
     url(r'^search/$', search_home, name='search_home'),

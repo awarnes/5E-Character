@@ -17,7 +17,7 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
-            <div class="nav-divider">
+            <div class="nav-divider menu_options">
                 <ul class="nav navbar-nav">
                     <li id="first-link"></li>
                     <li id="second-link"></li>
@@ -25,10 +25,10 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Other Stuff <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'nc_new' %}">New Character</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+{#                            <li><a href="#">Another action</a></li>#}
+{#                            <li><a href="#">Something else here</a></li>#}
+{#                            <li role="separator" class="divider"></li>#}
+{#                            <li><a href="#">Separated link</a></li>#}
                             <li role="separator" class="divider"></li>
                             <li><a href="{% url 'logout' %}">Logout</a></li>
                         </ul>
@@ -37,13 +37,13 @@
             </div>
 
 {#            TODO: MAKE THIS FUCKING CENTERED!#}
-            <div class="nav-divider">
+            <div class="nav-divider title_text">
                 <div class="navbar-text">
                     <p><strong id="title"></strong></p>
                 </div>
             </div>
 
-            <div class="nav-divider">
+            <div class="nav-divider search_form">
                 <form class="navbar-form navbar-right" action="{% url 'search_home' %}" method="POST" id="search_bar">
                     {% csrf_token %}
                     <div class="form-group">
@@ -66,8 +66,8 @@
 
     {% if user.is_authenticated %}
         $first.html('<a href="{% url 'home' %}">Your Profile<span class="sr-only">(current)</span></a>');
-        $second.html('<a href="#">Your Characters</a>');
-        $drop.toggleClass('hidden')
+        $second.html('<a href="{% url 'nc_new' %}">New Character</a>');
+        $drop.toggleClass('hidden');
 
     {% else %}
         $first.html('<a href="{% url 'login' %}">Log In<span class="sr-only">(current)</span></a>');

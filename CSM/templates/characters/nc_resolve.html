@@ -8,8 +8,15 @@
         <meta charset="UTF-8">
         <meta author="Alexander B Warnes">
 
-        <link rel="stylesheet" type="text/css" href="{% static 'pages/css/nc_resolve.css' %}"
+        <link rel="stylesheet" type="text/css" href="{% static 'pages/css/nc_resolve.css' %}">
+
         <link rel="icon" type="image/jpg" href="{% static 'pages/img/logo_favicon.jpg' %}">
+
+        <style type="text/css">
+            body {
+                background-image: url({% static 'pages/img/background.png' %});
+            }
+        </style>
 
         {% include 'includes/jquery.html' %}
 
@@ -433,6 +440,7 @@
                             {% for armor in character.armor_inv.all %}
                             <li class="list-group-item search_query" data-type="armors" data-slug="{{ armor.slug }}">{{ armor.name }}</li>
                             {% endfor %}
+                            {{ character }}
                         </div>
                     </div>
                 </section> <!-- end bottom-middle -->

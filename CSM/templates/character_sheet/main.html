@@ -20,7 +20,7 @@
         </style>
 
         <title>
-        Character Sheet
+        Character Sheet for {{ character.char_name }}
         </title>
 
         {% include 'includes/bootstrap.html' %}
@@ -631,7 +631,7 @@
                                 </div>
                                 <div class="panel-body">
 
-                                    <p>{% if battle_form.instance.STR_ST.value == true %}
+                                    <p>{% if battle_form.instance.STR_ST.value == 'true' %} <!-- TODO: fix this... -->
                                         {{ battle_form.STR_ST }}
                                         <u>+{% saving_throw_bonus character 'STR' %}</u>
                                     {% else %}
@@ -1104,6 +1104,33 @@
                 </form>
 
                 <section id="flair_tab">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Personality Traits</p>
+                            <p>{{ character.personality }}</p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Ideals</p>
+                            <p>{{ character.ideals }}</p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Bonds</p>
+                            <p>{{ character.bonds }}</p>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p>Flaws:</p>
+                            <p>{{ character.flaws }}</p>
+                        </div>
+                    </div>
                 </section>
 
             </section>

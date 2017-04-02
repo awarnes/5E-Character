@@ -12,6 +12,16 @@
         {% block css %}
         {% endblock %}
 
+        <style type="text/css">
+            body {
+                background-image: url({% static 'pages/img/background.png' %});
+            }
+
+            section .panel, section .panel-heading {
+                background: rgba(122, 130, 136, 0.2)
+            }
+        </style>
+
         {% include 'includes/jquery.html' %}
         <script type="text/javascript" src="{% static 'pages/js/csrf_token.js' %}"></script>
         <title>

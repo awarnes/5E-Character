@@ -6,25 +6,22 @@
 
 {% block main %}
     <main>
-        <section>
+        <section class="text-center">
             <h1>Character Sheet Manager</h1>
         </section>
 
         <section>
-            <form action="" method="POST">
+            <form action="" method="POST" class="text-center">
                 {% csrf_token %}
 
                 {{ form.as_p }}
-
-                <button>Submit</button>
-
-                <p><a href="">Forgot Password</a><a href="">Forgot Username</a></p>
+                <br>
+                <button>Log In!</button>
+                <hr>
+                <p><a href="">Forgot Password</a> | <a href="">Forgot Username</a></p>
             </form>
         </section>
 
 
     </main>
-{% endblock %}
-
-{% block footer %}
 {% endblock %}

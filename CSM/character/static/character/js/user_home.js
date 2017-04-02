@@ -26,8 +26,8 @@ $(document).ready(function(evt){
             var $char = data[0]
 
             $('#name').text($char.char_name);
-            $('#level').text($char.char_level);
-            $('#class').text($char.char_classes);
+            $('#level').text($char.get_char_level);
+            $('#class').text($char.char_classes.name);
             $('#race').text($char.char_race);
             $('#STR').text($char.STR_score);
             $('#DEX').text($char.DEX_score);
@@ -37,6 +37,7 @@ $(document).ready(function(evt){
             $('#CHA').text($char.CHA_score);
 
             $('#description').text($char.description);
+
             $('#features').text($char.features);
         });
     };

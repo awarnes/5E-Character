@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 
 from .forms import MemberCreateForm
+from character.models import Character
 
 
 """
@@ -60,8 +61,11 @@ def user_logout(request):
 
 
 def user_home(request):
+    """The user home page to display characters the user has."""
+    # TODO: need to be able to pass better information into the user home page for the character modal.
+    character = Character.objects.get(username=request.user)
 
-    context = dict()
+    context = {'character': character}
 
     return render(request, 'accounts/user_home.html', context)
 
@@ -82,7 +86,7 @@ def register_user(request):
         if form.is_valid():
             new_user = form.save(commit=False)
             new_user.save()
-            return render(request, 'accounts/register_success.html', context)
+            return redirect('login')
 
         else:
 

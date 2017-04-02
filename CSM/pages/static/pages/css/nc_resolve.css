@@ -1,8 +1,6 @@
 .sortable {
     min-height: 100px;
     min-width: 100px;
-    background: aliceblue;
-    border: 1px solid black;
 }
 
 #top-section {
@@ -61,4 +59,8 @@
     height: 5%;
     display: flex;
     justify-content: center;
+}
+
+section .panel, section .panel-heading {
+    background: rgba(122, 130, 136, 0.2)
 }

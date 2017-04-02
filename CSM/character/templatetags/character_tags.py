@@ -202,4 +202,4 @@ def get_features(character):
 def check_spell_ready(character, spell):
     """Used for checking if a spell is ready."""
 
-    return character.spellsready.get(spells=spell).spell_ready
+    return character.spellsready.filter(spells=spell)[0].spell_ready
