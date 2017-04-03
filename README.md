@@ -34,6 +34,7 @@ Along with this philosophy goes the notion that the player knows best. We believ
     * Save layouts for individual characters and accounts.
 * Color Themes
 * Allow players to create content and add to database.
+* Allow players to cast spells at specific levels.
 
 ### Known Bugs:
 

@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.core.exceptions import ObjectDoesNotExist
 
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
+
 from .forms import MemberCreateForm
 from character.models import Character
 
@@ -11,8 +14,6 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 """
-
-# Create your views here.
 
 
 # May want to keep this for later...
@@ -79,7 +80,7 @@ def user_home(request):
         return render(request, 'accounts/user_home.html', context)
 
 
-
+# TODO: Make sure the browser doesn't cache previous entries.
 def register_user(request):
     """
     Registers a new user in the system with base permissions.

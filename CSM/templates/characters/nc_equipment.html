@@ -7,21 +7,32 @@
             <section class="col-md-6">
                 <form action="" method="POST">{% csrf_token %}
                     {{ form.errors }}
-                    <p>Weapons:</p>
-                    <p>{{ form.weapons }}</p>
-                    <p>Armor:</p>
-                    <p>{{ form.armor }}</p>
-                    <p>Items:</p>
-                    <p>{{ form.items }}</p>
-                    <p>Tools:</p>
-                    <p>{{ form.tools }}</p>
+                    <section id="weapons">
+                        <p>Weapons:</p>
+                        <p>{{ form.weapons }}</p>
+                    </section>
+
+                    <section id="armor">
+                        <p>Armor:</p>
+                        <p>{{ form.armor }}</p>
+                    </section>
+
+                    <section id="items">
+                        <p>Items:</p>
+                        <p>{{ form.items }}</p>
+                    </section>
+
+                    <section id="tools">
+                        <p>Tools:</p>
+                        <p>{{ form.tools }}</p>
+                    </section>
                     <button type="submit" class="btn btn-primary">Next!</button>
                 </form>
             </section>
             <section class="col-md-6">
                 <section class="panel panel-default">
                     <section class="panel-body">
-                        <p>Name: <span id="name"></span></p>
+                        <h3>Name: <span id="name"></span></h3>
                         <hr>
                         <p>Description:</p>
                         <p id="description"></p>
