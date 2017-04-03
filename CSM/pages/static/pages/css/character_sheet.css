@@ -193,3 +193,15 @@ nav>ul>li :focus {
 .glyphicon-remove {
     color: lightcoral;
 }
+
+.panel {
+    margin: 10px;
+}
+
+#skills {
+    margin: 0px;
+}
+#ac_init_speed {
+    display: flex;
+    justify-content: space-between;
+}

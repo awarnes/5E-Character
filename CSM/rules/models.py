@@ -5,8 +5,6 @@ The goal is to make these loose enough to allow others to add new instances (suc
 but particular enough that the information will still be programmatically accessible for the actual CSM
 """
 
-# TODO: limit_choices_to for limiting certain features. ??
-# TODO: ADD SRD BOOLEAN FOR ALL MODELS!
 
 # Django imports.
 from django.db import models
@@ -261,7 +259,7 @@ class Feature(models.Model):
     action_constraint_end = models.CharField(max_length=128, blank=True, null=True)
     action_duration = models.CharField(max_length=128, blank=True, null=True)
     action_distance = models.CharField(max_length=128, blank=True, null=True)
-    action_use_stat = models.CharField(max_length=128, blank=True, null=True) # TODO: NOT SURE ABOUT THIS ONE....
+    action_use_stat = models.CharField(max_length=128, blank=True, null=True)
     action_uses_per_day = models.CharField(max_length=128, blank=True, null=True)
 
     # Ability Score Modification

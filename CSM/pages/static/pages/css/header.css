@@ -1,21 +1,13 @@
-/*#navbar-collapse-1 {*/
-    /*display: inline-block;*/
-    /*text-align: center;*/
-/*}*/
-/*.title_text {*/
-    /*width: 30%;*/
-/*}*/
+.navbar-collapse.collapse {
+    display: flex !important;
+    justify-content: space-between;
 
-/*.navbar-text {*/
-/*}*/
+}
 
-/*#menu_options {*/
-    /*float: right;*/
-    /*width: 30%;*/
-/*}*/
+.nav:after, .nav:before, .navbar-collapse:after, .navbar-collapse:before, .navbar-header:after, .navbar-header:before, .navbar:after{
+    content: normal !important;
+}
 
 /*#search_bar {*/
-    /*float: left;*/
-    /*display: inline-block;*/
-    /*width: 30%;*/
+    /*float: right !important;*/
 /*}*/

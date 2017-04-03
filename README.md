@@ -1,132 +1,24 @@
-# 5E-Characters
+# 5E Character Sheet Manager (CSM)
 
+### Intent:
 
-### MVP:
+CSM is a fully integrated character sheet manager for players of 5th edition Dungeons and Dragons.
 
-Users are able to create and track the progress of a 5th edition character for Dungeons and Dragons. They will be able to save the data on the server or on their own computer, and be able to load those saved files back into the system.
+Players are able to create characters and use the integrated tools to manage their characters throughout their play of the game. From casting spells, to choosing new skills, the intention is to take the hassle of character management off the shoulders of the players and allow them to spend more time imagining and playing the game.
 
----
+At the current stage, this will not be a publicly available product as the database incorporates the full 5th Edition Player's Handbook. In the future, a release is planned that scales back to incorporate only the SRD (officially released game information from Wizard's of the Coast for third party content).
 
-### Specific Functionality:
+### Future Features:
 
-###### Character Sheet:
-1. Flair:
- * age
- * height
- * weight
- * eye color
- * skin color (?)
- * hair color
- * personality traits
- * ideals
- * bonds
- * flaws
-
-* Base:
- * Class(es)
- * level
- * background
- * character name
- * player name
- * race
- * alignment
- * experience points
- * ability scores
- * savings throws
- * proficiency bonus
- * inspiration points
- * armor class
- * initiative bonus
- * speed
- * skills
- * hit dice
- * hp
- * passive perception
- * languages
- * other proficiencies
-
-###### Battle Screen:
- * ac
- * ability scores + bonuses
- * savings throws
- * proficiency bonus
- * inspiration points
- * initiative
- * speed
- * hit dice
- * death saves
- * skills
- * spells
- * abilities
- * attacks
- * equipment
- * Pictographic Health Meter
-  * include major damages (broken leg)
-  * Includes effects such as disease, sleep, stun
-
-###### Other Features:
-
-* Built in leveling up
- * Auto calculate bonuses.
-
-* Rest tracking
-
-* Create a character:
- * Start from template
- * Make custom
-
-* In-app customizable dice rolling
-
-* Spell book
-
-* Intuitive UX with drag and drop ability and customizable windows.
-
----
-
-### Data Model:
-
-* All Character Information:
- * As outlined above for character sheets and battle screens
-
-* Rule set for 5th edition Dungeons and Dragons
-* Spells
-* Feats
-* Equipment
-
----
-
-### Technical Components:
-
-* Nice front-end menu magic
-* Traversing screens with ease.
-* Ability to save and load files from device.
- * User accounts as extension.
- * Possibly save to an online library.
-* May use OCR to get rule data (tesseract)
-
----
-
-### Estimated Schedule:
-
-###### Front End:
-1. Initial front end layout - 1 day
-* Character Sheet Screen
-* Character Flair Screen
-* Battle Manager Screen
-
-###### Backend:
-1. Tesseract OCR
-* Character Model
-
----
-
-### Functionality beyond the MVP (Future):
-
-* User Accounts
-* Save Online and Share system
- * Rate other characters
- * Artwork sharing platform
- * User generated spells, items, other content.
-* 3-D Modeling for dice rolling
-* Note making, with time-stamping
-* NFC Loading
+* Integrate a dice roller into spell casting and actions.
+* Add a shop to buy/add additional gear.
+* Incorporate experience points.
+    * Currently the maker is playing in an experience points-less game where levels are gained every couple of sessions.
+* Support for multi-class characters.
+* A feature for preparing spells (for Cleric, Druid, Paladin, and Wizard classes)
+* Support spellcasting for Warlocks.
+* Implement a customizable layout of the character sheet.
+    * Move different information around the screen to suit the player.
+    * Save layouts for individual characters and accounts.
+* Color Themes
+* Allow players to create content and add to database.

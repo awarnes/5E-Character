@@ -114,7 +114,7 @@ def character_sheet(request, username, slug):
 
     username = Member.objects.get(username__icontains=username)
 
-    character = Character.objects.filter(username=username).filter(slug__icontains=slug)[0]
+    character = Character.objects.filter(username=username).filter(slug__icontains=slug).first()  # TODO: Just in case
 
     exp = r'(?<=: )\w*'
 
@@ -189,13 +189,23 @@ def character_sheet(request, username, slug):
         battle_form = BattleSheet(data=request.POST, initial=initial)
         level_up = False
         if battle_form.has_changed():
+            # TODO: reinstantiate the form after checking for has changed to be able to avoid the initial overwrite.
             if battle_form.is_valid():
                 if 'char_level' in battle_form.changed_data:
                     battle_form.changed_data.remove('char_level')
                     level_up = True
 
+
                 for delta in battle_form.changed_data:
-                    setattr(character, form_translation[delta], request.POST.get(delta)) # TODO: initial seems to be over writing the POST data...
+                    try:
+                        ft = form_translation[delta]
+                    except KeyError:
+                        continue
+                    else:
+                        setattr(character, ft, request.POST.get(delta)) # TODO: initial seems to be over writing the POST data...
+
+
+
 
                 if 'conditions' in battle_form.changed_data:
                     for condition in battle_form.cleaned_data['conditions']:
@@ -206,6 +216,7 @@ def character_sheet(request, username, slug):
                 if level_up:
                     request.session['character'] = character.pk
                     return redirect('lu_open')
+
                 messages.success(request, 'Saved Successfully!')
                 return redirect(request.path)
             else:
@@ -1249,6 +1260,8 @@ def nc_background(request):
 
         if form.is_valid():
             character.char_background = form.cleaned_data['background']
+
+            character.char_gold = character.char_background.gold_start
 
             character.save()
             request.session['next_screen'] = 'nc_equipment'

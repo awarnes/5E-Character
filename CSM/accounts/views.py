@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
+from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import MemberCreateForm
 from character.models import Character
@@ -63,11 +64,20 @@ def user_logout(request):
 def user_home(request):
     """The user home page to display characters the user has."""
     # TODO: need to be able to pass better information into the user home page for the character modal.
-    character = Character.objects.get(username=request.user)
 
-    context = {'character': character}
+    try:
+        character = Character.objects.get(username=request.user)
 
-    return render(request, 'accounts/user_home.html', context)
+    except ObjectDoesNotExist as e:
+        context = dict()
+
+    else:
+        '''successful try block'''
+        context = {'character': character}
+
+    finally:
+        return render(request, 'accounts/user_home.html', context)
+
 
 
 def register_user(request):

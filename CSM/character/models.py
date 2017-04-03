@@ -143,6 +143,10 @@ class Character(models.Model):
     items_inv = models.ManyToManyField('equipment.Item', related_name='character_items_inv', blank=True,)
     armor_inv = models.ManyToManyField('equipment.Armor', related_name='character_armor_inv', blank=True,)
     weapons_inv = models.ManyToManyField('equipment.Weapon', related_name='character_weapons_inv', blank=True,)
+    char_copper = models.IntegerField(blank=True, null=True)
+    char_silver = models.IntegerField(blank=True, null=True)
+    char_gold = models.IntegerField(blank=True, null=True)
+    char_platinum = models.IntegerField(blank=True, null=True)
 
     slug = models.SlugField(editable=False, blank=True, null=False)
 

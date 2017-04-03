@@ -42,178 +42,780 @@
             {% endif %}
 
             <section class="nav nav-tabs nav-justified" id="tabs">
-                <nav aria-label="Tab Navigation">
-                    <ul class="nav nav-tabs nav-justified">
-                        <li><a href="#flair_tab">Flair</a></li>
-                        <li><a href="#main_tab">Main</a></li>
-                        <li><a href="#battle_tab">Battle</a></li>
-                    </ul>
-                </nav>
-                <section class="sortable" id="top-section">
-                        <div class="panel panel-default" id="name_box">
-                            <div class="panel-body">
-                                <p>Character Name: {{ character.char_name }}</p>
-                                <p>Username: {{ character.username }}</p>
-                            </div>
-                        </div>
 
-                        <div class="panel panel-default" id="base_info_box">
-                            <div class="panel-body">
-                                <p>Character Level: {{ character.get_char_level }}</p>
-                                <p>Class and Level: {% for class in character.classlevels.all %} {{ class.char_class }} ({{ class.class_level }}) {% endfor %}</p>
-                                <p>Background: {{ character.char_background }}</p>
-                                <p>Race and Subrace: {{ character.char_race }} ({{ character.char_subrace }})</p>
-                                <p>Alignment: {{ character.alignment }}</p>
-                                <p>Experience Points: {{ character.char_xp }}</p>
-                                <form action="" method="POST">{% csrf_token %}
-                                    <button type="button" id="level_up" class="btn btn-warning pull-right">Level Up!</button>
-                                </form>
-                            </div>
-                        </div>
-                </section> <!-- end top-section -->
-
-                <section id="main_tab">
-
-                    <section class="sortable" id="bottom-section">
-
-                        <section class="sortable" id="bottom-left">
-                            <section class="sortable" id="left-left">
-                                <div class="panel panel-default" id="ability_scores" style="padding-top: 15px;">
-                                    <div class="panel panel-default">
-                                        <div class="panel-title text-center">
-                                            Strength
-                                        </div>
-                                        <div class="panel-body text-center">
-                                            <strong>{{ character.STR_score }}</strong>
-                                        </div>
-                                        <div class="panel-footer text-center">
-                                            <strong>{% if character.STR_score >= 10 %}+{% endif %}{% ab_bonus character 'STR' %}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-title text-center">
-                                            Dexterity
-                                        </div>
-                                        <div class="panel-body text-center">
-                                            <strong>{{ character.DEX_score }}</strong>
-                                        </div>
-                                        <div class="panel-footer text-center">
-                                            <strong>{% if character.DEX_score >= 10 %}+{% endif %}{% ab_bonus character 'DEX' %}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-title text-center">
-                                            Constitution
-                                        </div>
-                                        <div class="panel-body text-center">
-                                            <strong>{{ character.CON_score }}</strong>
-                                        </div>
-                                        <div class="panel-footer text-center">
-                                            <strong>{% if character.CON_score >= 10 %}+{% endif %}{% ab_bonus character 'CON' %}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-title text-center">
-                                            Intelligence
-                                        </div>
-                                        <div class="panel-body text-center">
-                                            <strong>{{ character.INT_score }}</strong>
-                                        </div>
-                                        <div class="panel-footer text-center">
-                                            <strong>{% if character.INT_score >= 10 %}+{% endif %}{% ab_bonus character 'INT' %}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-title text-center">
-                                            Wisdom
-                                        </div>
-                                        <div class="panel-body text-center">
-                                            <strong>{{ character.WIS_score }}</strong>
-                                        </div>
-                                        <div class="panel-footer text-center">
-                                            <strong>{% if character.WIS_score >= 10 %}+{% endif %}{% ab_bonus character 'WIS' %}</strong>
-                                        </div>
-                                    </div>
-                                    <div class="panel panel-default">
-                                        <div class="panel-title text-center">
-                                            Charisma
-                                        </div>
-                                        <div class="panel-body text-center">
-                                            <strong>{{ character.CHA_score }}</strong>
-                                        </div>
-                                        <div class="panel-footer text-center">
-                                            <strong>{% if character.CHA_score >= 10 %}+{% endif %}{% ab_bonus character 'CHA' %}</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-
-                            <section class="sortable" id="left-right">
-                                <div class="panel panel-default">
+                        <nav aria-label="Tab Navigation">
+                            <ul class="nav nav-tabs nav-justified">
+                                <li><a href="#flair_tab">Flair</a></li>
+                                <li><a href="#main_tab">Main</a></li>
+                                <li><a href="#battle_tab">Battle</a></li>
+                            </ul>
+                        </nav>
+                <section style="padding: 25px;">
+                        <section class="sortable" id="top-section">
+                                <div class="panel panel-default" id="name_box">
                                     <div class="panel-body">
-                                        <p>Inspiration Points: {{ character.inspiration }}</p>
+                                        <p>Character Name: {{ character.char_name }}</p>
+                                        <p>Username: {{ character.username }}</p>
                                     </div>
                                 </div>
 
-                                <div class="panel panel-default">
+                                <div class="panel panel-default" id="base_info_box">
                                     <div class="panel-body">
-                                        <p>Proficiency Bonus: {{ character.get_prof_bonus }}</p>
+                                        <p>Character Level: {{ character.get_char_level }}</p>
+                                        <p>Class and Level: {% for class in character.classlevels.all %} {{ class.char_class }} ({{ class.class_level }}) {% endfor %}</p>
+                                        <p>Background: {{ character.char_background }}</p>
+                                        <p>Race and Subrace: {{ character.char_race }} ({{ character.char_subrace }})</p>
+                                        <p>Alignment: {{ character.alignment }}</p>
+                                        <p>Experience Points: {{ character.char_xp }}</p>
+                                        <form action="" method="POST">{% csrf_token %}
+                                            <button type="button" id="level_up" class="btn btn-warning pull-right">Level Up!</button>
+                                        </form>
+                                    </div>
+                                </div>
+                        </section> <!-- end top-section -->
+
+                        <section id="main_tab">
+
+                            <section class="sortable" id="bottom-section">
+
+                                <section class="sortable" id="bottom-left">
+                                    <section class="sortable" id="left-left">
+                                        <div class="panel panel-default" id="ability_scores" style="padding-top: 15px;">
+                                            <div class="panel panel-default">
+                                                <div class="panel-title text-center">
+                                                    Strength
+                                                </div>
+                                                <div class="panel-body text-center">
+                                                    <strong>{{ character.STR_score }}</strong>
+                                                </div>
+                                                <div class="panel-footer text-center">
+                                                    <strong>{% if character.STR_score >= 10 %}+{% endif %}{% ab_bonus character 'STR' %}</strong>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-title text-center">
+                                                    Dexterity
+                                                </div>
+                                                <div class="panel-body text-center">
+                                                    <strong>{{ character.DEX_score }}</strong>
+                                                </div>
+                                                <div class="panel-footer text-center">
+                                                    <strong>{% if character.DEX_score >= 10 %}+{% endif %}{% ab_bonus character 'DEX' %}</strong>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-title text-center">
+                                                    Constitution
+                                                </div>
+                                                <div class="panel-body text-center">
+                                                    <strong>{{ character.CON_score }}</strong>
+                                                </div>
+                                                <div class="panel-footer text-center">
+                                                    <strong>{% if character.CON_score >= 10 %}+{% endif %}{% ab_bonus character 'CON' %}</strong>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-title text-center">
+                                                    Intelligence
+                                                </div>
+                                                <div class="panel-body text-center">
+                                                    <strong>{{ character.INT_score }}</strong>
+                                                </div>
+                                                <div class="panel-footer text-center">
+                                                    <strong>{% if character.INT_score >= 10 %}+{% endif %}{% ab_bonus character 'INT' %}</strong>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-title text-center">
+                                                    Wisdom
+                                                </div>
+                                                <div class="panel-body text-center">
+                                                    <strong>{{ character.WIS_score }}</strong>
+                                                </div>
+                                                <div class="panel-footer text-center">
+                                                    <strong>{% if character.WIS_score >= 10 %}+{% endif %}{% ab_bonus character 'WIS' %}</strong>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-title text-center">
+                                                    Charisma
+                                                </div>
+                                                <div class="panel-body text-center">
+                                                    <strong>{{ character.CHA_score }}</strong>
+                                                </div>
+                                                <div class="panel-footer text-center">
+                                                    <strong>{% if character.CHA_score >= 10 %}+{% endif %}{% ab_bonus character 'CHA' %}</strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+
+                                    <section class="sortable" id="left-right">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <p>Inspiration Points: {{ character.inspiration }}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <p>Proficiency Bonus: {{ character.get_prof_bonus }}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default" id="saving_throws">
+                                            <div class="panel-title text-center">
+                                                <p>Saving Throws:</p>
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <p>{% if character.STR_saving_throw %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% saving_throw_bonus character 'STR' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% ab_bonus character 'STR' as STR %}
+                                                    <u>{% if STR >= 0 %}+{% endif %}{{ STR }}{% endif %}</u> Strength</p>
+
+                                                <p>{% if character.DEX_saving_throw %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% saving_throw_bonus character 'DEX' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% ab_bonus character 'DEX' as DEX %}
+                                                    <u>{% if DEX >= 0 %}+{% endif %}{{ DEX }}{% endif %}</u> Dexterity</p>
+
+                                                <p>{% if character.CON_saving_throw %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% saving_throw_bonus character 'CON' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% ab_bonus character 'CON' as CON %}
+                                                    <u>{% if CON >= 0 %}+{% endif %}{{ CON }}{% endif %}</u> Constitution</p>
+
+                                                <p>{% if character.INT_saving_throw %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% saving_throw_bonus character 'INT' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% ab_bonus character 'INT' as INT %}
+                                                    <u>{% if INT >= 0 %}+{% endif %}{{ INT }}{% endif %}</u> Intelligence</p>
+
+                                                <p>{% if character.WIS_saving_throw %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% saving_throw_bonus character 'WIS' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% ab_bonus character 'WIS' as WIS %}
+                                                    <u>{% if WIS >= 0 %}+{% endif %}{{ WIS }}{% endif %}</u> Wisdom</p>
+
+                                                <p>{% if character.CHA_saving_throw %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% saving_throw_bonus character 'CHA' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% ab_bonus character 'CHA' as CHA %}
+                                                    <u>{% if CHA >= 0 %}+{% endif %}{{ CHA }}{% endif %}</u> Charisma</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default" id="skills">
+                                            <div class="panel-title text-center">
+                                                <p>Skills:</p>
+                                            </div>
+                                            <div class="panel-body">
+
+                                                {% check_skill character 'Acrobatics' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Acrobatics' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Acrobatics' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Acrobatics</p>
+
+                                                {% check_skill character 'Animal Handling' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Animal Handling' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Animal Handling' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Animal Handling</p>
+
+                                                {% check_skill character 'Arcana' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Arcana' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Arcana' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Arcana</p>
+
+                                                {% check_skill character 'Athletics' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Athletics' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Athletics' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Athletics</p>
+
+                                                {% check_skill character 'Deception' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Deception' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Deception' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Deception</p>
+
+                                                {% check_skill character 'History' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'History' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'History' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> History</p>
+
+                                                {% check_skill character 'Insight' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Insight' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Insight' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Insight</p>
+
+                                                {% check_skill character 'Intimidation' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Intimidation' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Intimidation' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Intimidation</p>
+
+                                                {% check_skill character 'Investigation' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Investigation' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Investigation' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Investigation</p>
+
+                                                {% check_skill character 'Medicine' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Medicine' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Medicine' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Medicine</p>
+
+                                                {% check_skill character 'Nature' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Nature' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Nature' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Nature</p>
+
+                                                {% check_skill character 'Perception' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Perception' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Perception' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Perception</p>
+
+                                                {% check_skill character 'Performance' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Performance' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Performance' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Performance</p>
+
+                                                {% check_skill character 'Persuasion' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Persuasion' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Persuasion' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Persuasion</p>
+
+                                                {% check_skill character 'Religion' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Religion' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Religion' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Religion</p>
+
+                                                {% check_skill character 'Sleight of Hand' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Sleight of Hand' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Sleight of Hand' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Sleight of Hand</p>
+
+                                                {% check_skill character 'Stealth' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Stealth' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Stealth' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Stealth</p>
+
+                                                {% check_skill character 'Survival' as prof %}
+                                                <p>{% if prof %}
+                                                    <input type="radio" checked disabled>
+                                                    <u>+{% get_skill_bonus character 'Survival' %}</u>
+                                                {% else %}
+                                                    <input type="radio" disabled>
+                                                    {% get_skill_bonus character 'Survival' as bon %}
+                                                    <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Survival</p>
+
+                                            </div>
+                                        </div>
+
+                                    </section>
+                                    <section class="sortable" id="left-bottom">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <p>Passive Wisdom (Perception): {% passive_bonus character "WIS" %}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <p>Languages and Other Proficiencies:</p>
+                                                {% get_languages character as languagess %}
+                                                <ul>
+                                                {% for lang in languages %}
+                                                    <li class="list-group-item">{{ lang }}</li>
+                                                {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </section> <!-- end bottom-left -->
+
+                                <section class="sortable" id="bottom-middle">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <section class="col-xs-4">
+                                                <p>Armor Class: {{ character.get_armor_class }}</p>
+                                            </section>
+                                            <section class="col-xs-4">
+                                                <p>Initiative: +{{ character.get_initiative_bonus }}</p>
+                                            </section>
+                                            <section class="col-xs-4">
+                                                <p>Speed {{ character.char_race.speed }}</p>
+                                            </section>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p>Hit Point Maximum: {{ character.max_health }}</p>
+                                            <p>Current Hit Points: {{ character.current_health }}</p>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p>Temporary Hit Points: {{ character.temp_addtl_hp }}</p>
+
+                                            <section class="col-xs-6">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body">
+                                                    <p>Hit Dice: {% for class in class_level.all %} 1d{{ class.char_class.hit_die_size }}{% endfor %}</p>
+                                                </div>
+                                            </div>
+                                            </section>
+                                            <section class="col-xs-6">
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <p>Death Saves:</p>
+                                                        <p></p>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p>Attacks and Spells</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p class="search_type" data-type="armors">Armor and Gold</p>
+                                            {% for armor in character.armor_inv.all %}
+                                            <li class="list-group-item search_query" data-type="armors" data-slug="{{ armor.slug }}">{{ armor.name }}</li>
+                                            {% endfor %}
+                                            <p>Copper: {{ character.char_copper }}</p>
+                                            <p>Silver: {{ character.char_silver }}</p>
+                                            <p>Gold: {{ character.char_gold }}</p>
+                                            <p>Platinum: {{ character.char_platinum }}</p>
+                                        </div>
+                                    </div>
+                                </section> <!-- end bottom-middle -->
+
+                                <section class="sortable" id="bottom-right">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p>Personality Traits</p>
+                                            <p>{{ character.personality }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p>Ideals</p>
+                                            <p>{{ character.ideals }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p>Bonds</p>
+                                            <p>{{ character.bonds }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p>Flaws:</p>
+                                            <p>{{ character.flaws }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default" id="features">
+                                        <div class="panel-body">
+                                            <p data-type="char_features" class="search_type">Features:</p>
+                                                <ul>
+                                                    {% for feature in character.features.all %}
+                                                        <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            <hr>
+                                            <p class="search_type" data-type="race">Race:</p>
+                                            <ul>
+                                                {% for feature in character.char_race.features.all %}
+                                                    <li class="list-group-item search_query" data-search_type="race" data-type="features"data-slug="{{ feature.slug }}">{{ feature }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                            <hr>
+                                            {% if character.char_subrace %}
+                                                <p class="search_type" data-type="subrace">Sub Race:</p>
+                                                {% for feature in character.char_subrace.features.all %}
+                                                    <li class="list-group-item search_query" data-search_type="subrace" data-type="features" data-slug="{{ feature.slug }}">{{ feature }}</li>
+                                                {% endfor %}
+                                            {% endif %}
+                                            <hr>
+                                            <p>Class:</p>
+                                            {% get_class_features character as features_dict %}
+                                            {% for class, features in features_dict.items %}
+                                                <p class="search_type" data-type="classes">{{ class }}</p>
+                                                <ul>
+                                                    {% for feature in features %}
+                                                        <li class="list-group-item search_query" data-search_type="classes" data-type="features" data-slug="{{ feature.slug }}">({{ feature.prereq_class_level }}) {{ feature }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endfor %}
+                                            <hr>
+                                            {% prestige_check character as p %}
+                                            {% if p %}
+                                                <p>Prestige Class:</p>
+                                                {% get_prestige_features character as features_dict %}
+                                                {% for prestige, features in features_dict.items %}
+                                                    <p class="search_type" data-type="prestige">{{ prestige }}</p>
+                                                    <ul>
+                                                        {% for feature in features %}
+                                                            <li class="list-group-item search_query" data-search_type="prestige" data-type="features" data-slug="{{ feature.slug }}">({{ feature.prereq_class_level }}) {{ feature }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </section> <!-- end bottom-right -->
+                            </section> <!-- end bottom-section -->
+                        </section>
+
+                        <form action="" method="POST" id="battle_tab"> {% csrf_token %}
+
+                            <p hidden>{{ battle_form.char_level }}</p>
+                            <section class="sortable" id="bottom-left">
+                                <section class="sortable" id="left-left">
+                                    <div class="panel panel-default" id="ability_scores" style="padding-top: 15px;">
+                                        <div class="panel panel-default">
+                                            <div class="panel-title text-center">
+                                                Strength
+                                            </div>
+                                            <div class="panel-body text-center">
+                                                <strong>{{ battle_form.STR }}</strong>
+                                            </div>
+                                            <div class="panel-footer text-center">
+                                                <strong>{% if battle_form.STR >= 10 %}+{% endif %}{% ab_bonus character 'STR' %}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-title text-center">
+                                                Dexterity
+                                            </div>
+                                            <div class="panel-body text-center">
+                                                <strong>{{ battle_form.DEX }}</strong>
+                                            </div>
+                                            <div class="panel-footer text-center">
+                                                <strong>{% if battle_form.DEX >= 10 %}+{% endif %}{% ab_bonus character 'DEX' %}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-title text-center">
+                                                Constitution
+                                            </div>
+                                            <div class="panel-body text-center">
+                                                <strong>{{ battle_form.CON }}</strong>
+                                            </div>
+                                            <div class="panel-footer text-center">
+                                                <strong>{% if battle_form.CON >= 10 %}+{% endif %}{% ab_bonus character 'CON' %}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-title text-center">
+                                                Intelligence
+                                            </div>
+                                            <div class="panel-body text-center">
+                                                <strong>{{ battle_form.INT }}</strong>
+                                            </div>
+                                            <div class="panel-footer text-center">
+                                                <strong>{% if battle_form.INT >= 10 %}+{% endif %}{% ab_bonus character 'INT' %}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-title text-center">
+                                                Wisdom
+                                            </div>
+                                            <div class="panel-body text-center">
+                                                <strong>{{ battle_form.WIS }}</strong>
+                                            </div>
+                                            <div class="panel-footer text-center">
+                                                <strong>{% if battle_form.WIS >= 10 %}+{% endif %}{% ab_bonus character 'WIS' %}</strong>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-title text-center">
+                                                Charisma
+                                            </div>
+                                            <div class="panel-body text-center">
+                                                <strong>{{ battle_form.CHA }}</strong>
+                                            </div>
+                                            <div class="panel-footer text-center">
+                                                <strong>{% if battle_form.CHA >= 10 %}+{% endif %}{% ab_bonus character 'CHA' %}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="sortable" id="left-right">
+
+                                    <div class="panel panel-default" id="saving_throws">
+                                        <div class="panel-title text-center">
+                                            <p>Saving Throws:</p>
+                                        </div>
+                                        <div class="panel-body">
+
+                                            <p>{% if battle_form.instance.STR_ST.value == 'true' %} <!-- TODO: fix this... -->
+                                                {{ battle_form.STR_ST }}
+                                                <u>+{% saving_throw_bonus character 'STR' %}</u>
+                                            {% else %}
+                                                {{ battle_form.STR_ST }}
+                                                {% ab_bonus character 'STR' as STR %}
+                                                <u>{% if STR >= 0 %}+{% endif %}{{ STR }}{% endif %}</u> Strength</p>
+
+                                            <p>{% if battle_form.instance.DEX_ST.value == true %}
+                                                {{ battle_form.DEX_ST }}
+                                                <u>+{% saving_throw_bonus character 'DEX' %}</u>
+                                            {% else %}
+                                                {{ battle_form.DEX_ST }}
+                                                {% ab_bonus character 'DEX' as DEX %}
+                                                <u>{% if DEX >= 0 %}+{% endif %}{{ DEX }}{% endif %}</u> Dexterity</p>
+
+                                            <p>{% if battle_form.instance.CON_ST.value == true %}
+                                                {{ battle_form.CON_ST }}
+                                                <u>+{% saving_throw_bonus character 'CON' %}</u>
+                                            {% else %}
+                                                {{ battle_form.CON_ST }}
+                                                {% ab_bonus character 'CON' as CON %}
+                                                <u>{% if CON >= 0 %}+{% endif %}{{ CON }}{% endif %}</u> Constitution</p>
+
+                                            <p>{% if battle_form.instance.INT_ST.value == true %}
+                                                {{ battle_form.INT_ST }}
+                                                <u>+{% saving_throw_bonus character 'INT' %}</u>
+                                            {% else %}
+                                                {{ battle_form.INT_ST }}
+                                                {% ab_bonus character 'INT' as INT %}
+                                                <u>{% if INT >= 0 %}+{% endif %}{{ INT }}{% endif %}</u> Intelligence</p>
+
+                                            <p>{% if battle_form.instance.WIS_ST.value == true %}
+                                                {{ battle_form.WIS_ST }}
+                                                <u>+{% saving_throw_bonus character 'WIS' %}</u>
+                                            {% else %}
+                                                {{ battle_form.WIS_ST }}
+                                                {% ab_bonus character 'WIS' as WIS %}
+                                                <u>{% if WIS >= 0 %}+{% endif %}{{ WIS }}{% endif %}</u> Wisdom</p>
+
+                                            <p>{% if battle_form.initial.CHA_ST.value == true %}
+                                                {{ battle_form.CHA_ST }}
+                                                <u>+{% saving_throw_bonus character 'CHA' %}</u>
+                                            {% else %}
+                                                {{ battle_form.CHA_ST }}
+                                                {% ab_bonus character 'CHA' as CHA %}
+                                                <u>{% if CHA >= 0 %}+{% endif %}{{ CHA }}{% endif %}</u> Charisma</p>
+                                        </div>
+                                    </div>
+
+                                     <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p>Proficiency Bonus: {{ character.get_prof_bonus }}</p>
+                                        </div>
+                                    </div>
+
+                                    {% if battle_form.max_points.value > 0 %}
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p>
+                                                {% if character.char_classes.get.name == 'Sorcerer' %}
+                                                Sorcery Points
+                                                {% elif character.char_classes.get.name == 'Barbarian' %}
+                                                Rages
+                                                {% elif character.char_classes.get.name == 'Bard' %}
+                                                Inspiration Dice
+                                                {% elif character.char_classes.get.name == 'Cleric' %}
+                                                Channel Divinity
+                                                {% elif character.char_classes.get.name == 'Druid' %}
+                                                Wild Shape
+                                                {% elif character.char_classes.get.name == 'Fighter' %}
+                                                Superiority Dice
+                                                {% elif character.char_classes.get.name == 'Monk' %}
+                                                Ki Points
+                                                {% elif character.char_classes.get.name == 'Paladin' %}
+                                                Lay on Hands Hit Points
+                                                {% endif %}
+                                                : {{ battle_form.current_points }}/{{ battle_form.max_points }}</p>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-default" id="add_point"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                                                <button type="button" class="btn btn-default" id="sub_point"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p class="search_type" data-type="armors">Armor and Gold</p>
+                                            {% for armor in character.armor_inv.all %}
+                                            <li class="list-group-item search_query" data-type="armors" data-slug="{{ armor.slug }}">{{ armor.name }}</li>
+                                            {% endfor %}
+                                            <p>Copper: {{ character.char_copper }}</p>
+                                            <p>Silver: {{ character.char_silver }}</p>
+                                            <p>Gold: {{ character.char_gold }}</p>
+                                            <p>Platinum: {{ character.char_platinum }}</p>
+                                        </div>
+                                    </div>
+
+                                </section>
+
+                                <section class="sortable" id="left-bottom">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p>Passive Wisdom (Perception): {% passive_bonus character "WIS" %}</p>
+                                        </div>
+                                    </div>
+
+                                </section>
+
+                            </section> <!-- end bottom-left -->
+
+                            <section class="sortable" id="bottom-middle">
+
+                                <div class="panel panel-default" id="middle-top">
+                                    <div class="panel-body" id="ac_init_speed">
+                                        <section>
+                                            <p>Armor Class: <br> {{ battle_form.ac }}</p>
+                                        </section>
+                                        <section>
+                                            <p>Initiative: <br> +{{ battle_form.init }}</p>
+                                        </section>
+                                        <section>
+                                            <p>Speed: <br> {{ battle_form.speed }}</p>
+                                        </section>
                                     </div>
                                 </div>
 
-                                <div class="panel panel-default" id="saving_throws">
-                                    <div class="panel-title text-center">
-                                        <p>Saving Throws:</p>
-                                    </div>
+                                <div class="panel panel-default" id="middle-middle">
                                     <div class="panel-body">
 
-                                        <p>{% if character.STR_saving_throw %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% saving_throw_bonus character 'STR' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% ab_bonus character 'STR' as STR %}
-                                            <u>{% if STR >= 0 %}+{% endif %}{{ STR }}{% endif %}</u> Strength</p>
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <p>Hit Point Maximum: {{ battle_form.max_hp }}</p>
+                                                <p>Current Hit Points: {{ battle_form.cur_hp }}</p>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-default" id="add_hp"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                                                    <button type="button" class="btn btn-default" id="sub_hp"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <p>Temporary Hit Points: {{ battle_form.temp_hp }}</p>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-default" id="add_temp_hp"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                                                <button type="button" class="btn btn-default" id="sub_temp_hp"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                                            </div>
+                                            <section class="panel panel-default">
+                                                <p>Hit Dice: {{ battle_form.hit_dice_current }}/{{ character.get_char_level }}</p>
+                                                <p>Hit Die Size: d{{ character.char_classes.get.hit_die_size }}</p>
+                                            </section>
+                                            <section id="death_saves" data-succs="0" data-fails="0" hidden>
+                                                <div class="panel panel-default">
+                                                    <div class="panel-body">
+                                                        <p>Death Saves:</p>
+                                                            <p>Successes:
+                                                                <span class="glyphicon glyphicon-ok" id="succ" data-succ="1" style="display: none;"></span>
+                                                                <span class="glyphicon glyphicon-ok" id="succ" data-succ="2" style="display: none;"></span>
+                                                                <span class="glyphicon glyphicon-ok" id="succ" data-succ="3" style="display: none;"></span>
+                                                            </p>
+                                                            <div class="btn-group" role="group">
+                                                                <button type="button" class="btn btn-default" id="add_death_succ"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                                                                <button type="button" class="btn btn-default" id="sub_death_succ"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                                                            </div>
 
-                                        <p>{% if character.DEX_saving_throw %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% saving_throw_bonus character 'DEX' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% ab_bonus character 'DEX' as DEX %}
-                                            <u>{% if DEX >= 0 %}+{% endif %}{{ DEX }}{% endif %}</u> Dexterity</p>
-
-                                        <p>{% if character.CON_saving_throw %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% saving_throw_bonus character 'CON' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% ab_bonus character 'CON' as CON %}
-                                            <u>{% if CON >= 0 %}+{% endif %}{{ CON }}{% endif %}</u> Constitution</p>
-
-                                        <p>{% if character.INT_saving_throw %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% saving_throw_bonus character 'INT' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% ab_bonus character 'INT' as INT %}
-                                            <u>{% if INT >= 0 %}+{% endif %}{{ INT }}{% endif %}</u> Intelligence</p>
-
-                                        <p>{% if character.WIS_saving_throw %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% saving_throw_bonus character 'WIS' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% ab_bonus character 'WIS' as WIS %}
-                                            <u>{% if WIS >= 0 %}+{% endif %}{{ WIS }}{% endif %}</u> Wisdom</p>
-
-                                        <p>{% if character.CHA_saving_throw %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% saving_throw_bonus character 'CHA' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% ab_bonus character 'CHA' as CHA %}
-                                            <u>{% if CHA >= 0 %}+{% endif %}{{ CHA }}{% endif %}</u> Charisma</p>
+                                                            <p>Failures:
+                                                                <span class="glyphicon glyphicon-remove" id="fail" data-fail="1" style="display: none;"></span>
+                                                                <span class="glyphicon glyphicon-remove" id="fail" data-fail="2" style="display: none;"></span>
+                                                                <span class="glyphicon glyphicon-remove" id="fail" data-fail="3" style="display: none;"></span>
+                                                            </p>
+                                                            <div class="btn-group" role="group">
+                                                                <button type="button" class="btn btn-default" id="add_death_fail"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                                                                <button type="button" class="btn btn-default" id="sub_death_fail"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -223,926 +825,356 @@
                                     </div>
                                     <div class="panel-body">
 
-                                        {% check_skill character 'Acrobatics' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Acrobatics' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Acrobatics' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Acrobatics</p>
+                                            <p>{{ battle_form.acrobatics }}
+                                                {% get_skill_bonus character 'Acrobatics' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Acrobatics (DEX)</p>
 
-                                        {% check_skill character 'Animal Handling' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Animal Handling' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Animal Handling' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Animal Handling</p>
+                                            <p>{{ battle_form.animal }}
+                                                {% get_skill_bonus character 'Animal Handling' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Animal Handling (WIS)</p>
 
-                                        {% check_skill character 'Arcana' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Arcana' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Arcana' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Arcana</p>
+                                            <p>{{ battle_form.arcana }}
+                                                {% get_skill_bonus character 'Arcana' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Arcana (INT)</p>
 
-                                        {% check_skill character 'Athletics' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Athletics' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Athletics' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Athletics</p>
+                                            <p>{{ battle_form.athletics }}
+                                                {% get_skill_bonus character 'Athletics' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Athletics (STR)</p>
 
-                                        {% check_skill character 'Deception' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Deception' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Deception' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Deception</p>
+                                            <p>{{ battle_form.deception }}
+                                                {% get_skill_bonus character 'Deception' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Deception (CHA)</p>
 
-                                        {% check_skill character 'History' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'History' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'History' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> History</p>
+                                            <p>{{ battle_form.history }}
+                                                {% get_skill_bonus character 'History' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> History (INT)</p>
 
-                                        {% check_skill character 'Insight' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Insight' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Insight' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Insight</p>
+                                            <p>{{ battle_form.insight }}
+                                                {% get_skill_bonus character 'Insight' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Insight (WIS)</p>
 
-                                        {% check_skill character 'Intimidation' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Intimidation' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Intimidation' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Intimidation</p>
+                                            <p>{{ battle_form.intimidation }}
+                                                {% get_skill_bonus character 'Intimidation' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Intimidation (CHA)</p>
 
-                                        {% check_skill character 'Investigation' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Investigation' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Investigation' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Investigation</p>
+                                            <p>{{ battle_form.investigation }}
+                                                {% get_skill_bonus character 'Investigation' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Investigation (INT)</p>
 
-                                        {% check_skill character 'Medicine' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Medicine' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Medicine' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Medicine</p>
+                                            <p>{{ battle_form.medicine }}
+                                                {% get_skill_bonus character 'Medicine' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Medicine (WIS)</p>
 
-                                        {% check_skill character 'Nature' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Nature' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Nature' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Nature</p>
+                                            <p>{{ battle_form.nature }}
+                                                {% get_skill_bonus character 'Nature' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Nature (INT)</p>
 
-                                        {% check_skill character 'Perception' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Perception' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Perception' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Perception</p>
+                                            <p>{{ battle_form.perception }}
+                                                {% get_skill_bonus character 'Perception' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Perception (WIS)</p>
 
-                                        {% check_skill character 'Performance' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Performance' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Performance' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Performance</p>
+                                            <p>{{ battle_form.performance }}
+                                                {% get_skill_bonus character 'Performance' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Performance (CHA)</p>
 
-                                        {% check_skill character 'Persuasion' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Persuasion' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Persuasion' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Persuasion</p>
+                                            <p>{{ battle_form.persuasion }}
+                                                {% get_skill_bonus character 'Persuasion' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Persuasion (CHA)</p>
 
-                                        {% check_skill character 'Religion' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Religion' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Religion' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Religion</p>
+                                            <p>{{ battle_form.religion }}
+                                                {% get_skill_bonus character 'Religion' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Religion (INT)</p>
 
-                                        {% check_skill character 'Sleight of Hand' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Sleight of Hand' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Sleight of Hand' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Sleight of Hand</p>
+                                            <p>{{ battle_form.sleight }}
+                                                {% get_skill_bonus character 'Sleight of Hand' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Sleight of Hand (DEX)</p>
 
-                                        {% check_skill character 'Stealth' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Stealth' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Stealth' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Stealth</p>
+                                            <p>{{ battle_form.stealth }}
+                                                {% get_skill_bonus character 'Stealth' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Stealth (DEX)</p>
 
-                                        {% check_skill character 'Survival' as prof %}
-                                        <p>{% if prof %}
-                                            <input type="radio" checked disabled>
-                                            <u>+{% get_skill_bonus character 'Survival' %}</u>
-                                        {% else %}
-                                            <input type="radio" disabled>
-                                            {% get_skill_bonus character 'Survival' as bon %}
-                                            <u>{% if bon >= 0 %}+{% endif %}{{ bon }}{% endif %}</u> Survival</p>
+                                            <p>{{ battle_form.survival }}
+                                                {% get_skill_bonus character 'Survival' as bon %}
+                                                <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Survival (WIS)</p>
 
-                                    </div>
-                                </div>
-
-                            </section>
-                            <section class="sortable" id="left-bottom">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <p>Passive Wisdom (Perception): {% passive_bonus character "WIS" %}</p>
-                                    </div>
-                                </div>
-
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <p>Languages and Other Proficiencies:</p>
-                                        {% get_languages character as languagess %}
-                                        <ul>
-                                        {% for lang in languages %}
-                                            <li class="list-group-item">{{ lang }}</li>
-                                        {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </section>
-                        </section> <!-- end bottom-left -->
-
-                        <section class="sortable" id="bottom-middle">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <section class="col-xs-4">
-                                        <p>Armor Class: {{ character.get_armor_class }}</p>
-                                    </section>
-                                    <section class="col-xs-4">
-                                        <p>Initiative: +{{ character.get_initiative_bonus }}</p>
-                                    </section>
-                                    <section class="col-xs-4">
-                                        <p>Speed {{ character.char_race.speed }}</p>
-                                    </section>
-                                </div>
-                            </div>
-
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p>Hit Point Maximum: {{ character.max_health }}</p>
-                                    <p>Current Hit Points: {{ character.current_health }}</p>
-                                </div>
-                                <div class="panel-body">
-                                    <p>Temporary Hit Points: {{ character.temp_addtl_hp }}</p>
-
-                                    <section class="col-xs-6">
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <p>Hit Dice: {% for class in class_level.all %} 1d{{ class.char_class.hit_die_size }}{% endfor %}</p>
                                         </div>
                                     </div>
-                                    </section>
-                                    <section class="col-xs-6">
-                                        <div class="panel panel-default">
-                                            <div class="panel-body">
-                                                <p>Death Saves:</p>
-                                                <p></p>
-                                            </div>
-                                        </div>
-                                    </section>
                                 </div>
-                            </div>
+                            </section> <!-- end bottom-middle -->
 
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p>Attacks and Spells</p>
-                                </div>
-                            </div>
+                            <section id="bottom-right">
+                                <div class="panel panel-default" id="features">
+                                    <div class="panel-body">
+                                        {% get_features character as all_features %}
 
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p class="search_type" data-type="armors">Armor and Gold</p>
-                                    {% for armor in character.armor_inv.all %}
-                                    <li class="list-group-item search_query" data-type="armors" data-slug="{{ armor.slug }}">{{ armor.name }}</li>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </section> <!-- end bottom-middle -->
-
-                        <section class="sortable" id="bottom-right">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p>Personality Traits</p>
-                                    <p>{{ character.personality }}</p>
-                                </div>
-                            </div>
-
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p>Ideals</p>
-                                    <p>{{ character.ideals }}</p>
-                                </div>
-                            </div>
-
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p>Bonds</p>
-                                    <p>{{ character.bonds }}</p>
-                                </div>
-                            </div>
-
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p>Flaws:</p>
-                                    <p>{{ character.flaws }}</p>
-                                </div>
-                            </div>
-
-                            <div class="panel panel-default" id="features">
-                                <div class="panel-body">
-                                    <p data-type="char_features" class="search_type">Features:</p>
-                                        <ul>
-                                            {% for feature in character.features.all %}
-                                                <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    <hr>
-                                    <p class="search_type" data-type="race">Race:</p>
-                                    <ul>
-                                        {% for feature in character.char_race.features.all %}
-                                            <li class="list-group-item search_query" data-search_type="race" data-type="features"data-slug="{{ feature.slug }}">{{ feature }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                    <hr>
-                                    {% if character.char_subrace %}
-                                        <p class="search_type" data-type="subrace">Sub Race:</p>
-                                        {% for feature in character.char_subrace.features.all %}
-                                            <li class="list-group-item search_query" data-search_type="subrace" data-type="features" data-slug="{{ feature.slug }}">{{ feature }}</li>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <hr>
-                                    <p>Class:</p>
-                                    {% get_class_features character as features_dict %}
-                                    {% for class, features in features_dict.items %}
-                                        <p class="search_type" data-type="classes">{{ class }}</p>
-                                        <ul>
-                                            {% for feature in features %}
-                                                <li class="list-group-item search_query" data-search_type="classes" data-type="features" data-slug="{{ feature.slug }}">({{ feature.prereq_class_level }}) {{ feature }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                    {% endfor %}
-                                    <hr>
-                                    {% prestige_check character as p %}
-                                    {% if p %}
-                                        <p>Prestige Class:</p>
-                                        {% get_prestige_features character as features_dict %}
-                                        {% for prestige, features in features_dict.items %}
-                                            <p class="search_type" data-type="prestige">{{ prestige }}</p>
+                                        <section class="panel panel-default" id="actions">
+                                            <h5>Actions</h5>
                                             <ul>
-                                                {% for feature in features %}
-                                                    <li class="list-group-item search_query" data-search_type="prestige" data-type="features" data-slug="{{ feature.slug }}">({{ feature.prereq_class_level }}) {{ feature }}</li>
+                                                {% for feature in all_features.Action %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
                                                 {% endfor %}
                                             </ul>
-                                        {% endfor %}
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </section> <!-- end bottom-right -->
-                    </section> <!-- end bottom-section -->
-                </section>
+                                        </section>
 
-                <form action="" method="POST" id="battle_tab"> {% csrf_token %}
-                    <p hidden>{{ battle_form.char_level }}</p>
-                    <section class="sortable" id="bottom-left">
-                        <section class="sortable" id="left-left">
-                            <div class="panel panel-default" id="ability_scores" style="padding-top: 15px;">
-                                <div class="panel panel-default">
-                                    <div class="panel-title text-center">
-                                        Strength
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        <strong>{{ battle_form.STR }}</strong>
-                                    </div>
-                                    <div class="panel-footer text-center">
-                                        <strong>{% if battle_form.STR >= 10 %}+{% endif %}{% ab_bonus character 'STR' %}</strong>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-title text-center">
-                                        Dexterity
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        <strong>{{ battle_form.DEX }}</strong>
-                                    </div>
-                                    <div class="panel-footer text-center">
-                                        <strong>{% if battle_form.DEX >= 10 %}+{% endif %}{% ab_bonus character 'DEX' %}</strong>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-title text-center">
-                                        Constitution
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        <strong>{{ battle_form.CON }}</strong>
-                                    </div>
-                                    <div class="panel-footer text-center">
-                                        <strong>{% if battle_form.CON >= 10 %}+{% endif %}{% ab_bonus character 'CON' %}</strong>
+                                        <section class="panel panel-default" id="bonus_actions">
+                                            <h5>Bonus Actions</h5>
+                                            <ul>
+                                                {% for feature in all_features.BonusAction %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section class="panel panel-default" id="reactions">
+                                            <h5>Reactions</h5>
+                                            <ul>
+                                                {% for feature in all_features.Reaction %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </section>
+
+                                        <section class="panel panel-default" id="rest_long">
+                                            <h5>Resting and Long Actions</h5>
+                                            <ul>
+                                                {% for feature in all_features.RestLong %}
+                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                            <div class="btn-group pull-right" role="group">
+                                                <button class="btn btn-default" type="button" id="short_rest">Short Rest</button>
+                                                <button class="btn btn-default" type="button" id="long_rest">Long Rest</button>
+                                            </div>
+                                        </section>
+
                                     </div>
                                 </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-title text-center">
-                                        Intelligence
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        <strong>{{ battle_form.INT }}</strong>
-                                    </div>
-                                    <div class="panel-footer text-center">
-                                        <strong>{% if battle_form.INT >= 10 %}+{% endif %}{% ab_bonus character 'INT' %}</strong>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-title text-center">
-                                        Wisdom
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        <strong>{{ battle_form.WIS }}</strong>
-                                    </div>
-                                    <div class="panel-footer text-center">
-                                        <strong>{% if battle_form.WIS >= 10 %}+{% endif %}{% ab_bonus character 'WIS' %}</strong>
-                                    </div>
-                                </div>
-                                <div class="panel panel-default">
-                                    <div class="panel-title text-center">
-                                        Charisma
-                                    </div>
-                                    <div class="panel-body text-center">
-                                        <strong>{{ battle_form.CHA }}</strong>
-                                    </div>
-                                    <div class="panel-footer text-center">
-                                        <strong>{% if battle_form.CHA >= 10 %}+{% endif %}{% ab_bonus character 'CHA' %}</strong>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                            </section>
 
-                        <section class="sortable" id="left-right">
-
-                            <div class="panel panel-default" id="saving_throws">
-                                <div class="panel-title text-center">
-                                    <p>Saving Throws:</p>
-                                </div>
-                                <div class="panel-body">
-
-                                    <p>{% if battle_form.instance.STR_ST.value == 'true' %} <!-- TODO: fix this... -->
-                                        {{ battle_form.STR_ST }}
-                                        <u>+{% saving_throw_bonus character 'STR' %}</u>
-                                    {% else %}
-                                        {{ battle_form.STR_ST }}
-                                        {% ab_bonus character 'STR' as STR %}
-                                        <u>{% if STR >= 0 %}+{% endif %}{{ STR }}{% endif %}</u> Strength</p>
-
-                                    <p>{% if battle_form.instance.DEX_ST.value == true %}
-                                        {{ battle_form.DEX_ST }}
-                                        <u>+{% saving_throw_bonus character 'DEX' %}</u>
-                                    {% else %}
-                                        {{ battle_form.DEX_ST }}
-                                        {% ab_bonus character 'DEX' as DEX %}
-                                        <u>{% if DEX >= 0 %}+{% endif %}{{ DEX }}{% endif %}</u> Dexterity</p>
-
-                                    <p>{% if battle_form.instance.CON_ST.value == true %}
-                                        {{ battle_form.CON_ST }}
-                                        <u>+{% saving_throw_bonus character 'CON' %}</u>
-                                    {% else %}
-                                        {{ battle_form.CON_ST }}
-                                        {% ab_bonus character 'CON' as CON %}
-                                        <u>{% if CON >= 0 %}+{% endif %}{{ CON }}{% endif %}</u> Constitution</p>
-
-                                    <p>{% if battle_form.instance.INT_ST.value == true %}
-                                        {{ battle_form.INT_ST }}
-                                        <u>+{% saving_throw_bonus character 'INT' %}</u>
-                                    {% else %}
-                                        {{ battle_form.INT_ST }}
-                                        {% ab_bonus character 'INT' as INT %}
-                                        <u>{% if INT >= 0 %}+{% endif %}{{ INT }}{% endif %}</u> Intelligence</p>
-
-                                    <p>{% if battle_form.instance.WIS_ST.value == true %}
-                                        {{ battle_form.WIS_ST }}
-                                        <u>+{% saving_throw_bonus character 'WIS' %}</u>
-                                    {% else %}
-                                        {{ battle_form.WIS_ST }}
-                                        {% ab_bonus character 'WIS' as WIS %}
-                                        <u>{% if WIS >= 0 %}+{% endif %}{{ WIS }}{% endif %}</u> Wisdom</p>
-
-                                    <p>{% if battle_form.initial.CHA_ST.value == true %}
-                                        {{ battle_form.CHA_ST }}
-                                        <u>+{% saving_throw_bonus character 'CHA' %}</u>
-                                    {% else %}
-                                        {{ battle_form.CHA_ST }}
-                                        {% ab_bonus character 'CHA' as CHA %}
-                                        <u>{% if CHA >= 0 %}+{% endif %}{{ CHA }}{% endif %}</u> Charisma</p>
-                                </div>
-                            </div>
-
-                             <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p>Proficiency Bonus: {{ character.get_prof_bonus }}</p>
-                                </div>
-                            </div>
-
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p>Ability Uses: {{ battle_form.current_points }}/{{ battle_form.max_points }}</p>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-default" id="add_point"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                                        <button type="button" class="btn btn-default" id="sub_point"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p class="search_type" data-type="armors">Armor and Gold</p>
-                                    {% for armor in character.armor_inv.all %}
-                                    <li class="list-group-item search_query" data-type="armors" data-slug="{{ armor.slug }}">{{ armor.name }}</li>
-                                    {% endfor %}
-                                </div>
-                            </div>
-
-                        </section>
-
-                        <section class="sortable" id="left-bottom">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p>Passive Wisdom (Perception): {% passive_bonus character "WIS" %}</p>
-                                </div>
-                            </div>
-
-                        </section>
-
-                    </section> <!-- end bottom-left -->
-
-                    <section class="sortable" id="bottom-middle">
-
-                        <div class="panel panel-default" id="middle-top">
-                            <div class="panel-body">
-                                <section class="col-xs-4">
-                                    <p>Armor Class: {{ battle_form.ac }}</p>
-                                </section>
-                                <section class="col-xs-4">
-                                    <p>Initiative: +{{ battle_form.init }}</p>
-                                </section>
-                                <section class="col-xs-4">
-                                    <p>Speed: {{ battle_form.speed }}</p>
-                                </section>
-                            </div>
-                        </div>
-
-                        <div class="panel panel-default" id="middle-middle">
-                            <div class="panel-body">
-
+                            <section id="spells_attacks">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
-                                        <p>Hit Point Maximum: {{ battle_form.max_hp }}</p>
-                                        <p>Current Hit Points: {{ battle_form.cur_hp }}</p>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-default" id="add_hp"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                                            <button type="button" class="btn btn-default" id="sub_hp"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                                        </div>
+
+                                        <section class="panel panel-default" id="attack">
+                                                <h5>Attacks</h5>
+                                                <ul>
+                                                    {% for feature in all_features.Attack %}
+                                                        <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                        </section>
+
+                                        <section class="panel panel-default" id="cast_spell">
+                                                <h5>Spell Casting</h5>
+                                                <ul>
+                                                    {% for feature in all_features.CastSpell %}
+                                                        <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                        </section>
+
+                                        <section class="panel panel-default" id="spells">
+                                                <h5>Spells</h5>
+
+                                                <nav aria-label="Tab Navigation">
+                                                    <ul class="nav nav-tabs nav-justified">
+                                                        <li><a href="#cantrips">Cantrips<br>(Cast at Will)</a></li>
+                                                        <li><a href="#first_level">1st-Level<br>({{ battle_form.spell_slots_1_current }}/{{ battle_form.spell_slots_1_maximum }})</a></li>
+                                                        <li><a href="#second_level">2nd-Level<br>({{ battle_form.spell_slots_2_current }}/{{ battle_form.spell_slots_2_maximum }})</a></li>
+                                                        <li><a href="#third_level">3rd-Level<br>({{ battle_form.spell_slots_3_current }}/{{ battle_form.spell_slots_3_maximum }})</a></li>
+                                                        <li><a href="#fourth_level">4th-Level<br>({{ battle_form.spell_slots_4_current }}/{{ battle_form.spell_slots_4_maximum }})</a></li>
+                                                        <li><a href="#fifth_level">5th-Level<br>({{ battle_form.spell_slots_5_current }}/{{ battle_form.spell_slots_5_maximum }})</a></li>
+                                                        <li><a href="#sixth_level">6th-Level<br>({{ battle_form.spell_slots_6_current }}/{{ battle_form.spell_slots_6_maximum }})</a></li>
+                                                        <li><a href="#seventh_level">7th-Level<br>({{ battle_form.spell_slots_7_current }}/{{ battle_form.spell_slots_7_maximum }})</a></li>
+                                                        <li><a href="#eighth_level">8th-Level<br>({{ battle_form.spell_slots_8_current }}/{{ battle_form.spell_slots_8_maximum }})</a></li>
+                                                        <li><a href="#ninth_level">9th-Level<br>({{ battle_form.spell_slots_9_current }}/{{ battle_form.spell_slots_9_maximum }})</a></li>
+                                                    </ul>
+                                                </nav>
+
+                                                <section id="cantrips" data-level="cantrips">
+                                                    <ul>
+                                                        {% for feature in all_features.Spell_cantrip %}
+                                                            <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </section>
+
+                                                <section id="first_level" data-level="1">
+                                                    <ul>
+                                                        {% for feature in all_features.Spell_1st %}
+                                                            {% check_spell_ready character feature as check %}
+                                                            {% if check %}
+                                                            <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                            {% else %}
+                                                            <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                            {% endif %}
+                                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </section>
+
+                                                <section id="second_level">
+                                                    <ul>
+                                                        {% for feature in all_features.Spell_2nd %}
+                                                            {% check_spell_ready character feature as check %}
+                                                            {% if check %}
+                                                            <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                            {% else %}
+                                                            <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                            {% endif %}
+                                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </section>
+
+                                                <section id="third_level">
+                                                    <ul>
+                                                        {% for feature in all_features.Spell_3rd %}
+                                                            {% check_spell_ready character feature as check %}
+                                                            {% if check %}
+                                                            <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                            {% else %}
+                                                            <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                            {% endif %}
+                                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </section>
+
+                                                <section id="fourth_level">
+                                                    <ul>
+                                                        {% for feature in all_features.Spell_4th %}
+                                                            {% check_spell_ready character feature as check %}
+                                                            {% if check %}
+                                                            <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                            {% else %}
+                                                            <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                            {% endif %}
+                                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </section>
+
+                                                <section id="fifth_level">
+                                                    <ul>
+                                                        {% for feature in all_features.Spell_5th %}
+                                                            {% check_spell_ready character feature as check %}
+                                                            {% if check %}
+                                                            <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                            {% else %}
+                                                            <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                            {% endif %}
+                                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </section>
+
+                                                <section id="sixth_level">
+                                                    <ul>
+                                                        {% for feature in all_features.Spell_6th %}
+                                                            {% check_spell_ready character feature as check %}
+                                                            {% if check %}
+                                                            <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                            {% else %}
+                                                            <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                            {% endif %}
+                                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </section>
+
+                                                <section id="seventh_level">
+                                                    <ul>
+                                                        {% for feature in all_features.Spell_7th %}
+                                                            {% check_spell_ready character feature as check %}
+                                                            {% if check %}
+                                                            <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                            {% else %}
+                                                            <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                            {% endif %}
+                                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </section>
+
+                                                <section id="eighth_level">
+                                                    <ul>
+                                                        {% for feature in all_features.Spell_8th %}
+                                                            {% check_spell_ready character feature as check %}
+                                                            {% if check %}
+                                                            <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                            {% else %}
+                                                            <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                            {% endif %}
+                                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </section>
+
+                                                <section id="ninth_level">
+                                                    <ul>
+                                                        {% for feature in all_features.Spell_9th %}
+                                                            {% check_spell_ready character feature as check %}
+                                                            {% if check %}
+                                                            <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
+                                                            {% else %}
+                                                            <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
+                                                            {% endif %}
+                                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </section>
+                                        </section>
+
                                     </div>
                                 </div>
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    <p>Temporary Hit Points: {{ battle_form.temp_hp }}</p>
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-default" id="add_temp_hp"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                                        <button type="button" class="btn btn-default" id="sub_temp_hp"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                                    </div>
-                                    <section class="panel panel-default">
-                                        <p>Hit Dice: {{ battle_form.hit_dice_current }}/{{ character.get_char_level }}</p>
-                                        <p>Hit Die Size: d{{ character.char_classes.get.hit_die_size }}</p>
-                                    </section>
-                                    <section id="death_saves" data-succs="0" data-fails="0" hidden>
-                                        <div class="panel panel-default">
-                                            <div class="panel-body">
-                                                <p>Death Saves:</p>
-                                                    <p>Successes:
-                                                        <span class="glyphicon glyphicon-ok" id="succ" data-succ="1" style="display: none;"></span>
-                                                        <span class="glyphicon glyphicon-ok" id="succ" data-succ="2" style="display: none;"></span>
-                                                        <span class="glyphicon glyphicon-ok" id="succ" data-succ="3" style="display: none;"></span>
-                                                    </p>
-                                                    <div class="btn-group" role="group">
-                                                        <button type="button" class="btn btn-default" id="add_death_succ"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                                                        <button type="button" class="btn btn-default" id="sub_death_succ"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                                                    </div>
+                            </section>
 
-                                                    <p>Failures:
-                                                        <span class="glyphicon glyphicon-remove" id="fail" data-fail="1" style="display: none;"></span>
-                                                        <span class="glyphicon glyphicon-remove" id="fail" data-fail="2" style="display: none;"></span>
-                                                        <span class="glyphicon glyphicon-remove" id="fail" data-fail="3" style="display: none;"></span>
-                                                    </p>
-                                                    <div class="btn-group" role="group">
-                                                        <button type="button" class="btn btn-default" id="add_death_fail"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                                                        <button type="button" class="btn btn-default" id="sub_death_fail"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                    </section>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
 
-                        <div class="panel panel-default" id="skills">
-                            <div class="panel-title text-center">
-                                <p>Skills:</p>
-                            </div>
-                            <div class="panel-body">
-
-                                    <p>{{ battle_form.acrobatics }}
-                                        {% get_skill_bonus character 'Acrobatics' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Acrobatics</p>
-
-                                    <p>{{ battle_form.animal }}
-                                        {% get_skill_bonus character 'Animal Handling' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Animal Handling</p>
-
-                                    <p>{{ battle_form.arcana }}
-                                        {% get_skill_bonus character 'Arcana' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Arcana</p>
-
-                                    <p>{{ battle_form.athletics }}
-                                        {% get_skill_bonus character 'Athletics' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Athletics</p>
-
-                                    <p>{{ battle_form.deception }}
-                                        {% get_skill_bonus character 'Deception' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Deception</p>
-
-                                    <p>{{ battle_form.history }}
-                                        {% get_skill_bonus character 'History' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> History</p>
-
-                                    <p>{{ battle_form.insight }}
-                                        {% get_skill_bonus character 'Insight' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Insight</p>
-
-                                    <p>{{ battle_form.intimidation }}
-                                        {% get_skill_bonus character 'Intimidation' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Intimidation</p>
-
-                                    <p>{{ battle_form.investigation }}
-                                        {% get_skill_bonus character 'Investigation' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Investigation</p>
-
-                                    <p>{{ battle_form.medicine }}
-                                        {% get_skill_bonus character 'Medicine' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Medicine</p>
-
-                                    <p>{{ battle_form.nature }}
-                                        {% get_skill_bonus character 'Nature' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Nature</p>
-
-                                    <p>{{ battle_form.perception }}
-                                        {% get_skill_bonus character 'Perception' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Perception</p>
-
-                                    <p>{{ battle_form.performance }}
-                                        {% get_skill_bonus character 'Performance' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Performance</p>
-
-                                    <p>{{ battle_form.persuasion }}
-                                        {% get_skill_bonus character 'Persuasion' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Persuasion</p>
-
-                                    <p>{{ battle_form.religion }}
-                                        {% get_skill_bonus character 'Religion' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Religion</p>
-
-                                    <p>{{ battle_form.sleight }}
-                                        {% get_skill_bonus character 'Sleight of Hand' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Sleight of Hand</p>
-
-                                    <p>{{ battle_form.stealth }}
-                                        {% get_skill_bonus character 'Stealth' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Stealth</p>
-
-                                    <p>{{ battle_form.survival }}
-                                        {% get_skill_bonus character 'Survival' as bon %}
-                                        <u>{% if bon >= 0 %}+{% endif %}{{ bon }}</u> Survival</p>
-
-                                </div>
-                            </div>
-                        </div>
-                    </section> <!-- end bottom-middle -->
-
-                    <section id="bottom-right">
-                        <div class="panel panel-default" id="features">
-                            <div class="panel-body">
-                                {% get_features character as all_features %}
-
-                                <section class="panel panel-default" id="actions">
-                                    <h5>Actions</h5>
-                                    <ul>
-                                        {% for feature in all_features.Action %}
-                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </section>
-
-                                <section class="panel panel-default" id="bonus_actions">
-                                    <h5>Bonus Actions</h5>
-                                    <ul>
-                                        {% for feature in all_features.BonusAction %}
-                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </section>
-
-                                <section class="panel panel-default" id="reactions">
-                                    <h5>Reactions</h5>
-                                    <ul>
-                                        {% for feature in all_features.Reaction %}
-                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </section>
-
-                                <section class="panel panel-default" id="rest_long">
-                                    <h5>Resting and Long Actions</h5>
-                                    <ul>
-                                        {% for feature in all_features.RestLong %}
-                                            <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                    <div class="btn-group pull-right" role="group">
-                                        <button class="btn btn-default" type="button" id="short_rest">Short Rest</button>
-                                        <button class="btn btn-default" type="button" id="long_rest">Long Rest</button>
-                                    </div>
-                                </section>
-
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="spells_attacks">
+                        <section id="flair_tab">
                         <div class="panel panel-default">
                             <div class="panel-body">
+                                <p>Personality Traits</p>
+                                <p>{{ character.personality }}</p>
+                            </div>
+                        </div>
 
-                                <section class="panel panel-default" id="attack">
-                                        <h5>Attacks</h5>
-                                        <ul>
-                                            {% for feature in all_features.Attack %}
-                                                <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                </section>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Ideals</p>
+                                <p>{{ character.ideals }}</p>
+                            </div>
+                        </div>
 
-                                <section class="panel panel-default" id="cast_spell">
-                                        <h5>Spell Casting</h5>
-                                        <ul>
-                                            {% for feature in all_features.CastSpell %}
-                                                <li class="list-group-item search_query" data-search_type="char_features" data-type="features" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                            {% endfor %}
-                                        </ul>
-                                </section>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Bonds</p>
+                                <p>{{ character.bonds }}</p>
+                            </div>
+                        </div>
 
-                                <section class="panel panel-default" id="spells">
-                                        <h5>Spells</h5>
-
-                                        <nav aria-label="Tab Navigation">
-                                            <ul class="nav nav-tabs nav-justified">
-                                                <li><a href="#cantrips">Cantrips<br>(Cast at Will)</a></li>
-                                                <li><a href="#first_level">1st-Level<br>({{ battle_form.spell_slots_1_current }}/{{ battle_form.spell_slots_1_maximum }})</a></li>
-                                                <li><a href="#second_level">2nd-Level<br>({{ battle_form.spell_slots_2_current }}/{{ battle_form.spell_slots_2_maximum }})</a></li>
-                                                <li><a href="#third_level">3rd-Level<br>({{ battle_form.spell_slots_3_current }}/{{ battle_form.spell_slots_3_maximum }})</a></li>
-                                                <li><a href="#fourth_level">4th-Level<br>({{ battle_form.spell_slots_4_current }}/{{ battle_form.spell_slots_4_maximum }})</a></li>
-                                                <li><a href="#fifth_level">5th-Level<br>({{ battle_form.spell_slots_5_current }}/{{ battle_form.spell_slots_5_maximum }})</a></li>
-                                                <li><a href="#sixth_level">6th-Level<br>({{ battle_form.spell_slots_6_current }}/{{ battle_form.spell_slots_6_maximum }})</a></li>
-                                                <li><a href="#seventh_level">7th-Level<br>({{ battle_form.spell_slots_7_current }}/{{ battle_form.spell_slots_7_maximum }})</a></li>
-                                                <li><a href="#eighth_level">8th-Level<br>({{ battle_form.spell_slots_8_current }}/{{ battle_form.spell_slots_8_maximum }})</a></li>
-                                                <li><a href="#ninth_level">9th-Level<br>({{ battle_form.spell_slots_9_current }}/{{ battle_form.spell_slots_9_maximum }})</a></li>
-                                            </ul>
-                                        </nav>
-
-                                        <section id="cantrips" data-level="cantrips">
-                                            <ul>
-                                                {% for feature in all_features.Spell_cantrip %}
-                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
-                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </section>
-
-                                        <section id="first_level" data-level="1">
-                                            <ul>
-                                                {% for feature in all_features.Spell_1st %}
-                                                    {% check_spell_ready character feature as check %}
-                                                    {% if check %}
-                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
-                                                    {% endif %}
-                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </section>
-
-                                        <section id="second_level">
-                                            <ul>
-                                                {% for feature in all_features.Spell_2nd %}
-                                                    {% check_spell_ready character feature as check %}
-                                                    {% if check %}
-                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
-                                                    {% endif %}
-                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </section>
-
-                                        <section id="third_level">
-                                            <ul>
-                                                {% for feature in all_features.Spell_3rd %}
-                                                    {% check_spell_ready character feature as check %}
-                                                    {% if check %}
-                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
-                                                    {% endif %}
-                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </section>
-
-                                        <section id="fourth_level">
-                                            <ul>
-                                                {% for feature in all_features.Spell_4th %}
-                                                    {% check_spell_ready character feature as check %}
-                                                    {% if check %}
-                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
-                                                    {% endif %}
-                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </section>
-
-                                        <section id="fifth_level">
-                                            <ul>
-                                                {% for feature in all_features.Spell_5th %}
-                                                    {% check_spell_ready character feature as check %}
-                                                    {% if check %}
-                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
-                                                    {% endif %}
-                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </section>
-
-                                        <section id="sixth_level">
-                                            <ul>
-                                                {% for feature in all_features.Spell_6th %}
-                                                    {% check_spell_ready character feature as check %}
-                                                    {% if check %}
-                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
-                                                    {% endif %}
-                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </section>
-
-                                        <section id="seventh_level">
-                                            <ul>
-                                                {% for feature in all_features.Spell_7th %}
-                                                    {% check_spell_ready character feature as check %}
-                                                    {% if check %}
-                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
-                                                    {% endif %}
-                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </section>
-
-                                        <section id="eighth_level">
-                                            <ul>
-                                                {% for feature in all_features.Spell_8th %}
-                                                    {% check_spell_ready character feature as check %}
-                                                    {% if check %}
-                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
-                                                    {% endif %}
-                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </section>
-
-                                        <section id="ninth_level">
-                                            <ul>
-                                                {% for feature in all_features.Spell_9th %}
-                                                    {% check_spell_ready character feature as check %}
-                                                    {% if check %}
-                                                    <button type="button" class="btn btn-default cast_spell_ready">Cast: <span class="glyphicon glyphicon-ok"></span></button>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-default cast_spell_notready">Cast: <span class="glyphicon glyphicon-remove"></span></button>
-                                                    {% endif %}
-                                                    <li class="list-group-item search_query" data-search_type="char_features" data-type="spells" data-slug="{{ feature.slug }}">{{ feature.name }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </section>
-                                </section>
-
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <p>Flaws:</p>
+                                <p>{{ character.flaws }}</p>
                             </div>
                         </div>
                     </section>
 
-                </form>
 
-                <section id="flair_tab">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <p>Personality Traits</p>
-                            <p>{{ character.personality }}</p>
-                        </div>
-                    </div>
 
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <p>Ideals</p>
-                            <p>{{ character.ideals }}</p>
-                        </div>
-                    </div>
+                    <section id="bottom_buttons">
+                        <section class="pull-left">
+                            <button id="lock" type="button" class="btn-default"><span class="glyphicon glyphicon-lock"></span></button>
+                        </section>
 
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <p>Bonds</p>
-                            <p>{{ character.bonds }}</p>
-                        </div>
-                    </div>
-
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <p>Flaws:</p>
-                            <p>{{ character.flaws }}</p>
-                        </div>
-                    </div>
-                </section>
-
-            </section>
-
-            <section>
-                <section class="pull-left">
-                    <button id="lock" type="button" class="btn-default"><span class="glyphicon glyphicon-lock"></span></button>
-                </section>
-
-                <section id="buttons" class="pull-right">
-                    <button id="save" type="submit" class="btn btn-primary">Save</button>
-                    <button id="no_save" type="button" class="btn btn-danger">Close Without Saving</button>
+                        <section id="buttons" class="pull-right">
+                            <button id="save" type="submit" class="btn btn-primary">Save</button>
+                            <button id="no_save" type="button" class="btn btn-danger">Close Without Saving</button>
+                        </section>
+                    </section>
                 </section>
             </section>
         </main>

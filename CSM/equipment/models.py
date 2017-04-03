@@ -25,7 +25,6 @@ class Equipment(models.Model):
     special = models.CharField(max_length=1024, null=True, blank=True,
                                help_text='General field for additional rules.', )
 
-    # TODO: CLASS META: ABSTRACT = TRUE and DJANGO-POLYMORPHIC
 
 
 class Item(Equipment):
@@ -185,7 +184,6 @@ class EquipmentBonus(models.Model):
     """
     All possible bonuses a magic item can have.
     """
-    # TODO: May have more to do on this one.
 
     name = models.CharField(max_length=100, unique=True, help_text='Name of the bonus.')
     description = models.CharField(max_length=1024)

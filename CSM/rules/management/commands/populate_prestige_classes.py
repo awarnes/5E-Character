@@ -28,7 +28,6 @@ class Command(BaseCommand):
                 description=prestige[1][1],
             )
 
-            # TODO: input the starting equipment and make sure it saves information.
 
             klass_features = prestige[1][2].split(', ')
 

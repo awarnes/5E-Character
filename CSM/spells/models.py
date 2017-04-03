@@ -8,7 +8,6 @@ from django.db import models
 from django.utils.text import slugify
 
 
-# TODO: ADD SRD BOOLEAN!
 
 class Spell(models.Model):
     """Gives basic interface of spells in 5th Edition Dungeons and Dragons"""
@@ -113,9 +112,8 @@ class Spell(models.Model):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
-    # TODO: Change name to components
     @property
-    def raw_materials(self):
+    def components(self):
         raw_string = ''
         if self.verbal:
             raw_string += 'V '

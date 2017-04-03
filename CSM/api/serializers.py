@@ -21,7 +21,7 @@ class SpellModelSerializer(serializers.ModelSerializer):
         fields = ('name', 'school', 'level', 'available_to', 'cast_time', 'distance', 'duration', 'concentration',
                   'ritual', 'material', 'somatic', 'verbal', 'specific_materials', 'description', 'save_type',
                   'damage_dice_number', 'damage_dice_size', 'damage_dice_bonus', 'damage_type', 'targets',
-                  'higher_level', 'special', 'phb_page', 'raw_materials', 'slug', 'srd',)
+                  'higher_level', 'special', 'phb_page', 'components', 'slug', 'srd',)
 
 
 class CharacterModelSerializer(serializers.ModelSerializer):
