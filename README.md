@@ -43,6 +43,6 @@ Along with this philosophy goes the notion that the player knows best. We believ
 
 ### Developer's Note
 
-At the current stage, this is not a publicly available product as the database incorporates the full 5th Edition Player's Handbook. In the future, a release is planned that scales back to incorporate only the SRD (officially released game information from Wizard's of the Coast for third party content). This is to ensure that copyrights are not infringed upon.
+At the current stage, this is not a publicly available product as the database incorporates the full 5th Edition Player's Handbook. Thus it is only for the personal use of the developer. In the future, a release is planned that scales back to incorporate only the SRD (officially released game information from Wizard's of the Coast for third party content). This is to ensure that copyrights are not infringed upon.
 
 This project is built in Django.
